@@ -17,3 +17,16 @@
   --neutral-soft:     #E1E5EB;
 }
 
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--bluegray-light);
+  color: var(--bluegray-dark);
+}
+
+i {
+  color: var(--bluegray-deep);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair', sans-serif;
+}

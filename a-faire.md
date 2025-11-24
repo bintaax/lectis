@@ -5,13 +5,15 @@
 ------
 
 Maquettes : 
+- Finir la fiche détail d'un livre
 
-- Connexion / Inscription
-- Contact
-- Panier
+BDD : 
+- Faire les relations des tables
+- Refaire la table livres PROPREMENT
+- Faire les autres tables
 
 
 VS Code  :
 
-- Commencer la page d'accueil
+- Finir le header et le footer
 - Installer les fixtures des genres et des livres
