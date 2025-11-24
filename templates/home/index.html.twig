@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <!-- Bannière -->
+    <div id="hero" class="flex items-center justify-center">
+    
+        <div id="texte-accueil">
+            <h3 class="font-bold text-6xl w-95">Découvrez notre sélection de livres</h3>
+            <button type="button" class="mt-4 px-6 py-3 text-white rounded-lg" style="background-color:#3F5366;">
+                Explorer le catalogue
+            </button>
+        </div>
+
+        <div id="image-accueil" style="width:338px; height:507px;">
+            <img src="{{ asset('assets/img/livre.png') }}" alt="Image d'accueil" style="width: 100%; margin-top: 20px;">
+        </div>
+
+    </div>
+
+    <!-- Les genres -->
+    <div id="genres" style="background-color:#CDD6E2;" class="px-8 py-16 items-center justify-center text-center">
+        <h2 class="text-4xl mb-10">Les genres que nous proposons</h2>
+
+        <button type="button" class="box-border border border-transparent rounded-3xl" style="background-color:#EEF3F8;">
+            Romance
+        </button>
+             <button type="button" class="box-border border border-transparent rounded-3xl" style="background-color:#EEF3F8;">
+            Fantasy
+        </button>
+
+             <button type="button" class="box-border border border-transparent rounded-3xl" style="background-color:#EEF3F8;">
+            Horreur
+        </button>
+             <button type="button" class="box-border border border-transparent rounded-3xl" style="background-color:#EEF3F8;">
+           BD/Mangas
+        </button>
+        <button type="button" class="box-border border border-transparent rounded-3xl" style="background-color:#EEF3F8;">
+            Thriller
+        </button>
+             <button type="button" class="box-border border border-transparent rounded-3xl" style="background-color:#EEF3F8;">
+            Poésie
+        </button>
+             <button type="button" class="box-border border border-transparent rounded-3xl" style="background-color:#EEF3F8;">
+            Jeunesse
+        </button>
+    </div>
+
+    <!-- Les plus vendus -->
+    <div id="best-sellers" class="px-8 py-16 items-center justify-center text-center">
+        <h2 class="text-4xl mb-10">Les plus vendus</h2>
+
+    </div>
+
+{% endblock %}

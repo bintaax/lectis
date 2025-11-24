@@ -1,5 +1,6 @@
  
 // Menu burger
+
  const menuButton = document.querySelector("button");
   const mobileMenu = document.getElementById("mobile-menu");
 

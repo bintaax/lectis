@@ -24,9 +24,16 @@ class Genres
     #[ORM\OneToMany(targetEntity: Livres::class, mappedBy: 'genreId')]
     private Collection $livres;
 
+    /**
+     * @var Collection<int, Livres>
+     */
+    #[ORM\OneToMany(targetEntity: Livres::class, mappedBy: 'genre')]
+    private Collection $genreId;
+
     public function __construct()
     {
         $this->livres = new ArrayCollection();
+        $this->genreId = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,18 +65,38 @@ class Genres
     {
         if (!$this->livres->contains($livre)) {
             $this->livres->add($livre);
-            $livre->setGenreId($this);
+           
         }
 
         return $this;
     }
 
-    public function removeLivre(Livres $livre): static
+
+
+    /**
+     * @return Collection<int, Livres>
+     */
+    public function getGenreId(): Collection
     {
-        if ($this->livres->removeElement($livre)) {
+        return $this->genreId;
+    }
+
+    public function addGenreId(Livres $genreId): static
+    {
+        if (!$this->genreId->contains($genreId)) {
+            $this->genreId->add($genreId);
+            $genreId->setGenre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGenreId(Livres $genreId): static
+    {
+        if ($this->genreId->removeElement($genreId)) {
             // set the owning side to null (unless already changed)
-            if ($livre->getGenreId() === $this) {
-                $livre->setGenreId(null);
+            if ($genreId->getGenre() === $this) {
+                $genreId->setGenre(null);
             }
         }
 

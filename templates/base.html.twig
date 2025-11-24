@@ -9,17 +9,18 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+        <script src="{{ asset('assets/js/script.js') }}"></script>
         {% endblock %}
+
     </head>
    <body style="background-color: #EEF3F8;">
     {% include "partials/header.html.twig" %}
     
     {% block body %}
     {% endblock %}
-    {% include "partials/footer.html.twig" %}
+
 </body>
+    {% include "partials/footer.html.twig" %}
 
 </html>
