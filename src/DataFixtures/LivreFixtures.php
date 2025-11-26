@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Livres;
+use App\Entity\Genres;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -45,8 +46,12 @@ class LivreFixtures extends Fixture implements DependentFixtureInterface
             $livre->setAgeAutorise($item['ageAutorise']);
             $livre->setIsBestSeller($item['isBestSeller']);
 
-            // On associe le genre via la référence générée dans GenreFixtures
-            $livre->setGenre($this->getReference('genre_' . $genreIndex));
+            // DoctrineFixturesBundle (version 3.x) exige 2 arguments ici
+            /** @var Genres $genre */
+            $genre = $this->getReference('genre_' . $genreIndex, Genres::class);
+
+            // Associer le genre
+            $livre->setGenre($genre);
 
             $manager->persist($livre);
         }

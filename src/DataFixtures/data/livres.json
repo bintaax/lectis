@@ -181,34 +181,7 @@
     "genre": "Romance",
     "isBestSeller": false
   },
-    {
-    "titre": "Alcools",
-    "auteur": "Guillaume Apollinaire",
-    "editeur": "Gallimard",
-    "resume": "« Sous le pont Mirabeau coule la Seine »... Parmi les vers que les amoureux de poésie murmurent de temps à autre, bon nombre, sans aucun doute, proviennent des pages vivifiantes d'Alcools. Ce recueil révèle la fascination d'Apollinaire pour l'esprit nouveau des premières années du XXe siècle. Il nous fait don de mots en liberté qui chantent la mélancolie des souvenirs d'amours défuntes, la magie des légendes rhénanes, la beauté mouvementée de la vie urbaine moderne. Un véritable kaléidoscope.",
-    "datePublication": "1921-01-01",   
-    "nbPages": 144, 
-    "prix": 18,
-    "photo": "alcools.jpg",
-    "disponibilite": true,
-    "ageAutorise": 0,
-    "genre": "Poésie",
-    "isBestSeller": false
-  },
-   {
-    "titre": "Les Fleurs du Mal : Texte Intégral",
-    "auteur": "Charles Baudelaire",
-    "editeur": "Collection Mythical Authors",
-    "resume": "Cette deuxième édition de 1861 comprend la version originale du recueil, telle que Baudelaire l'a conçu, augmentée de 35 Poèmes Nouveaux, ainsi que les poèmes censurés. Découvrez ou redécouvrez l'une des œuvres les plus emblématiques de la poésie française, un chef-d'œuvre intemporel qui transcende les époques et continue d'ensorceler les âmes. Les Fleurs du Mal de Charles Baudelaire est bien plus qu'un simple recueil de poèmes, c'est une plongée profonde dans les méandres de l'âme humaine. Publié pour la première fois en 1857, cet ouvrage visionnaire a scandalisé la société de l'époque et a été censuré pour outrage à la morale. Pourtant, au fil des décennies, il est devenu un phare de la littérature mondiale, reconnu pour son audace, sa beauté, et son exploration audacieuse des thèmes de la passion, de la beauté, de la mélancolie, de la modernité, et de la condition humaine. Plongez dans l'univers envoûtant de Charles Baudelaire, explorez les coins sombres de l'âme humaine et laissez-vous emporter par la magie de la poésie. Les Fleurs du Mal continuent de fleurir, de charmer et de hanter, comme une invitation éternelle à la réflexion et à l'émerveillement.",
-    "datePublication": "2023-11-14",   
-    "nbPages": 205, 
-    "prix": 16.50,
-    "photo": "fleurs-mal.jpg",
-    "disponibilite": true,
-    "ageAutorise": 16,
-    "genre": "Poésie",
-    "isBestSeller": false
-  },
+
 {
     "titre": "Lait et Miel / Milk and Honey",
     "auteur": "Rupi Kaur",
@@ -239,20 +212,6 @@
     "isBestSeller": false
   },
 
-  {
-    "titre": "Noir Volcan",
-    "auteur": "Cécile Coulon",
-    "editeur": "Castor Astral",
-    "resume": "Noir volcan de Cécile Coulon est désormais disponibel en poche ! Ce recueil est celui d'une poésie affranchie, libératrice, terrienne ! - Noir volcan a été écrit sur les routes : dans les wagons, les chambres d'hôtel, au comptoir des buffets de gares, partout où le besoin, et l'envie, de revenir chez soi surgissent. - Ce second recueil est celui d'une poésie affranchie, libératrice, terrienne . Au fil des pages, le lieu devient un véritable personnage car comme le revendique Cécile Coulon : « chacun porte en lui son volcan, chacun se couche la nuit dans un cratère, chacun jette un oeil sur la reine noire ». - Ici, les petits riens du quotidien se succèdent et tracent la trame de notre existence : le premier baiser, un matin d'été, un entretien d'embauche, une bière, un café, une rupture, un voyage en train, l'écriture d'un poème... Prix Apollinaire, Prix des Libraires, Prix littéraire du Monde, Prix SGDL révélations de poésie",
-    "datePublication": "2020-03-05",   
-    "nbPages": 256, 
-    "prix": 9,
-    "photo": "noir-volcan.jpg",
-    "disponibilite": true,
-    "ageAutorise": 0,
-    "genre": "Poésie",
-    "isBestSeller": false
-  },
             {
     "titre": "Encrer l'invisible",
     "auteur": "Mélanie Leblanc",
@@ -268,20 +227,7 @@
     "isBestSeller": false
   },
 
-  {
-    "titre": "Paroles",
-    "auteur": "Jacques Prévert",
-    "editeur": "Gallimard",
-    "resume": "Le cancre il dit non avec la tête mais il dit oui avec le coeur il dit oui à ce qu'il aime il dit non au professeur il est debout on le questionne et tous les problèmes sont posés soudain le fou rire le prend et il efface tout les chiffres et les mots les dates et les noms les phrases et les pièges et malgré les menaces du maître sous les huées des enfants prodiges avec des craies de toutes les couleurs sur le tableau noir du malheur il dessine le visage du bonheur",
-    "datePublication": "1976-09-01",   
-    "nbPages": 272, 
-    "prix": 8.50,
-    "photo": "paroles.jpg",
-    "disponibilite": true,
-    "ageAutorise": 0,
-    "genre": "Poésie",
-    "isBestSeller": false
-  },
+ 
 
   {
     "titre": "Au rythme des silences",
@@ -761,45 +707,17 @@
     "genre": "Fantasy",
     "isBestSeller": false
   },
-          {
-    "titre": "Bird Box",
-    "auteur": "Josh Malerman",
-    "editeur": "Le Livre de Poche",
-    "resume": "La plupart des gens n'ont pas voulu y croire, les incidents se passaient loin, sans témoins… Depuis qu'ils sont nés, les enfants de Malorie n'ont jamais vu le ciel. Elle les a élevés seule, à l'abri du danger, sans nom, qui s'est abattu sur le monde. On dit qu'un coup d'œil suffit pour perdre la raison, être pris d'une pulsion meurtrière et retourner sa violence contre soi. Elle sait que bientôt les murs de la maison ne pourront plus protéger ses petits. Alors, les yeux bandés, tous trois vont affronter l'extérieur, et entamer un voyage terrifiant sur le fleuve, tentative désespérée pour rejoindre une colonie de rescapés. Arriveront-ils à bon port, guidés seulement par l’ouïe et l’instinct ? Un climat de tension habilement instauré, qui vous fera sursauter au moindre bruit. ",   
-    "datePublication": "2015-11-18",  
-    "nbPages": 384, 
-    "prix": 9.20,
-    "photo": "bird-box.jpg",
-    "disponibilite": true,
-    "ageAutorise": 0,
-    "genre": "Fantasy",
-    "isBestSeller": false
-  },
-        {
-    "titre": "Les Royaumes Crépusculaires - L'intégrale",
-    "auteur": "Mathieu Gaborit",
-    "editeur": "Mnemos",
-    "resume": "Le baron de Rochronde n'est plus. Et, selon la coutume, son fils Agone doit lui succéder. Or, peu enclin à suivre les traces de son père, guerrier sanguinaire impitoyable, celui-ci se destine à une vie d'érudit itinérant. Agone accepte néanmoins la dernière requête du défunt : passer une semaine au collège occulte du Souffre-Jour, où d'éminents maîtres d'armes et de magie initient aux arcanes de puissants pouvoirs. Là, il va découvrir le sens de sa destinée...",   
-    "datePublication": "2010-04-05",  
-    "nbPages": 484, 
-    "prix": 24.40,
-    "photo": "royaumes-crepusculaires.jpg",
+           {
+    "titre": "Queen's Game",
+    "auteur": "Hallie Desbot",
+    "editeur": "Addictasy",
+    "resume": "Mentir pour survivre, trahir pour régner, aimer pour triompher. Dans le Monde des Cartes, la Répartition détermine la destinée de chaque individu. Mais les Jokers, porteurs de dons uniques, n'ont jamais appartenu à ce système. Jugés dangereux, ils ont été bannis sur une île, condamnés à survivre comme ils le pouvaient. Cependant, lorsque la Reine de Trèfle disparaît, un pacte est proposé aux Jokers : s'ils résolvent discrètement ce mystère, leur exil prendra fin. Et c'est Soanne Fleck, polymorphe audacieuse, qui se voit confier cette mission presque impossible. Elle doit prendre l'apparence de la souveraine et enquêter dans un univers hostile aux Jokers. Mais le temps presse. Le Grand Tarot, tournoi annuel qui remet en jeu couronnes et rangs, approche. Face à des épreuves impitoyables et des rivaux prêts à tout, Soanne devra déjouer les complots de la cour, gagner la confiance du redoutable Roi de Trèfle sans lui succomber et, surtout, découvrir qui, dans ce jeu mortel, a vraiment les cartes en main...",   
+    "datePublication": "2025-11-06",  
+    "nbPages": 573, 
+    "prix": 19.90,
+    "photo": "queen-game.jpeg",
     "disponibilite": true,
     "ageAutorise": 16,
-    "genre": "Fantasy",
-    "isBestSeller": false
-  },
-          {
-    "titre": "Les Royaumes Crépusculaires - L'intégrale",
-    "auteur": "Mathieu Gaborit",
-    "editeur": "Mnemos",
-    "resume": "Le baron de Rochronde n'est plus. Et, selon la coutume, son fils Agone doit lui succéder. Or, peu enclin à suivre les traces de son père, guerrier sanguinaire impitoyable, celui-ci se destine à une vie d'érudit itinérant. Agone accepte néanmoins la dernière requête du défunt : passer une semaine au collège occulte du Souffre-Jour, où d'éminents maîtres d'armes et de magie initient aux arcanes de puissants pouvoirs. Là, il va découvrir le sens de sa destinée...",   
-    "datePublication": "2010-04-05",  
-    "nbPages": 484, 
-    "prix": 24.40,
-    "photo": "royaumes-crepusculaires.jpg",
-    "disponibilite": true,
-    "ageAutorise": 0,
     "genre": "Fantasy",
     "isBestSeller": false
   },
@@ -817,20 +735,7 @@
     "genre": "Fantasy",
     "isBestSeller": false
   },
-    {
-    "titre": "La voie des rois : Les archives de Roshar",
-    "auteur": "Brandon Sanderson",
-    "editeur": "Le Livre de Poche",
-    "resume": "Roshar, terre de pierres et de tempêtes. Des siècles ont passé depuis la chute des Chevaliers Radieux, mais leurs avatars, des épées et des armures mystiques qui transforment des hommes ordinaires en guerriers invincibles, sont toujours là. Au coeur des Plaines Brisées, Kaladin lutte depuis dix ans dans une guerre insensée. Dalinar, le chef d'une des armées, est fasciné par un texte ancien, La Voie des rois. Au-delà de l'océan, la jeune Shallan apprend la magie et découvre certains secrets des Chevaliers Radieux...",   
-    "datePublication": "2017-05-10",  
-    "nbPages": 992, 
-    "prix": 12.40,
-    "photo": "voie-rois.jpg",
-    "disponibilite": true,
-    "ageAutorise": 0,
-    "genre": "Fantasy",
-    "isBestSeller": false
-  },
+
       {
     "titre": "La voie du sabre",
     "auteur": "Thomas Day",
@@ -873,20 +778,7 @@
     "genre": "Fantasy",
    "isBestSeller": false
   },
-    {
-    "titre": "Un palais d'épines et de roses - Tome 1",
-    "auteur": "Sarah J. Maas",
-    "editeur": "La Martiniere Jeunesse",
-    "resume": "En chassant dans les bois enneigés, Feyre voulait seulement nourrir sa famille. Mais elle a commis l'irréparable en tuant un Fae, et la voici emmenée de force à Prythian, royaume des immortels. Là-bas, pourtant, sa prison est un palais magnifique et son geôlier n'a rien d'un monstre. Tamlin, un Grand Seigneur Fae, la traite comme une princesse. Et quel est ce mal qui ronge le royaume et risque de s'étendre à celui des mortels ? A l'évidence, Feyre n'est pas une simple prisonnière. Mais comment une jeune humaine d'origine aussi modeste pourrait-elle venir en aide à de si puissants seigneurs ? Sa liberté, en tout cas, semble être à ce prix.",   
-    "datePublication": "2017-02-09",  
-    "nbPages": 528, 
-    "prix": 20,
-    "photo": "palais-epines.jpg",
-    "disponibilite": true,
-    "ageAutorise": 16,
-    "genre": "Fantasy",
-    "isBestSeller": false
-  },
+
       {
     "titre": "Aladin",
     "auteur": "David Bédard",
@@ -957,6 +849,20 @@
     "genre": "Horreur",
     "isBestSeller": false
   },
+         {
+    "titre": "Peter Pan",
+    "auteur": "Simon Rousseau",
+    "editeur": "Contre-Dires",
+    "resume": "Les contes de notre enfance revisités... pour nourrir tous nos cauchemars ! Une vague de drogués se jetant du haut d'immeubles, croyant pouvoir voler. La disparition d'une jeune femme, Wendy Gauthier, et de ses deux frères délinquants, évadés de leur pénitencier pour mineurs. Une île perdue dans la forêt boréale, habitée par une communauté déjantée et leur leader sans âge. Une baronne du crime nymphomane et amoureuse des bijoux en forme de clochettes. Un enquêteur médisant dépourvu de sa main droite, dévorée par un cannibale qui hante encore ses nuits. Oserez-vous plonger dans la réécriture la plus sombre et jamais imaginée du conte Peter Pan ?",   
+    "datePublication": "2021-06-10",  
+    "nbPages": 237, 
+    "prix": 14.90,
+    "photo": "peter-pan.jpg",
+    "disponibilite": true,
+    "ageAutorise": 18,
+    "genre": "Horreur",
+    "isBestSeller": false
+  },
        {
     "titre": "Les 3'Ptits Cochons",
     "auteur": "Christian Boivin",
@@ -987,31 +893,19 @@
     "isBestSeller": false
   },
 
-       {
-    "titre": "Le Horla",
-    "auteur": "Guy de Maupassant",
-    "editeur": "Gallimard",
-    "resume": "Le Horla raconte la lente désagrégation d'un esprit, de la dépression à la folie - des maux que connaissait bien Maupassant. Le héros se sent peu à peu envahi par un autre, qui agit à travers lui : le Horla, puissance invisible, inconsciente, qui le manipule. S'installent alors l'incompréhension, la peur, l'angoisse. Jusqu'à l'irréparable. Prenant la forme du journal intime, la nouvelle illustre ce que Freud nommera l'inquiétante étrangeté, cette intrusion progressive du malaise dans le quotidien. Modèle de nouvelle fantastique, Le Horla est aussi une description clinique du dédoublement de personnalité qui menace toute conscience.",   
-    "datePublication": "2014-04-10",  
-    "nbPages": 96, 
-    "prix": 3.20,
-    "photo": "horla.jpg",
+  {
+    "titre": "Shining - Nouvelle traduction",
+    "auteur": "Stephen King",
+    "editeur": "Lgf",
+    "resume": "Situé dans les montagnes Rocheuses, l’Overlook Palace passe pour être l’un des plus beaux lieux du monde. Confort, luxe, volupté… L’hiver, l’hôtel est fermé. Coupé du monde par le froid et la neige. Alors, seul l’habite un gardien. Celui qui a été engagé cet hiver-là s’appelle Jack Torrance: c’est un alcoolique, un écrivain raté, qui tente d’échapper au désespoir. Avec lui vivent sa femme, Wendy, et leur enfant, Danny. Danny qui possède le don de voir, de ressusciter les choses et les êtres que l’on croit disparus. Ce qu’il sent, lui, dans les cent dix chambres vides de l’Overlook Palace, c’est la présence du démon. Cauchemar ou réalité, le corps de cette femme assassinée? ces bruits de fête qui dérivent dans les couloirs ? cette vie si étrange qui anime l’hôtel? Un récit envoûtant immortalisé à l’écran par Stanley Kubrick.",   
+    "datePublication": "2024-08-21",  
+    "nbPages": 768, 
+    "prix": 14.90,
+    "photo": "shining.jpg",
     "disponibilite": true,
-    "ageAutorise": 16,
+    "ageAutorise": 18,
     "genre": "Horreur",
     "isBestSeller": false
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
 ]

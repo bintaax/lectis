@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Librio</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/783766bfd8.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../../public/assets/css/style.css">
 </head>
 
@@ -67,9 +68,17 @@ button {
               <li><a class="" href="#">Contact</a></li>
             </ul>
           </nav>
-
+  
           <div class="flex items-center gap-4">
             <div class="sm:flex sm:gap-4">
+                    {# Si l'utilisateur est bien connectée #}
+        {% if app.user %}
+            <div class="mb-3 text-sm text-gray-700" id=="login">
+             {# Lien vers le panier d'un utilisateur #}
+                <a type="button" href="{{path('app_panier')}}"><i class="fa-solid fa-basket-shopping" style="background-color:transparent;color:#7B8A9A;font-size:30px;"></i></a>              
+            </div>
+        {% endif %}
+
               <a class="block rounded-md px-5 py-2.5 text-sm font-medium text-white" href="{{ path('app_login') }}
 " style="background-color:#3F5366;">
                 Se connecter

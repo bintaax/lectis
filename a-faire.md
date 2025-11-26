@@ -8,7 +8,6 @@ Maquettes :
 - Finir la fiche détail d'un livre (25/11/2025)
 
 
-
 VS Code  :
 - Requêtes SQL personnalisées
 - Page catalogue

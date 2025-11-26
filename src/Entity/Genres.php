@@ -42,6 +42,7 @@ class Genres
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
+
         return $this;
     }
 
@@ -57,7 +58,7 @@ class Genres
     {
         if (!$this->livres->contains($livre)) {
             $this->livres->add($livre);
-            $livre->setGenre($this); // relation inverse
+            $livre->setGenre($this);
         }
 
         return $this;
@@ -66,6 +67,7 @@ class Genres
     public function removeLivre(Livres $livre): static
     {
         if ($this->livres->removeElement($livre)) {
+            // set the owning side to null (unless already changed)
             if ($livre->getGenre() === $this) {
                 $livre->setGenre(null);
             }

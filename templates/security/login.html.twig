@@ -12,15 +12,6 @@
             </div>
         {% endif %}
 
-        {% if app.user %}
-            <div class="mb-3 text-sm text-gray-700" id=="login">
-                {# Si l'utilisateur est bien connectée #}
-                {# Lien vers le panier d'un utilisateur #}
-                Vous êtes connecté en tant que <span class="font-semibold">{{ app.user.userIdentifier }}</span>.
-                <a class="text-blue-600 hover:underline" href="{{ path('app_logout') }}">Déconnexion</a>
-              
-            </div>
-        {% endif %}
 
         <h1 class="text-4xl font-bold mb-6 text-center">Connexion</h1>
 

@@ -32,31 +32,22 @@ class Livres
     #[ORM\Column]
     private ?int $nbPages = null;
 
-    #[ORM\Column]
-    private ?float $prix = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $prix = null;
 
     #[ORM\Column(length: 255)]
     private ?string $photo = null;
 
-   #[ORM\Column]
+    #[ORM\Column]
     private ?bool $disponibilite = null;
 
-    
     #[ORM\Column]
     private ?int $ageAutorise = null;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
-#[ORM\JoinColumn(nullable: false)]
-private ?Genres $genre = null;
+    private ?Genres $genre = null;
 
-
-    #[ORM\ManyToOne(inversedBy: 'livres')]
-    private ?LignePanier $lignePanier = null;
-
-    #[ORM\ManyToOne(inversedBy: 'livres')]
-    private ?LigneCommande $ligneCommande = null;
-
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $isBestSeller = null;
 
     public function getId(): ?int
@@ -136,12 +127,12 @@ private ?Genres $genre = null;
         return $this;
     }
 
-    public function getPrix(): ?float
+    public function getPrix(): ?string
     {
         return $this->prix;
     }
 
-    public function setPrix(float $prix): static
+    public function setPrix(string $prix): static
     {
         $this->prix = $prix;
 
@@ -160,21 +151,17 @@ private ?Genres $genre = null;
         return $this;
     }
 
-   public function getDisponibilite(): ?bool
-{
-    return $this->disponibilite;
-}
+    public function isDisponibilite(): ?bool
+    {
+        return $this->disponibilite;
+    }
 
-public function isDisponibilite(): ?bool
-{
-    return $this->disponibilite;
-}
+    public function setDisponibilite(bool $disponibilite): static
+    {
+        $this->disponibilite = $disponibilite;
 
-public function setDisponibilite(bool $disponibilite): static
-{
-    $this->disponibilite = $disponibilite;
-    return $this;
-}
+        return $this;
+    }
 
     public function getAgeAutorise(): ?int
     {
@@ -200,36 +187,12 @@ public function setDisponibilite(bool $disponibilite): static
         return $this;
     }
 
-    public function getLignePanier(): ?LignePanier
-    {
-        return $this->lignePanier;
-    }
-
-    public function setLignePanier(?LignePanier $lignePanier): static
-    {
-        $this->lignePanier = $lignePanier;
-
-        return $this;
-    }
-
-    public function getLigneCommande(): ?LigneCommande
-    {
-        return $this->ligneCommande;
-    }
-
-    public function setLigneCommande(?LigneCommande $ligneCommande): static
-    {
-        $this->ligneCommande = $ligneCommande;
-
-        return $this;
-    }
-
     public function isBestSeller(): ?bool
     {
         return $this->isBestSeller;
     }
 
-    public function setIsBestSeller(bool $isBestSeller): static
+    public function setIsBestSeller(?bool $isBestSeller): static
     {
         $this->isBestSeller = $isBestSeller;
 
