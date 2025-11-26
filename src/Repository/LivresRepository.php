@@ -19,25 +19,22 @@ class LivresRepository extends ServiceEntityRepository
     //    /**
     //     * @return Livres[] Returns an array of Livres objects
     //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('l')
-    //            ->andWhere('l.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('l.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findBestSellers(): array
+{
+    return $this->createQueryBuilder('l')
+        ->andWhere('l.isBestSeller = :val')
+        ->setParameter('val', true)
+        ->getQuery()
+        ->getResult();
+}
+public function findByGenre($genreId): array
+{
+    return $this->createQueryBuilder('l')
+        ->andWhere('l.genre = :genre')
+        ->setParameter('genre', $genreId)
+        ->getQuery()
+        ->getResult();
+}
 
-    //    public function findOneBySomeField($value): ?Livres
-    //    {
-    //        return $this->createQueryBuilder('l')
-    //            ->andWhere('l.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+
 }

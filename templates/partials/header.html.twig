@@ -50,6 +50,15 @@ button {
   border-radius: 0.375rem;
   cursor: pointer;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+
 </style>
 
     <header class="relative">
@@ -64,7 +73,7 @@ button {
           <nav aria-label="Global" class="hidden md:block">
             <ul class="flex items-center gap-6 text-sm">
               <li><a class="" href="{{path('app_home')}}">Accueil</a></li>
-              <li><a class="" href="{{path('app_livres')}}">Catalogue</a></li>
+              <li><a class="" href="{{path('app_livres_show')}}">Catalogue</a></li>
               <li><a class="" href="#">Contact</a></li>
             </ul>
           </nav>

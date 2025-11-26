@@ -4,14 +4,13 @@
 
 ------
 
-Maquettes : 
-- Finir la fiche détail d'un livre (25/11/2025)
 
 
 VS Code  :
-- Requêtes SQL personnalisées
-- Page catalogue
-- Page panier 
+
+- Refaire le design de la page catalogue
+- Commencer la fiche détail
+- Essayer de lier UN SEUL CSS pour tout 
 
 ____ 
 

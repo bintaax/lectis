@@ -48,8 +48,17 @@
     </div>
 
     <!-- Les plus vendus -->
-    <div id="best-sellers" class="px-8 py-16 items-center justify-center text-center">
-        <h2 class="text-4xl mb-10">Les plus vendus</h2>
+    <div id="best-sellers" class="px-8 py-16 text-center">
+        <h2 class="font-bold text-6xl">Les plus vendus</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {% for livre in bestSellers %}
+        <div class="p-4 rounded shadow" style="width:258px;">
+            <img src="assets/img/{{ livre.photo }}" alt="{{ livre.titre }}" style="width:100%;">
+            <h3 class="font-semibold mt-2 text-2xl">{{ livre.titre }}</h3>
+            <button type="button" class="text-white">Voir en détail</button>
+        </div>
+    {% endfor %}
+</div>
 
     </div>
 
