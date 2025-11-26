@@ -45,14 +45,19 @@ class Livres
     #[ORM\Column]
     private ?int $ageAutorise = null;
 
-    #[ORM\ManyToOne(inversedBy: 'genreId')]
-    private ?Genres $genre = null;
+    #[ORM\ManyToOne(inversedBy: 'livres')]
+#[ORM\JoinColumn(nullable: false)]
+private ?Genres $genre = null;
+
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
     private ?LignePanier $lignePanier = null;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
     private ?LigneCommande $ligneCommande = null;
+
+    #[ORM\Column]
+    private ?bool $isBestSeller = null;
 
     public function getId(): ?int
     {
@@ -215,6 +220,18 @@ public function setDisponibilite(bool $disponibilite): static
     public function setLigneCommande(?LigneCommande $ligneCommande): static
     {
         $this->ligneCommande = $ligneCommande;
+
+        return $this;
+    }
+
+    public function isBestSeller(): ?bool
+    {
+        return $this->isBestSeller;
+    }
+
+    public function setIsBestSeller(bool $isBestSeller): static
+    {
+        $this->isBestSeller = $isBestSeller;
 
         return $this;
     }

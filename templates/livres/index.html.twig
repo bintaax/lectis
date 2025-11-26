@@ -9,12 +9,33 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/bintousylla/Desktop/lectis/src/Controller/LivresController.php</code></li>
-        <li>Your template at <code>/Users/bintousylla/Desktop/lectis/templates/livres/index.html.twig</code></li>
-    </ul>
+
+    <div style="background-color:#CDD6E2;" class=" items-center justify-center">
+          {% if app.user %}
+         <p class="mb-5">Bienvenue, <span class="font-semibold">{{ app.user.prenom}}</span> !</p>
+    {% endif %}
+        <h1 class="text-4xl font-bold mb-10">Catalogue</h1>
+
+        <div id="romances" class=" py-16 items-center justify-center">
+            <h2 class="text-4xl mb-6">Romance</h2>
+      {#       <div class="grid grid-cols-4 gap-6">
+                {% for livre in livres %}
+                    {% if livre.genre == 'Romance' %}
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <img src="{{ asset('uploads/' ~ livre.image) }}" alt="{{ livre.titre }}" class="w-full h-48 object-cover mb-4 rounded">
+                            <h3 class="text-lg font-semibold mb-2">{{ livre.titre }}</h3>
+                            <p class="text-gray-600 mb-2">Auteur: {{ livre.auteur }}</p>
+                            <p class="text-gray-800 font-bold">{{ livre.prix }} €</p>
+                        </div>
+                    {% endif %}
+                {% endfor %} #}
+
+   
+    </div>
+
+    
+
+  
 </div>
 {% endblock %}

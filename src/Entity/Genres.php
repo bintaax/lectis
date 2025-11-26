@@ -21,19 +21,12 @@ class Genres
     /**
      * @var Collection<int, Livres>
      */
-    #[ORM\OneToMany(targetEntity: Livres::class, mappedBy: 'genreId')]
-    private Collection $livres;
-
-    /**
-     * @var Collection<int, Livres>
-     */
     #[ORM\OneToMany(targetEntity: Livres::class, mappedBy: 'genre')]
-    private Collection $genreId;
+    private Collection $livres;
 
     public function __construct()
     {
         $this->livres = new ArrayCollection();
-        $this->genreId = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,7 +42,6 @@ class Genres
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -65,38 +57,17 @@ class Genres
     {
         if (!$this->livres->contains($livre)) {
             $this->livres->add($livre);
-           
+            $livre->setGenre($this); // relation inverse
         }
 
         return $this;
     }
 
-
-
-    /**
-     * @return Collection<int, Livres>
-     */
-    public function getGenreId(): Collection
+    public function removeLivre(Livres $livre): static
     {
-        return $this->genreId;
-    }
-
-    public function addGenreId(Livres $genreId): static
-    {
-        if (!$this->genreId->contains($genreId)) {
-            $this->genreId->add($genreId);
-            $genreId->setGenre($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGenreId(Livres $genreId): static
-    {
-        if ($this->genreId->removeElement($genreId)) {
-            // set the owning side to null (unless already changed)
-            if ($genreId->getGenre() === $this) {
-                $genreId->setGenre(null);
+        if ($this->livres->removeElement($livre)) {
+            if ($livre->getGenre() === $this) {
+                $livre->setGenre(null);
             }
         }
 
