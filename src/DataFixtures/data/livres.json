@@ -92,7 +92,7 @@
     "nbPages": 400, 
     "prix": 18,
     "photo": "fallen-angel.webp",
-    "disponibilite": true,
+    "disponibilite": false,
     "ageAutorise": 18 ,
     "genre": "Romance",
     "isBestSeller": false
@@ -221,7 +221,7 @@
     "nbPages": 160, 
     "prix": 9,
     "photo": "encrer-invisible.jpg",
-    "disponibilite": true,
+    "disponibilite": false,
     "ageAutorise": 0,
     "genre": "Poésie",
     "isBestSeller": false
@@ -266,7 +266,7 @@
     "nbPages": 112, 
     "prix": 12,
     "photo": "plaie-aube.webp",
-    "disponibilite": true,
+    "disponibilite": false,
     "ageAutorise": 0,
     "genre": "Poésie",
     "isBestSeller": false
@@ -350,7 +350,7 @@
     "nbPages": 480, 
     "prix": 7.90,
     "photo": "percy-jackson.jpg",
-    "disponibilite": true,
+    "disponibilite": false,
     "ageAutorise": 0,
     "genre": "Jeunesse",
     "isBestSeller": false
@@ -364,7 +364,7 @@
     "nbPages": 104, 
     "prix": 7.50,
     "photo": "petit-prince.webp",
-    "disponibilite": true,
+    "disponibilite": false,
     "ageAutorise": 0,
     "genre": "Jeunesse",
     "isBestSeller": false
@@ -384,7 +384,7 @@
     "isBestSeller": false
   },
           {
-    "titre": "Gardiens des cités perdues - Tome 1",
+    "titre": "Des gardiens des cités perdues - Tome 1",
     "auteur": "Shannon Messenger",
     "editeur": "Pocket Jeunesse",
     "resume": " Vous rêvez de visiter l'Atlantide ou la mythique cité de Shangri-la ? Suivez le guide ! Sophie sait qu'elle n'est pas comme tout le monde : depuis toujours, elle entend les pensées des gens autour d'elle. Un matin, un étrange garçon l'aborde et lui apprend qu'elle n'est pas humaine. Elle doit rejoindre l'univers qu'elle a quitté douze ans plus tôt. De retour parmi les siens, une question l'obsède : pourquoi l'a-t-on cachée si longtemps dans le monde des humains ?",   
@@ -478,7 +478,7 @@
     "nbPages": 48, 
     "prix": 17.50,
     "photo": "blacksad.jpg",
-    "disponibilite": true,
+    "disponibilite": false,
     "ageAutorise": 0,
     "genre": "BD/Mangas",
     "isBestSeller": false
@@ -618,7 +618,7 @@
     "nbPages": 608, 
     "prix": 8.90,
     "photo": "memoires-psychiatre.webp",
-    "disponibilite": true,
+    "disponibilite": false,
     "ageAutorise": 16,
     "genre": "Thriller",
     "isBestSeller": false
@@ -730,7 +730,7 @@
     "nbPages": 992, 
     "prix": 12.40,
     "photo": "voie-rois.jpg",
-    "disponibilite": true,
+    "disponibilite": false,
     "ageAutorise": 0,
     "genre": "Fantasy",
     "isBestSeller": false
@@ -816,7 +816,7 @@
     "nbPages": 172, 
     "prix": 14.90,
     "photo": "petite-sirene.jpg",
-    "disponibilite": true,
+    "disponibilite": false,
     "ageAutorise": 18,
     "genre": "Horreur",
     "isBestSeller": false
@@ -887,7 +887,7 @@
     "nbPages": 800, 
     "prix": 14.90,
     "photo": "ça.jpg",
-    "disponibilite": true,
+    "disponibilite": false,
     "ageAutorise": 18,
     "genre": "Horreur",
     "isBestSeller": false

@@ -3,7 +3,7 @@
 @plugin "flowbite/plugin";
 @source "../../node_modules/flowbite";
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 :root {
   --bluegray-light:   #EEF3F8; /* Fond général */
@@ -28,7 +28,7 @@ i {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair', sans-serif;
+  font-family: 'Playfair Display', sans-serif;
 }
 
 button {

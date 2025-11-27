@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\LivresRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Cocur\Slugify\Slugify;
 
 #[ORM\Entity(repositoryClass: LivresRepository::class)]
 class Livres
@@ -50,6 +51,9 @@ class Livres
     #[ORM\Column(nullable: true)]
     private ?bool $isBestSeller = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,12 +64,17 @@ class Livres
         return $this->titre;
     }
 
-    public function setTitre(string $titre): static
-    {
-        $this->titre = $titre;
+   
+    public function setTitre(?string $titre): static
+{
+    $this->titre = $titre;
 
-        return $this;
-    }
+    // Génère automatiquement le slug
+    $slugify = new Slugify();
+    $this->slug = $slugify->slugify($titre);
+
+    return $this;
+}
 
     public function getAuteur(): ?string
     {
@@ -156,6 +165,20 @@ class Livres
         return $this->disponibilite;
     }
 
+    public function getDisponibiliteBadge(): string
+{
+    if ($this->disponibilite) {
+        return '<p class="text-green-500 flex items-center gap-1">
+                    <i class="fa-solid fa-check text-green-500"></i> Disponible
+                </p>';
+    }
+
+    return '<p class="text-red-500 flex items-center gap-1">
+                <i class="fa-solid fa-xmark text-red-500"></i> Indisponible
+            </p>';
+}
+
+
     public function setDisponibilite(bool $disponibilite): static
     {
         $this->disponibilite = $disponibilite;
@@ -195,6 +218,18 @@ class Livres
     public function setIsBestSeller(?bool $isBestSeller): static
     {
         $this->isBestSeller = $isBestSeller;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

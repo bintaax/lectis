@@ -16,9 +16,8 @@ class LivresRepository extends ServiceEntityRepository
         parent::__construct($registry, Livres::class);
     }
 
-    //    /**
-    //     * @return Livres[] Returns an array of Livres objects
-    //     */
+
+    /* Fonction pour sélectionner UNIQUEMENT les best-sellers */
     public function findBestSellers(): array
 {
     return $this->createQueryBuilder('l')
@@ -27,6 +26,8 @@ class LivresRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
 }
+
+/* Fonction pour sélectionner les livres PAR GENRE */
 public function findByGenre($genreId): array
 {
     return $this->createQueryBuilder('l')
@@ -36,5 +37,5 @@ public function findByGenre($genreId): array
         ->getResult();
 }
 
-
 }
+

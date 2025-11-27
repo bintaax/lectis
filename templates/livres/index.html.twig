@@ -4,11 +4,20 @@
 
 {% block body %}
 
+    {% if app.user %}
+    <p class="text-gray-700 mb-4">
+        👋 Bienvenue, <span class="font-semibold">{{ app.user.prenom ?? app.user.email }}</span> !
+    </p>
+{% endif %}
 {% for genre, livres in livresParGenre %}
 
     {% set genreId = genre|lower|replace({' ':'-'}) %}
 
+
+
     <section class="px-20 py-16 mb-12">
+
+
         <h2 class="text-4xl font-bold text-bluegray-dark mb-4">{{ genre }}</h2>
 
         <div class="relative">
@@ -49,14 +58,20 @@
         {{ livre.auteur }}
     </p>
 
+   
+
         <!-- PRIX -->
     <p class="mb-4 text-body text-xl font-semibold truncate">
         {{ livre.prix }} €
     </p>
 
+     <!-- DISPONIBILITE -->
+     {# Créer une fonction #}
+     <p>{{ livre.getDisponibiliteBadge()|raw }}</p>
+
     <!-- BOUTON -->
-    <button><a href="{{ path('app_detail') }}" 
-       class="inline-flex items-center font-medium rounded-base text-sm px-4 py-2.5 text-white">
+    <button><a href="{{ path('app_detail', { slug: livre.slug }) }}"     class="inline-flex items-center font-medium rounded-base text-sm px-4 py-2.5 text-white">
+   
         Voir le détail
         <i class="fa-solid fa-arrow-down fa-rotate-270 text-sm text-white"></i>
     </a></button>

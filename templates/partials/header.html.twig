@@ -35,10 +35,20 @@
             </div>
         {% endif %}
 
-              <a class="block rounded-md px-5 py-2.5 text-sm font-medium text-white" href="{{ path('app_login') }}
-" style="background-color:#3F5366;">
-                Se connecter
-              </a>
+    {% if not app.user %}
+    <button><a href="{{ path('app_login') }}" 
+       class="px-4 py-2 text-white">
+        Se connecter
+    </a></button>
+{% endif %}
+{% if app.user %}
+    <form action="{{ path('app_logout') }}" method="post">
+        <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+            Se déconnecter
+        </button>
+    </form>
+{% endif %}
+
             </div>
 
             <!-- Bouton toggle -->
