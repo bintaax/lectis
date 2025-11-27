@@ -1,4 +1,4 @@
-#Lectis
+Lectis
 
 > Projet final dans le cadre de la formation au Titre Professionnel Développeur Web et Web Mobile
 

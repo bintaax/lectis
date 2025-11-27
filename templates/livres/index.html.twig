@@ -4,11 +4,13 @@
 
 {% block body %}
 
-    {% if app.user %}
+<div id="bienvenue" class="ms-30">    
+{% if app.user %}
     <p class="text-gray-700 mb-4">
         👋 Bienvenue, <span class="font-semibold">{{ app.user.prenom ?? app.user.email }}</span> !
     </p>
 {% endif %}
+<div>
 {% for genre, livres in livresParGenre %}
 
     {% set genreId = genre|lower|replace({' ':'-'}) %}
