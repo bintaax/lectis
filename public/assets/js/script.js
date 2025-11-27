@@ -18,6 +18,14 @@
       ageWarning.textContent = `Ce livre est destiné à un public adulte et averti ${ageRequired18} ans et plus.`;
     }
 
+// Scroll du catalogue
+    function scrollLeft(id) {
+        document.getElementById(id).scrollBy({left: -300, behavior: 'smooth'});
+    }
+    function scrollRight(id) {
+        document.getElementById(id).scrollBy({left: 300, behavior: 'smooth'});
+    }
+
 
 
 

@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class LivresController extends AbstractController
 {
-    #[Route('/livres', name: 'app_livres_show')]
+    #[Route('/livres', name: 'app_livres')]
     public function index(LivresRepository $livresRepo, GenresRepository $genreRepo): Response
     {
             // On récupère tous les genres

@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% block title %} Catalogue {% endblock %}
+
 {% block body %}
 
 {% for genre, livres in livresParGenre %}
 
     {% set genreId = genre|lower|replace({' ':'-'}) %}
 
-    <section class="mb-12">
-        <h2 class="text-2xl font-bold text-bluegray-dark mb-4">{{ genre }}</h2>
+    <section class="px-20 py-16 mb-12">
+        <h2 class="text-4xl font-bold text-bluegray-dark mb-4">{{ genre }}</h2>
 
         <div class="relative">
 
@@ -19,26 +21,47 @@
             </button>
 
             <div id="{{ genreId }}" 
-                 class="flex gap-5 overflow-x-auto scroll-smooth py-4 px-2 no-scrollbar">
+                 class="flex gap-6 overflow-x-auto scroll-smooth py-4 px-2 no-scrollbar">
 
                 {% for livre in livres %}
-                    <a href="{{ path('app_livres_show', {id: livre.id}) }}"
-                       class="min-w-[180px] bg-white rounded-xl shadow hover:scale-105 transition">
+                 <div class=" bg-neutral-primary-soft p-4 border border-default shadow-xs rounded-xl min-w-[180px] sm:min-w-[200px] md:min-w-[220px] lg:min-w-[240px]">
 
-                        <img src="/assets/img/{{ livre.photo }}" 
-                             alt="{{ livre.titre }}" 
-                             class="h-56 w-full object-cover rounded-t-xl">
+    <!-- IMAGE COUVERTURE RESPONSIVE -->
+    <div class="w-full h-[260px] sm:h-[300px] md:h-[320px] overflow-hidden rounded-lg bg-white">
+        <a href="#">
+            <img 
+                class="w-full h-full object-cover" 
+                src="/assets/img/{{ livre.photo }}" 
+                alt="{{ livre.titre }}"
+            />
+        </a>
+    </div>
 
-                        <div class="p-3">
-                            <h3 class="font-semibold text-bluegray-dark text-sm truncate">
-                                {{ livre.titre }}
-                            </h3>
-                            <p class="text-xs text-bluegray-deep">{{ livre.auteur }}</p>
-                        </div>
+    <!-- TITRE -->
+    <a href="#">
+        <p class="mt-4 mb-1 text-base sm:text-lg font-semibold text-heading line-clamp-2">
+            {{ livre.titre }}
+        </p>
+    </a>
 
-                        <button type="button" class="text-white text-white">Voir en détail</button>
+    <!-- AUTEUR -->
+    <p class="mb-4 text-body text-sm truncate">
+        {{ livre.auteur }}
+    </p>
 
-                    </a>
+        <!-- PRIX -->
+    <p class="mb-4 text-body text-xl font-semibold truncate">
+        {{ livre.prix }} €
+    </p>
+
+    <!-- BOUTON -->
+    <button><a href="{{ path('app_detail') }}" 
+       class="inline-flex items-center font-medium rounded-base text-sm px-4 py-2.5 text-white">
+        Voir le détail
+        <i class="fa-solid fa-arrow-down fa-rotate-270 text-sm text-white"></i>
+    </a></button>
+
+</div>
                 {% endfor %}
 
             </div>
@@ -56,15 +79,6 @@
 
 {% endfor %}
 
-<script>
-    function scrollLeft(id) {
-        document.getElementById(id).scrollBy({left: -300, behavior: 'smooth'});
-    }
-    function scrollRight(id) {
-        document.getElementById(id).scrollBy({left: 300, behavior: 'smooth'});
-    }
-</script>
+
 
 {% endblock %}
-
-

@@ -1,0 +1,57 @@
+@import "tailwindcss";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../../node_modules/flowbite";
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap');
+
+:root {
+  --bluegray-light:   #EEF3F8; /* Fond général */
+  --bluegray-medium:  #CDD6E2; /* Sections secondaires */
+  --bluegray-deep:    #7B8A9A; /* Icônes, contours, bordures */
+  --bluegray-dark:    #2E3A45; /* Texte */
+  --bluegray-accent:  #3F5366; /* Boutons, hover */
+  
+  --neutral-white:    #FFFFFF;
+  --neutral-light:    #F7F9FC;
+  --neutral-soft:     #E1E5EB;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--bluegray-light);
+  color: var(--bluegray-dark);
+}
+
+i {
+  color: var(--bluegray-deep);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair', sans-serif;
+}
+
+button {
+  background-color: var(--bluegray-accent);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+/* Catalogue */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+#image-detail {
+  width:400px;
+  height:500px;
+  
+  img {
+    width: 100%;
+  }
+}
