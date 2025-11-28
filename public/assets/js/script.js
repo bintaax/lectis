@@ -28,6 +28,44 @@
 
 
 
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- AJOUT AU PANIER ---
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', async () => {
+            const id = button.dataset.id;
+
+            const response = await fetch(`/panier/add/${id}`, {
+                method: 'POST'
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                document.getElementById('panier-count').textContent = data.total;
+            }
+        });
+    });
+
+    // --- SUPPRESSION DU PANIER ---
+    document.querySelectorAll('.remove-from-cart').forEach(button => {
+        button.addEventListener('click', async () => {
+            const id = button.dataset.id;
+
+            const response = await fetch(`/panier/remove/${id}`, {
+                method: 'POST'
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                document.getElementById('panier-count').textContent = data.total;
+            }
+        });
+    });
+
+});
+
 
 
 

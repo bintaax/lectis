@@ -3,5 +3,13 @@
 {% block title %}Panier{% endblock %}
 
 {% block body %}
+      {% if not app.user %}
+      <div class="items-center text-center m-20">
+       <i class="fa-solid fa-face-sad-cry text-9xl"></i>
 
+      <p class="text-xl">Votre panier est vide ... </p>
+      <p class="text-xl">Veuillez vous <a href="{{path('app_login')}}" class="hover:underline">connecter</a> ou <a href="{{path('app_login')}}" class="hover:underline"> vous inscrire</a></p>
+      </div>
+
+      {% endif %}
 {% endblock %}

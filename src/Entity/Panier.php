@@ -15,7 +15,7 @@ class Panier
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'panier', cascade: ['persist', 'remove'])]
     private ?Utilisateurs $utilisateursId = null;
 
     #[ORM\Column]
@@ -24,13 +24,15 @@ class Panier
     /**
      * @var Collection<int, LignePanier>
      */
-    #[ORM\ManyToMany(targetEntity: LignePanier::class, mappedBy: 'panier')]
+    #[ORM\OneToMany(mappedBy: 'panier', targetEntity: LignePanier::class, cascade: ['persist', 'remove'])]  
     private Collection $lignePaniers;
 
     public function __construct()
     {
         $this->lignePaniers = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -73,18 +75,18 @@ class Panier
     {
         if (!$this->lignePaniers->contains($lignePanier)) {
             $this->lignePaniers->add($lignePanier);
-            $lignePanier->addPanier($this);
+            $lignePanier->setPanier($this);
         }
-
         return $this;
     }
 
     public function removeLignePanier(LignePanier $lignePanier): static
     {
         if ($this->lignePaniers->removeElement($lignePanier)) {
-            $lignePanier->removePanier($this);
+            if ($lignePanier->getPanier() === $this) {
+                $lignePanier->setPanier(null);
+            }
         }
-
         return $this;
     }
 }

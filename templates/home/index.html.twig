@@ -55,7 +55,11 @@
         <div class="p-4 rounded shadow" style="width:258px;">
             <img src="assets/img/{{ livre.photo }}" alt="{{ livre.titre }}" style="width:100%;">
             <h3 class="font-semibold mt-2 text-2xl">{{ livre.titre }}</h3>
-            <button type="button" class="text-white">Voir en détail</button>
+               <button><a href="{{ path('app_detail', { slug: livre.slug }) }}"     class="inline-flex items-center font-medium rounded-base text-sm px-4 py-2.5 text-white">
+   
+        Voir le détail
+        <i class="fa-solid fa-arrow-down fa-rotate-270 text-sm text-white"></i>
+    </a></button>
         </div>
     {% endfor %}
 </div>

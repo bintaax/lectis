@@ -6,8 +6,8 @@
 
 <div id="bienvenue" class="ms-30">    
 {% if app.user %}
-    <p class="text-gray-700 mb-4">
-        👋 Bienvenue, <span class="font-semibold">{{ app.user.prenom ?? app.user.email }}</span> !
+    <p class="text-gray-700 px-20 mt-10 text-2xl text-center">
+        👋 Bienvenue, <span class="font-bold">{{ app.user.prenom ?? app.user.email }}</span> !
     </p>
 {% endif %}
 <div>

@@ -21,12 +21,12 @@ class LignePanier
     private ?Panier $panier = null;
 
     // Relation : ManyToOne → Livres
-    #[ORM\ManyToOne(inversedBy: 'lignePaniers')]
+    
     #[ORM\JoinColumn(nullable: false)]
     private ?Livres $livre = null;
 
     #[ORM\Column]
-    private ?int $quantite = null;
+    private ?int $quantite = 1;
 
     public function getId(): ?int
     {

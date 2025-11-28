@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\DataFixtures\LivreFixtures;
 use App\Repository\LivresRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+
 
 final class DetailController extends AbstractController
 {
@@ -14,6 +16,8 @@ final class DetailController extends AbstractController
     {
          // On cherche le livre
         $livre = $livresRepo->findOneBy(['slug' => $slug ]);
+
+    
 
         // Si le livre n'existe pas → erreur 404
         if (!$livre) {
