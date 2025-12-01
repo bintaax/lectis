@@ -2,6 +2,16 @@
 
 namespace App\Entity;
 
+
+use App\Repository\UtilisateursRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+namespace App\Entity;
+
 use App\Repository\UtilisateursRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,9 +20,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use App\Entity\Panier;
+use App\Entity\Commandes;
+
 #[ORM\Entity(repositoryClass: UtilisateursRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cet email')]
 class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -22,6 +35,12 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180)]
     private ?string $email = null;
+
+    /**
+ * @var Collection<int, Panier>
+ */
+#[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Panier::class, cascade: ['persist', 'remove'])]
+private Collection $paniers;
 
     /**
      * @var list<string> The user roles
@@ -53,7 +72,34 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
+        $this->paniers = new ArrayCollection(); // 🔥 ajouter ceci
     }
+    /**
+ * @return Collection<int, Panier>
+ */
+public function getPaniers(): Collection
+{
+    return $this->paniers;
+}
+public function addPanier(Panier $panier): static
+{
+    if (!$this->paniers->contains($panier)) {
+        $this->paniers->add($panier);
+        $panier->setUtilisateur($this);
+    }
+
+    return $this;
+}
+public function removePanier(Panier $panier): static
+{
+    if ($this->paniers->removeElement($panier)) {
+        if ($panier->getUtilisateur() === $this) {
+            $panier->setUtilisateur(null);
+        }
+    }
+
+    return $this;
+}
 
     public function getId(): ?int
     {

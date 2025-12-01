@@ -1,65 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{livre.titre}}{% endblock %}
+{% block title %}{{ livre.titre }}{% endblock %}
 
 {% block body %}
 
-
-    <section class="ms-75 mt-10">
-       
-        <a href="{{path('app_livres')}}" class="font-semibold underline"><i class="fa-solid fa-arrow-down fa-rotate-90 text-sm"></i> Retour au catalogue</a>
-        
-        <div>    
-        
-        <h3 class="text-3xl font-bold">{{livre.titre}}</h3>
-        <p class="text-sm">{{livre.auteur}}</p>
-        </div>
+<section class="mt-20 px-6 md:px-20">
     
-          <div class="flex gap-8">
-            <div id="image-detail" style="width:300px;height:500px;">
-                <img src="/assets/img/{{livre.photo}}" alt"{{livre.titre}}" style="width:100%;">
-            </div>
-            <div class="w-full">
-                {% if livre.ageAutorise==18%}
-                   <div class="bg-red-300 px-16 border-2 border-dashed w-150 mb-5"> <p class="text-red-500 text-center"> Attention : ce livre contient des scènes réservées à un public adulte. Interdit aux moins de 18 ans.</p></div>
-                {% endif %}
-                {% if livre.ageAutorise==16 %}
-                    <div class="bg-orange-200 border-4 border-dashed w-150 mb-5"><p class="text-orange-400 text-center">Attention : ce livre contient des scènes susceptibles de heurter la sensibilité des moins de 16 ans.</p></div>
-                {% endif %}
-                <p class="text-sm w-[600px]">{{livre.resume}}</p>
-                <p class="text-3xl font-semibold">{{livre.prix}} €</p>
+    <a href="{{ path('app_livres') }}" class="font-semibold underline mb-6 inline-block">
+        <i class="fa-solid fa-arrow-down fa-rotate-90 text-sm"></i> Retour au catalogue
+    </a>
 
-                
-                <button><a href="{{path('app_panier')}}" class="text-white">Ajouter au panier <i class="fa-solid fa-basket-shopping text-white"></i> </a></button>
-            </div>
-            
+    <h3 class="text-3xl font-bold">{{ livre.titre }}</h3>
+    <p class="text-sm mb-8">{{ livre.auteur }}</p>
+
+    <!-- Bloc image + infos (responsive) -->
+    <div class="flex flex-col lg:flex-row gap-8">
+
+        <!-- Image -->
+        <div class="w-full max-w-[300px] mx-auto">
+            <img src="/assets/img/{{ livre.photo }}" 
+                 alt="{{ livre.titre }}"
+                 class="w-full h-[450px] object-cover rounded shadow">
         </div>
-        <h3 class="text-3xl">Fiche technique</h3>
 
-                {# Accordion #}
-                <div class="space-y-2">
-  <details class="group [&amp;_summary::-webkit-details-marker]:hidden">
-    <summary class="flex cursor-pointer items-center justify-between gap-6 px-4 py-3 font-medium text-gray-900">
-      <span>Informations générales</span>
-      <i class="fa-utility fa-semibold fa-angle-down text-6xl text-body"></i>
-    </summary>
+        <!-- Texte -->
+        <div class="w-full">
 
-    <div class="p-4">
-      <p class="text-gray-700">
-         <p>Auteur : {{livre.auteur}}</p>
-         <p>Maison d'édition : {{livre.editeur}}</p>
-        {#  <p>Date de publication : {{livre.datePublication}}</p> #}
-         <p>Langue du livre : Français</p>
-         <p>Nombre de pages : {{livre.nbPages}} pages</p>
-      </p>
+            {% if livre.ageAutorise == 18 %}
+                <div class="bg-red-100 border-2 border-red-400 p-4 rounded mb-5 text-center">
+                    <p class="text-red-600 font-medium">
+                        Attention : contenu réservé à un public adulte. Interdit aux moins de 18 ans.
+                    </p>
+                </div>
+            {% endif %}
+
+            {% if livre.ageAutorise == 16 %}
+                <div class="bg-orange-100 border-2 border-orange-400 p-4 rounded mb-5 text-center">
+                    <p class="text-orange-500 font-medium">
+                        Attention : certaines scènes peuvent heurter les moins de 16 ans.
+                    </p>
+                </div>
+            {% endif %}
+
+            <p class="text-sm mb-4">{{ livre.resume }}</p>
+            <p class="text-3xl font-semibold mb-4">{{ livre.prix }} €</p>
+
+            {% if livre.disponibilite %}
+                <button onclick="addToCart({{ livre.id }})"
+                        class="text-white px-5 py-2 rounded">
+                    Ajouter au panier 
+                    <i class="fa-solid fa-basket-shopping text-white"></i>
+                </button>
+            {% else %}
+                <button onclick="openNotifyForm({{ livre.id }})"
+                        class="bg-gray-400 cursor-not-allowed px-5 py-2 rounded text-white">
+                    Indisponible
+                </button>
+            {% endif %}
+        </div>
     </div>
-  </details>
 
-</div>
-    </section>
+    <!-- Fiche technique -->
+    <h3 class="text-3xl mt-12 mb-4">Fiche technique</h3>
 
+    <details class="group border rounded px-4 py-3">
+        <summary class="cursor-pointer font-medium flex justify-between items-center">
+            Informations générales
+            <i class="fa-solid fa-angle-down"></i>
+        </summary>
 
+        <div class="mt-4 space-y-1">
+            <p>Auteur : {{ livre.auteur }}</p>
+            <p>Maison d'édition : {{ livre.editeur }}</p>
+            <p>Langue : Français</p>
+            <p>Nombre de pages : {{ livre.nbPages }} pages</p>
+        </div>
+    </details>
 
-
+</section>
 
 {% endblock %}

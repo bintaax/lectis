@@ -6,6 +6,9 @@ use App\Repository\PanierRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Utilisateurs;
+use App\Entity\LignePanier;
+
 
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
 class Panier
@@ -15,8 +18,10 @@ class Panier
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'panier', cascade: ['persist', 'remove'])]
-    private ?Utilisateurs $utilisateursId = null;
+        // 🔥 Le propriétaire du panier
+    #[ORM\ManyToOne(inversedBy: 'paniers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Utilisateurs $utilisateur = null;
 
     #[ORM\Column]
     private ?\DateTime $createdAt = null;
@@ -30,6 +35,7 @@ class Panier
     public function __construct()
     {
         $this->lignePaniers = new ArrayCollection();
+         $this->createdAt = new \DateTime();
     }
 
 
@@ -39,14 +45,14 @@ class Panier
         return $this->id;
     }
 
-    public function getUtilisateursId(): ?Utilisateurs
+    public function getUtilisateur(): ?Utilisateurs
     {
-        return $this->utilisateursId;
+        return $this->utilisateur;
     }
 
-    public function setUtilisateursId(?Utilisateurs $utilisateursId): static
+    public function setUtilisateur(?Utilisateurs $utilisateur): static
     {
-        $this->utilisateursId = $utilisateursId;
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }

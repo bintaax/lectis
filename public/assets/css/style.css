@@ -39,6 +39,17 @@ button {
   cursor: pointer;
 }
 
+/* Header  */
+.header-scrolled {
+  .header-scrolled {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+
+}
+
+
 /* Catalogue */
 .no-scrollbar::-webkit-scrollbar {
   display: none;

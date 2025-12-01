@@ -1,4 +1,5 @@
  
+
 // Menu burger
 
  const menuButton = document.querySelector("button");
@@ -9,16 +10,7 @@
     
   });
 
-  // Si l'utilisateur n'a pas 16 ou 18 ans
-    const ageWarning = document.getElementById("age-warning");                          
-    const ageRequired18 = 18; 
-    const ageRequired16 = 16;
-
-    if (ageWarning) {
-      ageWarning.textContent = `Ce livre est destiné à un public adulte et averti ${ageRequired18} ans et plus.`;
-    }
-
-// Scroll du catalogue
+// Flèches du catalogue
     function scrollLeft(id) {
         document.getElementById(id).scrollBy({left: -300, behavior: 'smooth'});
     }
@@ -28,44 +20,64 @@
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
+// Panier 
+// --- PANIER ---
 
-    // --- AJOUT AU PANIER ---
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', async () => {
-            const id = button.dataset.id;
+function refreshPanier() {
+    const container = document.querySelector("#panier-container");
+    if (!container) return; // Évite les erreurs sur les pages sans panier
 
-            const response = await fetch(`/panier/add/${id}`, {
-                method: 'POST'
-            });
+    fetch('/panier')
+        .then(r => r.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
 
-            const data = await response.json();
-
-            if (data.success) {
-                document.getElementById('panier-count').textContent = data.total;
+            const newContent = doc.querySelector("#panier-container");
+            if (newContent) {
+                container.innerHTML = newContent.innerHTML;
             }
-        });
-    });
+        })
+        .catch(err => console.error("Erreur refreshPanier :", err));
+}
 
-    // --- SUPPRESSION DU PANIER ---
-    document.querySelectorAll('.remove-from-cart').forEach(button => {
-        button.addEventListener('click', async () => {
-            const id = button.dataset.id;
+function addToCart(id) {
+    fetch(`/api/panier/add/${id}`, { method: "POST" })
+        .then(r => r.json())
+        .then(data => {
 
-            const response = await fetch(`/panier/remove/${id}`, {
-                method: 'POST'
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                document.getElementById('panier-count').textContent = data.total;
+            // 1️⃣ Mise à jour badge header
+            const badge = document.querySelector("#panier-count");
+            if (badge && data.count !== undefined) {
+                badge.textContent = data.count;
             }
+
+            // 2️⃣ Redirection vers panier
+            window.location.href = "/panier";
+        })
+        .catch(err => {
+            console.error("Erreur addToCart :", err);
+            alert("Impossible d’ajouter au panier.");
         });
-    });
+}
 
-});
+function updateQtt(ligneId, quantite) {
+    if (quantite <= 0) return deleteLine(ligneId);
 
+    fetch(`/api/panier/update/${ligneId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quantite })
+    })
+        .then(r => r.json())
+        .then(() => refreshPanier())
+        .catch(err => console.error("Erreur updateQtt :", err));
+}
 
-
+function deleteLine(ligneId) {
+    fetch(`/api/panier/delete/${ligneId}`, { method: "POST" })
+        .then(r => r.json())
+        .then(() => refreshPanier())
+        .catch(err => console.error("Erreur deleteLine :", err));
+}
 
