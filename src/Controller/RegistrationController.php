@@ -40,15 +40,22 @@ class RegistrationController extends AbstractController
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
+            // Donner le rôle ADMIN uniquement à ton email
+if ($user->getEmail() === "bintou@lectis.org") {
+    $user->setRoles(['ROLE_ADMIN']);
+} else {
+    $user->setRoles(['ROLE_USER']);
+}
+
             $entityManager->persist($user);
             $entityManager->flush();
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('syllabintou154@gmail.com', 'Bintou'))
+                    ->from(new Address('bintou@lectis.org', 'Bintou'))
                     ->to((string) $user->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->subject('Veuillez confirmer votre email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
@@ -79,7 +86,7 @@ class RegistrationController extends AbstractController
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('success', 'Votre adresse mail a bien été vérifiée');
 
         return $this->redirectToRoute('app_register');
     }

@@ -72,6 +72,7 @@
         <div class="mt-4 space-y-1">
             <p>Auteur : {{ livre.auteur }}</p>
             <p>Maison d'édition : {{ livre.editeur }}</p>
+            <p>Date de publication : {{ livre.datePublication|date('d/m/Y') }}</p>
             <p>Langue : Français</p>
             <p>Nombre de pages : {{ livre.nbPages }} pages</p>
         </div>

@@ -27,8 +27,8 @@ class Livres
     #[ORM\Column(type: Types::TEXT)]
     private ?string $resume = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $datePublication = null;
+    #[ORM\Column(type: 'string', length: 50, nullable: true)]
+    private ?string $datePublication = null;
 
     #[ORM\Column]
     private ?int $nbPages = null;
@@ -112,12 +112,12 @@ class Livres
         return $this;
     }
 
-    public function getDatePublication(): ?\DateTimeImmutable
+    public function getDatePublication(): ?string
     {
         return $this->datePublication;
     }
 
-    public function setDatePublication(\DateTimeImmutable $datePublication): static
+    public function setDatePublication( $datePublication): static
     {
         $this->datePublication = $datePublication;
 

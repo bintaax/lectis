@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un livre{% endblock %}
+
+{% block body %}
+<div class="mt-20 px-10">
+
+    <h1 class="text-3xl font-bold mb-6">➕ Ajouter un nouveau livre</h1>
+
+    {{ form_start(form, { 'attr': { 'enctype': 'multipart/form-data' } }) }}
+
+        <div class="grid grid-cols-2 gap-6">
+            {{ form_row(form.titre) }}
+            {{ form_row(form.auteur) }}
+            {{ form_row(form.genre) }}
+            {{ form_row(form.slug) }}
+            {{ form_row(form.editeur) }}
+            {{ form_row(form.langue) }}
+            {{ form_row(form.nbPages) }}
+            {{ form_row(form.ageAutorise) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.photo) }}
+        </div>
+
+        <button class="mt-6 bg-blue-600 text-white px-6 py-2 rounded">
+            Ajouter le livre
+        </button>
+
+    {{ form_end(form) }}
+
+</div>
+{% endblock %}
