@@ -35,7 +35,8 @@
 
                         <p class="mt-2">
                             Sous-total :
-                            <strong>{{ ligne.livre.prix * ligne.quantite }} €</strong>
+                            
+                            <strong>{{ (ligne.livre.prix * ligne.quantite)|number_format(2, ',', ' ') }} €</strong>
                         </p>
                     </div>
 
@@ -47,7 +48,7 @@
             {% endfor %}
 
             <div class="text-right text-2xl font-bold mt-8">
-                Total : {{ total }} €
+                Total : {{ (total) |number_format(2, ',', ' ') }} €
             </div>
             <button class="text-white w-full mt-5">Valider la commande</button>
         {% endif %}

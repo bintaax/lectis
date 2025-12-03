@@ -42,9 +42,9 @@ final class PanierController extends AbstractController
         $total = 0;
 
         foreach ($lignes as $ligne) {
-            $total += $ligne->getLivre()->getPrix() * $ligne->getQuantite();
+            $total += (float) $ligne->getLivre()->getPrix() * $ligne->getQuantite();
         }
-
+        
         return $this->render('panier/index.html.twig', [
             'panier' => $panier,
             'lignes' => $lignes,

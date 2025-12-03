@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+<div class="mt-20 px-10 max-w-2xl mx-auto">
+
+    <h1 class="text-4xl font-bold text-bluegray-dark mb-8 text-center">Contactez-nous</h1>
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="bg-green-200 text-green-700 px-4 py-2 rounded mb-4">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {{ form_start(form) }}
+
+        <div class="space-y-4">
+            {{form_row(form.field_name)}}
+            {{form_row(form.field_surname)}}
+            {{ form_row(form.email) }}
+            {{ form_row(form.objet) }}
+            {{ form_row(form.message) }}
+        </div>
+
+        <button class="mt-6 text-white px-6 py-2 rounded w-full">
+            Envoyer
+        </button>
+
+    {{ form_end(form) }}
+
+</div>
+{% endblock %}

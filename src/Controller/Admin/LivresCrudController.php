@@ -42,6 +42,8 @@ class LivresCrudController extends AbstractCrudController
         IntegerField::new('nbPages'),
         IntegerField::new('ageAutorise'),
         TextareaField::new('resume'),
+            BooleanField::new('isBestSeller')
+    ->setLabel('Best Seller ?'),
 
         ImageField::new('photo')
             ->setBasePath('/assets/img')

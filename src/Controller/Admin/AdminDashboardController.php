@@ -40,6 +40,8 @@ class AdminDashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToCrud('Livres', 'fas fa-book', Livres::class);
+       
+
 
     }
 }
