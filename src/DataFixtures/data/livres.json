@@ -10,7 +10,7 @@
     "photo": "femme-menage-1.jpg",
     "disponibilite": true,
     "ageAutorise": 16,
-    "genre": "Thriller",
+    "genre": "Policier",
     "isBestSeller": true
   },
   {
@@ -532,7 +532,7 @@
     "resume": "Ju-Kyeong souffre du regard des autres à cause de son visage disgracieux. Victime de harcèlement au collège, elle va profiter de son passage au lycée pour changer son apparence à l'aide de tutos en ligne. Devenue une experte en maquillage, elle rentre au lycée en étant considérée comme la plus jolie fille de l'école. Mais combien de temps pourra-t-elle garder le secret sur sa véritable apparence ?",   
     "datePublication": "2021-09-08",  
     "nbPages": 240, 
-    "prix": 240,
+    "prix": 14.95,
     "photo": "true-beauty.jpg",
     "disponibilite": true,
     "ageAutorise": 0,
@@ -564,7 +564,7 @@
     "photo": "couple-cote.jpg",
     "disponibilite": true,
     "ageAutorise": 16,
-    "genre": "Thriller",
+    "genre": "Policier",
     "isBestSeller": false
   },
     {
@@ -578,7 +578,7 @@
     "photo": "secondes-noces.jpg",
     "disponibilite": true,
     "ageAutorise": 16,
-    "genre": "Thriller",
+    "genre": "Policier",
     "isBestSeller": false
   },
       {
@@ -592,7 +592,7 @@
     "photo": "invitee-particuliere.webp",
     "disponibilite": true,
     "ageAutorise": 16,
-    "genre": "Thriller",
+    "genre": "Policier",
     "isBestSeller": false
   },
       {
@@ -606,21 +606,21 @@
     "photo": "chirurgienne.webp",
     "disponibilite": true,
     "ageAutorise": 16,
-    "genre": "Thriller",
+    "genre": "Policier",
     "isBestSeller": false
   },
       {
     "titre": "Mémoires d'un expert psychiatre",
     "auteur": "Angelina Delcroix",
     "editeur": "Hugo Poche",
-    "resume": "Adam Jacuri est expert psychiatre auprès de la Cour d'appel de Lyon. Arrivant en fin de carrière, il décide de confier ses mémoires à Jessie Maure, auteure de thrillers. Alors qu'il prend la décision de se retirer définitivement du circuit en allant vivre sa retraite en Bretagne près de la forêt de Huelgoat, des disparitions inquiétantes vont commencer à affoler la population locale. Adam soupçonne un ancien patient et craint pour sa propre vie, mais la gendarmerie ne le prend pas au sérieux. Alors, quand les premiers corps sont découverts, il décide d'enquêter seul dans cette région vaste et mystérieuse. Alternant entre souvenirs criminels, maladies mentales, et conséquences personnelles et familiales d'un tel métier, ce thriller nous entraîne dans les coulisses des unités pour malades difficiles et dans les labyrinthes psychiques qu'un expert est censé parcourir.",   
+    "resume": "Adam Jacuri est expert psychiatre auprès de la Cour d'appel de Lyon. Arrivant en fin de carrière, il décide de confier ses mémoires à Jessie Maure, auteure de Policiers. Alors qu'il prend la décision de se retirer définitivement du circuit en allant vivre sa retraite en Bretagne près de la forêt de Huelgoat, des disparitions inquiétantes vont commencer à affoler la population locale. Adam soupçonne un ancien patient et craint pour sa propre vie, mais la gendarmerie ne le prend pas au sérieux. Alors, quand les premiers corps sont découverts, il décide d'enquêter seul dans cette région vaste et mystérieuse. Alternant entre souvenirs criminels, maladies mentales, et conséquences personnelles et familiales d'un tel métier, ce Policier nous entraîne dans les coulisses des unités pour malades difficiles et dans les labyrinthes psychiques qu'un expert est censé parcourir.",   
     "datePublication": "2024-10-02",  
     "nbPages": 608, 
     "prix": 8.90,
     "photo": "memoires-psychiatre.webp",
     "disponibilite": false,
     "ageAutorise": 16,
-    "genre": "Thriller",
+    "genre": "Policier",
     "isBestSeller": false
   },
      {
@@ -634,7 +634,7 @@
     "photo": "personne-ne-doit-savoir.webp",
     "disponibilite": true,
     "ageAutorise": 16,
-    "genre": "Thriller",
+    "genre": "Policier",
     "isBestSeller": false
   },
      {
@@ -648,7 +648,7 @@
     "photo": "ils-etaient-dix.jpg",
     "disponibilite": true,
     "ageAutorise": 16,
-    "genre": "Thriller",
+    "genre": "Policier",
     "isBestSeller": false
   },
        {

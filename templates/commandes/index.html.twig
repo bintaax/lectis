@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre commande{% endblock %}
+
+{% block body %}
+
+<div class="mt-16 md:mt-24 max-w-4xl mx-auto px-4 sm:px-6">
+
+    <!-- Titre -->
+    <h1 class="text-3xl sm:text-4xl font-bold mb-8 text-bluegray-dark">
+        🧾 Récapitulatif de votre commande
+    </h1>
+
+    <!-- Carte recap -->
+    <div class="bg-white shadow-lg rounded-xl p-5 sm:p-8 mb-10 border-gray-200">
+
+        {% for ligne in lignes %}
+            <div class="grid grid-cols-1 sm:flex sm:justify-between sm:items-center py-4  last:border-none gap-2">
+
+                <div>
+                    <p class="font-semibold text-lg leading-tight">
+                        {{ ligne.livre.titre }}
+                    </p>
+                    <p class="text-sm text-gray-500">
+                        Quantité : {{ ligne.quantite }}
+                    </p>
+                </div>
+
+                <p class="font-bold text-bluegray-dark text-lg sm:text-right">
+                    {{ (ligne.livre.prix * ligne.quantite) | number_format(2, ',', ' ') }} €
+                </p>
+            </div>
+        {% endfor %}
+
+        <div class="text-right mt-6 pt-4 border-t">
+            <p class="text-xl sm:text-2xl font-bold">
+                Total :
+                <span>
+                    {{ total | number_format(2, ',', ' ') }} €
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Paiement -->
+    <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+        💳 Choisissez votre moyen de paiement
+    </h2>
+
+    <div class="bg-white shadow-md rounded-xl p-5 sm:p-6 border border-gray-200">
+
+        {{ form_start(form) }}
+
+            <div class="space-y-4">
+                {{ form_widget(form) }}
+            </div>
+
+            <button class="mt-6 w-full transition text-white font-semibold py-3 rounded-xl shadow">
+                Continuer vers le paiement →
+            </button>
+
+        {{ form_end(form) }}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+

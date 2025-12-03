@@ -38,7 +38,7 @@ class LivreFixtures extends Fixture implements DependentFixtureInterface
             $livre->setAuteur($item['auteur']);
             $livre->setEditeur($item['editeur']);
             $livre->setResume($item['resume']);
-            $livre->setDatePublication(new \DateTimeImmutable($item['datePublication']));
+            $livre->setDatePublication(($item['datePublication']));
             $livre->setNbPages($item['nbPages']);
             $livre->setPrix($item['prix']);
             $livre->setPhoto($item['photo']);

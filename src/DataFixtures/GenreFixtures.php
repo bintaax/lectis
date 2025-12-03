@@ -15,7 +15,7 @@ class GenreFixtures extends Fixture
         'BD/Mangas',
         'Fantasy',
         'Horreur',
-        'Thriller'
+        'Policier'
     ];
 
     public function load(ObjectManager $manager): void

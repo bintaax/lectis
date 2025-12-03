@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Panier;
+use App\Entity\Utilisateurs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 
 /**
  * @extends ServiceEntityRepository<Panier>
@@ -24,7 +26,7 @@ class PanierRepository extends ServiceEntityRepository
     // Si pas trouvé → on le crée
     if (!$panier) {
         $panier = new Panier();
-        $panier->setUtilisateursId($user);
+        $panier->setUtilisateur($user);
         $panier->setCreatedAt(new \DateTime());
 
         $em->persist($panier);
@@ -33,5 +35,17 @@ class PanierRepository extends ServiceEntityRepository
 
     return $panier;
 }
+
+// Badge du panier
+public function countByUser($user): int
+{
+    return $this->createQueryBuilder('p')
+        ->select('SUM(p.quantite)')
+        ->andWhere('p.user = :user')
+        ->setParameter('user', $user)
+        ->getQuery()
+        ->getSingleScalarResult();
+}
+
 
 }
