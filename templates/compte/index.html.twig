@@ -29,7 +29,7 @@
     {# Résumé utilisateur #}
     <div class="bg-white shadow-md rounded-xl p-6 mb-8 border border-gray-200 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <p class="text-sm text-gray-500">Connecté en tant que</p>
+            <p class="text-sm text-gray-500">Connecté(e) en tant que</p>
             <p class="text-xl font-semibold">
                 {{ app.user.prenom ?? app.user.nom ?? app.user.email }}
             </p>
@@ -47,10 +47,10 @@
         <button data-tab="profil" class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg bg-white border border-b-0 border-gray-200">
             Infos personnelles
         </button>
-        <button data-tab="adresse" class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg text-gray-600 hover:text-gray-800">
+        <button data-tab="adresse" class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg hover:text-gray-800">
             Adresse de livraison
         </button>
-        <button data-tab="commandes" class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg text-gray-600 hover:text-gray-800">
+        <button data-tab="commandes" class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg  hover:text-gray-800">
             Mes commandes
         </button>
     </div>
