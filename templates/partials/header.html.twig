@@ -82,13 +82,13 @@
 <!-- MENU MOBILE EN DEHORS DU HEADER -->
 <nav id="mobile-menu" class="hidden md:hidden border-t border-gray-200 w-full" style="background-color:#CDD6E2;">
   <ul class="flex flex-col items-center gap-4 py-4">
-    <li><a class="text-gray-600 hover:text-[#664B4E]" href="{{ path('app_home') }}">Accueil</a></li>
-    <li><a class="text-gray-600 hover:text-[#664B4E]" href="{{ path('app_livres') }}">Catalogue</a></li>
-    <li><a class="text-gray-600 hover:text-[#664B4E]" href="{{ path('app_contact') }}">Contact</a></li>
+    <li><a class="hover:underline" href="{{ path('app_home') }}">Accueil</a></li>
+    <li><a class="hover:underline" href="{{ path('app_livres') }}">Catalogue</a></li>
+    <li><a class="hover:underline" href="{{ path('app_contact') }}">Contact</a></li>
 
     {% if app.user %}
-      <li><a class="text-gray-600 hover:text-[#664B4E]" href="{{path('app_compte')}}">Mon compte</a></li>
-      <li><a class="text-gray-600 hover:text-[#664B4E]" href="{{ path('app_panier') }}">Mon panier</a></li>
+      <li><a class="hover:underline" href="{{path('app_compte')}}">Mon compte</a></li>
+      <li><a class="hover:underline" href="{{ path('app_panier') }}">Mon panier</a></li>
 
     {% else %}
 
