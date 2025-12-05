@@ -1,70 +1,71 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Votre commande{% endblock %}
+{% block title %}Finaliser ma commande{% endblock %}
 
 {% block body %}
 
-<div class="mt-16 md:mt-24 max-w-4xl mx-auto px-4 sm:px-6">
+<div class="mt-20 max-w-4xl mx-auto px-6">
 
-    <!-- Titre -->
-    <h1 class="text-3xl sm:text-4xl font-bold mb-8 text-bluegray-dark">
-        🧾 Récapitulatif de votre commande
+    <!-- TITRE -->
+    <h1 class="text-3xl sm:text-4xl font-bold mb-10 text-blue-800">
+        Finaliser ma commande
     </h1>
 
-    <!-- Carte recap -->
-    <div class="bg-white shadow-lg rounded-xl p-5 sm:p-8 mb-10 border-gray-200">
+    <!-- RÉCAP PANIER -->
+    <div class="bg-white shadow-lg rounded-xl p-6 mb-10 border border-gray-200">
+        <h2 class="text-2xl font-semibold mb-4">Récapitulatif</h2>
 
         {% for ligne in lignes %}
-            <div class="grid grid-cols-1 sm:flex sm:justify-between sm:items-center py-4  last:border-none gap-2">
-
+            <div class="flex justify-between items-center border-b py-3 last:border-none">
                 <div>
-                    <p class="font-semibold text-lg leading-tight">
-                        {{ ligne.livre.titre }}
-                    </p>
-                    <p class="text-sm text-gray-500">
-                        Quantité : {{ ligne.quantite }}
-                    </p>
+                    <p class="font-semibold text-lg">{{ ligne.livre.titre }}</p>
+                    <p class="text-sm text-gray-500">Quantité : {{ ligne.quantite }}</p>
                 </div>
 
-                <p class="font-bold text-bluegray-dark text-lg sm:text-right">
+                <p class="font-bold text-blue-800">
                     {{ (ligne.livre.prix * ligne.quantite) | number_format(2, ',', ' ') }} €
                 </p>
             </div>
         {% endfor %}
 
-        <div class="text-right mt-6 pt-4 border-t">
-            <p class="text-xl sm:text-2xl font-bold">
-                Total :
-                <span>
-                    {{ total | number_format(2, ',', ' ') }} €
-                </span>
-            </p>
+        <div class="text-right mt-6 text-xl font-bold text-gray-800">
+            Total : {{ total | number_format(2, ',', ' ') }} €
         </div>
     </div>
 
-    <!-- Paiement -->
-    <h2 class="text-xl sm:text-2xl font-semibold mb-4">
-        💳 Choisissez votre moyen de paiement
-    </h2>
+    <!-- INFORMATIONS CLIENT -->
+    <div class="bg-white shadow-lg rounded-xl p-6 mb-10 border border-gray-200">
+        <h2 class="text-2xl font-semibold mb-4">Vos informations personnelles</h2>
 
-    <div class="bg-white shadow-md rounded-xl p-5 sm:p-6 border border-gray-200">
+        <p><strong>Nom :</strong> {{ app.user.nom }}</p>
+        <p><strong>Prénom :</strong> {{ app.user.prenom }}</p>
+        <p><strong>Email :</strong> {{ app.user.email }}</p>
+    </div>
+
+    <!-- FORMULAIRE : ADRESSE + PAIEMENT -->
+    <div class="bg-white shadow-lg rounded-xl p-6 mb-10 border border-gray-200">
+        <h2 class="text-2xl font-semibold mb-6">Adresse & Paiement</h2>
 
         {{ form_start(form) }}
 
-            <div class="space-y-4">
-                {{ form_widget(form) }}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {{ form_row(form.adresse) }}
+                {{ form_row(form.codePostal) }}
+                {{ form_row(form.ville) }}
             </div>
 
-            <button class="mt-6 w-full transition text-white font-semibold py-3 rounded-xl shadow">
-                Continuer vers le paiement →
+            <div class="mt-8">
+                <h3 class="text-xl font-semibold mb-3">Méthode de paiement</h3>
+                {{ form_row(form.paiement) }}
+            </div>
+
+            <button class="mt-8 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow">
+                Valider ma commande
             </button>
 
         {{ form_end(form) }}
-
     </div>
 
 </div>
 
 {% endblock %}
-
-

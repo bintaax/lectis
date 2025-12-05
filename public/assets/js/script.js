@@ -2,13 +2,24 @@
 
 // Menu burger
 
- const menuButton = document.querySelector("button");
-  const mobileMenu = document.getElementById("mobile-menu");
+document.addEventListener("DOMContentLoaded", () => {
+    const menuToggle = document.getElementById("menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
 
-  menuButton.addEventListener("click", () => {
-    mobileMenu.classList.toggle("hidden");
-    
-  });
+    if (!menuToggle) {
+        console.error("menu-toggle introuvable");
+        return;
+    }
+
+    if (!mobileMenu) {
+        console.error("mobile-menu introuvable");
+        return;
+    }
+
+    menuToggle.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+    });
+});
 
 // Flèches du catalogue
     function scrollLeft(id) {

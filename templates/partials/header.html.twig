@@ -11,7 +11,7 @@
 
 <header class="relative">
 
-  <div class="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
+  <div class="mx-auto flex h-16 items-center gap-8 px-4 sm:px-6 lg:px-8">
 
     <a class="block" href="#">
       <img src="{{ asset('assets/img/logo-nonebackground.png') }}" alt="Logo" style="width: 150px;">
@@ -33,18 +33,25 @@
 
           {% if app.user %}
 
-            <!-- 🛒 PANIER -->
-            <a href="{{ path('app_panier') }}" class="relative">
-              <i class="fa-solid fa-basket-shopping md:text-3xl"
-                 style="color:#7B8A9A;font-size:30px;"></i>
-            </a>
-
-            <!-- 👤 MON COMPTE -->
-            <a {# href="{{ path('app_account') }}" #}
+          <!-- Faire apparaîre les icônes uniquement en version ordinateur -->
+        <div class="hidden md:flex gap-4">
+             <!-- 👤 MON COMPTE -->
+            <a href="{{ path('app_compte') }}"
                class="text-[#7B8A9A]">
-              <i class="fa-solid fa-user md:text-3xl" style="color:#7B8A9A;font-size:30px;"></i>
+              <i class="fa-solid fa-user md:text-3xl" style="color:#7B8A9A;font-size:30px;">
+              </i>
             </a>
 
+             <!-- 🛒 PANIER -->
+           <a href="{{ path('app_panier') }}" class="relative">
+              <i class="fa-solid fa-cart-shopping md:text-3xl"
+                 style="color:#7B8A9A;font-size:30px;"></i>
+            </a> 
+
+        
+        </div>
+
+  
             <!-- 🔓 SE DÉCONNECTER -->
         
               <button class="px-3 py-1.5 md:px-4 md:py-2
@@ -57,56 +64,37 @@
           {% else %}
 
             <!-- 🔐 SE CONNECTER -->
-           <button> <a href="{{ path('app_login') }}" class="px-4 py-2 text-white">
+           <button> <a href="{{ path('app_login') }}" class="px-4 py-2 text-white md:text-xl">
               Se connecter
             </a></button>
 
           {% endif %}
         </div>
 
-        <!-- BOUTON BURGER (mobile) -->
-        <button id="menu-toggle"
-                class="block rounded-sm bg-gray-100 p-2.5 text-gray-600 hover:text-gray-600/75 md:hidden">
-          <span class="sr-only">Toggle menu</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
-               viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
+       <button id="menu-toggle"
+        class="block rounded-sm bg-gray-100 p-2.5 text-gray-600 hover:text-gray-600/75 md:hidden">
+          <i class="fa-solid fa-bars"></i>
+      </button>
 
-      </div>
-    </div>
-  </div>
 
-  <!-- Menu mobile -->
-  <nav id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
-    <ul class="flex flex-col items-center gap-4 py-4">
-      <li><a class="text-gray-600 hover:text-[#664B4E]" href="{{ path('app_home') }}">Accueil</a></li>
-      <li><a class="text-gray-600 hover:text-[#664B4E]" href="{{ path('app_livres') }}">Catalogue</a></li>
-      <li><a class="text-gray-600 hover:text-[#664B4E]" href="{{path('app_contact')}}">Contact</a></li>
-
-      {% if app.user %}
-        <li>
-          <a class="text-gray-600 hover:text-[#664B4E]" href="{{ path('app_panier') }}">
-            🛒 Mon panier
-          </a>
-        </li>
-
-        <li>
-          <a class="text-gray-600 hover:text-[#664B4E]" {# href="{{ path('app_account') }}" #}>
-            Mon compte
-          </a>
-        </li>
-      {% else %}
-        <li>
-          <a class="text-gray-600 hover:text-[#664B4E]" href="{{ path('app_login') }}">
-            Se connecter
-          </a>
-        </li>
-      {% endif %}
-    </ul>
-  </nav>
 
 </header>
+</header>
+
+<!-- MENU MOBILE EN DEHORS DU HEADER -->
+<nav id="mobile-menu" class="hidden md:hidden border-t border-gray-200 w-full" style="background-color:#CDD6E2;">
+  <ul class="flex flex-col items-center gap-4 py-4">
+    <li><a class="text-gray-600 hover:text-[#664B4E]" href="{{ path('app_home') }}">Accueil</a></li>
+    <li><a class="text-gray-600 hover:text-[#664B4E]" href="{{ path('app_livres') }}">Catalogue</a></li>
+    <li><a class="text-gray-600 hover:text-[#664B4E]" href="{{ path('app_contact') }}">Contact</a></li>
+
+    {% if app.user %}
+      <li><a class="text-gray-600 hover:text-[#664B4E]" href="{{path('app_compte')}}">Mon compte</a></li>
+      <li><a class="text-gray-600 hover:text-[#664B4E]" href="{{ path('app_panier') }}">Mon panier</a></li>
+
+    {% else %}
+
+    {% endif %}
+  </ul>
+</nav>
 
