@@ -6,7 +6,7 @@
 
 <section class="mt-20 px-6 md:px-20">
     
-    <a href="{{ path('app_livres') }}" class="font-semibold underline mb-6 inline-block">
+    <a href="{{ path('app_livres') }}" class="font-semibold mb-6 inline-block hover:text-[#293a49] hover:underline">
         <i class="fa-solid fa-arrow-down fa-rotate-90 text-sm"></i> Retour au catalogue
     </a>
 
@@ -47,7 +47,7 @@
 
             {% if livre.disponibilite %}
                 <button onclick="addToCart({{ livre.id }})"
-                        class="text-white px-5 py-2 rounded">
+                        class="text-white px-5 py-2 rounded hover:bg-[#293a49]">
                     Ajouter au panier 
                     <i class="fa-solid fa-basket-shopping text-white"></i>
                 </button>

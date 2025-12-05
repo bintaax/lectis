@@ -10,7 +10,8 @@
   --bluegray-medium:  #CDD6E2; /* Sections secondaires */
   --bluegray-deep:    #7B8A9A; /* Icônes, contours, bordures */
   --bluegray-dark:    #2E3A45; /* Texte */
-  --bluegray-accent:  #3F5366; /* Boutons, hover */
+  --bluegray-accent:  #3F5366; /* Boutons */
+  --bluegray-hover : #293a49;
   
   --neutral-white:    #FFFFFF;
   --neutral-light:    #F7F9FC;

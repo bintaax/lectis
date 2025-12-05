@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 </head>
 
-<header class="relative">
+<header class="{# sticky top-0 bg-[#CDD6E2] #} relative">
 
   <div class="mx-auto flex h-16 items-center gap-8 px-4 sm:px-6 lg:px-8">
 
@@ -22,9 +22,9 @@
       <!-- Menu desktop -->
       <nav aria-label="Global" class="hidden md:block">
         <ul class="flex items-center gap-6 text-sm">
-          <li><a href="{{ path('app_home') }}">Accueil</a></li>
-          <li><a href="{{ path('app_livres') }}">Catalogue</a></li>
-          <li><a href="{{path('app_contact')}}">Contact</a></li>
+          <li><a href="{{ path('app_home') }}" class="hover:text-[#293a49] hover:underline">Accueil</a></li>
+          <li><a href="{{ path('app_livres') }}"class="hover:text-[#293a49] hover:underline">Catalogue</a></li>
+          <li><a href="{{path('app_contact')}}" class="hover:text-[#293a49] hover:underline">Contact</a></li>
         </ul>
       </nav>
 
@@ -36,16 +36,14 @@
           <!-- Faire apparaîre les icônes uniquement en version ordinateur -->
         <div class="hidden md:flex gap-4">
              <!-- 👤 MON COMPTE -->
-            <a href="{{ path('app_compte') }}"
-               class="text-[#7B8A9A]">
-              <i class="fa-solid fa-user md:text-3xl" style="color:#7B8A9A;font-size:30px;">
+            <a href="{{ path('app_compte') }}">
+              <i class="fa-solid fa-user md:text-3xl hover:text-[#293a49]">
               </i>
             </a>
 
              <!-- 🛒 PANIER -->
            <a href="{{ path('app_panier') }}" class="relative">
-              <i class="fa-solid fa-cart-shopping md:text-3xl"
-                 style="color:#7B8A9A;font-size:30px;"></i>
+              <i class="fa-solid fa-cart-shopping md:text-3xl hover:text-[#293a49]"></i>
             </a> 
 
         
@@ -64,7 +62,7 @@
           {% else %}
 
             <!-- 🔐 SE CONNECTER -->
-           <button> <a href="{{ path('app_login') }}" class="px-4 py-2 text-white md:text-xl">
+           <button class="hover:bg-[#293a49]"> <a href="{{ path('app_login') }}" class="px-4 py-2 text-white md:text-xl">
               Se connecter
             </a></button>
 

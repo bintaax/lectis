@@ -39,7 +39,7 @@
 
                 {% for livre in livres %}
 
-                    <div class="bg-neutral-primary-soft p-4 border border-default shadow-xs 
+                    <div class=" bg-white p-4 border border-default shadow-xs 
                                 rounded-xl 
                                 min-w-[160px] sm:min-w-[200px] md:min-w-[220px] lg:min-w-[240px]">
 
@@ -78,13 +78,11 @@
                         </div>
 
                         <!-- BOUTON DÉTAIL -->
-                        <a href="{{ path('app_detail', { slug: livre.slug }) }}"
-                           class="inline-flex items-center justify-center 
-                                  w-full px-4 py-2 text-white rounded-lg text-sm sm:text-base"
-                           style="background-color:#3F5366;">
+                        <button class="hover:bg-[#293a49]"><a href="{{ path('app_detail', { slug: livre.slug }) }}"
+                           class=" text-white">
                             Voir le détail
                             <i class="fa-solid fa-arrow-down fa-rotate-270 ml-2"></i>
-                        </a>
+                        </a></button>
 
                     </div>
 
