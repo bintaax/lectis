@@ -1,5 +1,3 @@
-
-{# templates/compte/index.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Mon espace personnel{% endblock %}
@@ -16,13 +14,13 @@
     {% for type, messages in app.flashes %}
         {% for message in messages %}
             <div class="mb-4 rounded-lg border px-4 py-3
-                        {% if type == 'success' %}
-                            border-green-200 bg-green-50 text-green-800
-                        {% elseif type == 'error' %}
-                            border-red-200 bg-red-50 text-red-800
-                        {% else %}
-                            border-blue-200 bg-blue-50 text-blue-800
-                        {% endif %}">
+                {% if type == 'success' %}
+                    border-green-200 bg-green-50 text-green-800
+                {% elseif type == 'error' %}
+                    border-red-200 bg-red-50 text-red-800
+                {% else %}
+                    border-blue-200 bg-blue-50 text-blue-800
+                {% endif %}">
                 {{ message }}
             </div>
         {% endfor %}
@@ -38,16 +36,13 @@
             <p class="text-sm text-gray-500">Email : {{ app.user.email }}</p>
         </div>
 
-        <div class="flex gap-4">
-            <div class="text-center">
-                <p class="text-sm text-gray-500">Nombre de commandes</p>
-                <p class="text-2xl font-bold">{{ commandes|length }}</p>
-            </div>
-            {# Tu peux ajouter d'autres stats si tu veux #}
+        <div class="text-center">
+            <p class="text-sm text-gray-500">Nombre de commandes</p>
+            <p class="text-2xl font-bold">{{ commandes|length }}</p>
         </div>
     </div>
 
-    {# Onglets (en CSS pur, simple) #}
+    {# Onglets #}
     <div class="mb-6 border-b border-gray-200 flex flex-wrap gap-2">
         <button data-tab="profil" class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg bg-white border border-b-0 border-gray-200">
             Infos personnelles
@@ -58,57 +53,46 @@
         <button data-tab="commandes" class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg text-gray-600 hover:text-gray-800">
             Mes commandes
         </button>
-        <button data-tab="password" class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg text-gray-600 hover:text-gray-800">
-            Mot de passe
-        </button>
     </div>
 
-    {# CONTENU DES ONGLES #}
-
-    {# 1. INFOS PERSONNELLES #}
+    {# 1. INFOS PERSONNELLES (AFFICHAGE SEULEMENT) #}
     <section id="tab-profil" class="tab-panel bg-white shadow-md rounded-xl p-6 border border-gray-200">
         <h2 class="text-2xl font-semibold mb-4">Mes informations personnelles</h2>
-        <p class="text-sm text-gray-500 mb-4">
-            Modifiez vos informations personnelles (nom, prénom, email, etc.).
+
+        <p class="text-gray-700"><strong>Prénom :</strong> {{ app.user.prenom }}</p>
+        <p class="text-gray-700"><strong>Nom :</strong> {{ app.user.nom }}</p>
+        <p class="text-gray-700"><strong>Email :</strong> {{ app.user.email }}</p>
+
+        <p class="text-sm text-gray-500 mt-4">
+            Si vous souhaitez modifier vos informations, merci de contacter le support.
         </p>
-
-        {{ form_start(profilForm) }}
-            <div class="grid gap-4 md:grid-cols-2">
-                {{ form_row(profilForm.prenom) }}
-                {{ form_row(profilForm.nom) }}
-                {{ form_row(profilForm.email) }}
-                {# Ajoute d'autres champs si besoin #}
-            </div>
-
-            <button class="mt-6 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2 text-sm font-medium text-white hover:bg-blue-700">
-                Enregistrer les modifications
-            </button>
-        {{ form_end(profilForm) }}
     </section>
 
     {# 2. ADRESSE DE LIVRAISON #}
     <section id="tab-adresse" class="tab-panel hidden bg-white shadow-md rounded-xl p-6 border border-gray-200">
-        <h2 class="text-2xl font-semibold mb-4">Adresse de livraison</h2>
-        <p class="text-sm text-gray-500 mb-4">
-            Enregistrez ou modifiez votre adresse de livraison pour vos prochaines commandes.
-        </p>
+    <h2 class="text-2xl font-semibold mb-4">Adresse de livraison</h2>
 
+    {% if adresseForm is defined and adresseForm %}
         {{ form_start(adresseForm) }}
-            <div class="grid gap-4 md:grid-cols-2">
-                {{ form_row(adresseForm.rue) }}
-                {{ form_row(adresseForm.complement) }}
-                {{ form_row(adresseForm.codePostal) }}
-                {{ form_row(adresseForm.ville) }}
-                {{ form_row(adresseForm.pays) }}
-            </div>
 
-            <button class="mt-6 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2 text-sm font-medium text-white hover:bg-blue-700">
-                Enregistrer l'adresse
-            </button>
+        <div class="grid gap-4 md:grid-cols-2">
+            {{ form_row(adresseForm.adresse) }}
+            {{ form_row(adresseForm.codePostal) }}
+            {{ form_row(adresseForm.ville) }}
+        </div>
+
+        <button class="mt-6 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2 text-sm font-medium text-white hover:bg-blue-700">
+            Enregistrer l'adresse
+        </button>
+
         {{ form_end(adresseForm) }}
-    </section>
+    {% else %}
+        <p class="text-gray-500">Aucun formulaire d'adresse n'est configuré pour l'instant.</p>
+    {% endif %}
+</section>
 
-    {# 3. MES COMMANDES #}
+
+    {# 3. HISTORIQUE DES COMMANDES #}
     <section id="tab-commandes" class="tab-panel hidden bg-white shadow-md rounded-xl p-6 border border-gray-200">
         <h2 class="text-2xl font-semibold mb-4">Mes commandes</h2>
 
@@ -117,88 +101,50 @@
         {% else %}
             <div class="space-y-4">
                 {% for commande in commandes %}
-                    <div class="border border-gray-200 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                        <div>
-                            <p class="text-sm text-gray-500">
-                                Commande n° <span class="font-semibold">{{ commande.id }}</span>
-                            </p>
-                            <p class="text-sm text-gray-500">
-                                Date : {{ commande.createdAt|date('d/m/Y H:i') }}
-                            </p>
-                            <p class="text-sm text-gray-500">
-                                Statut : <span class="font-semibold">{{ commande.statut|title }}</span>
-                            </p>
-                            <p class="text-sm text-gray-500">
-                                Total : <span class="font-semibold">
-                                    {{ commande.total|number_format(2, ',', ' ') }} €
-                                </span>
-                            </p>
-                        </div>
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <p class="text-sm text-gray-500">
+                            Commande n° <strong>{{ commande.id }}</strong>
+                        </p>
 
-                        <div class="flex gap-2">
-                            <a href="{{ path('app_commande_detail', { id: commande.id }) }}"
-                               class="inline-flex items-center rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                                Voir le détail
-                            </a>
-                            {# Ajoute un bouton pour télécharger la facture si tu as une route #}
-                            {# <a href="{{ path('app_commande_facture', { id: commande.id }) }}" class="...">Facture</a> #}
-                        </div>
+                        <p class="text-sm text-gray-500">
+                            Statut : <strong>{{ commande.statut.value|title }}</strong>
+                        </p>
+
+                        <p class="text-sm text-gray-500">
+                            Total : <strong>{{ commande.total|number_format(2, ',', ' ') }} €</strong>
+                        </p>
+{# 
+                        <a href="{{ path('app_commande_detail', { id: commande.id }) }}"
+                           class="inline-flex items-center mt-2 rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Voir le détail
+                        </a> #}
                     </div>
                 {% endfor %}
             </div>
         {% endif %}
     </section>
-
-    {# 4. CHANGEMENT DE MOT DE PASSE #}
-    <section id="tab-password" class="tab-panel hidden bg-white shadow-md rounded-xl p-6 border border-gray-200">
-        <h2 class="text-2xl font-semibold mb-4">Modifier mon mot de passe</h2>
-        <p class="text-sm text-gray-500 mb-4">
-            Pour votre sécurité, choisissez un mot de passe long et unique.
-        </p>
-
-        {{ form_start(passwordForm) }}
-            <div class="grid gap-4 md:grid-cols-2">
-                {{ form_row(passwordForm.currentPassword) }}
-                {{ form_row(passwordForm.newPassword) }}
-                {{ form_row(passwordForm.confirmPassword) }}
-            </div>
-
-            <button class="mt-6 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2 text-sm font-medium text-white hover:bg-blue-700">
-                Mettre à jour mon mot de passe
-            </button>
-        {{ form_end(passwordForm) }}
-    </section>
 </div>
 
-{# Script ultra simple pour gérer les onglets #}
+{# Script des onglets #}
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const buttons = document.querySelectorAll('.tab-button');
-        const panels = document.querySelectorAll('.tab-panel');
+document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.tab-button');
+    const panels = document.querySelectorAll('.tab-panel');
 
-        function showTab(name) {
-            panels.forEach(panel => {
-                panel.classList.add('hidden');
-            });
-            document.getElementById('tab-' + name).classList.remove('hidden');
+    function showTab(name) {
+        panels.forEach(panel => panel.classList.add('hidden'));
+        document.getElementById('tab-' + name).classList.remove('hidden');
 
-            buttons.forEach(btn => {
-                btn.classList.remove('bg-white', 'border', 'border-b-0', 'border-gray-200');
-                btn.classList.add('text-gray-600');
-            });
-            const activeBtn = document.querySelector('[data-tab="' + name + '"]');
-            activeBtn.classList.add('bg-white', 'border', 'border-b-0', 'border-gray-200');
-            activeBtn.classList.remove('text-gray-600');
-        }
+        buttons.forEach(btn => btn.classList.remove('bg-white', 'border', 'border-b-0'));
+        const activeBtn = document.querySelector('[data-tab="' + name + '"]');
+        activeBtn.classList.add('bg-white', 'border', 'border-b-0');
+    }
 
-        buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                showTab(btn.getAttribute('data-tab'));
-            });
-        });
-
-        // Onglet par défaut
-        showTab('profil');
-    });
+    showTab('profil');
+    buttons.forEach(btn =>
+        btn.addEventListener('click', () => showTab(btn.getAttribute('data-tab')))
+    );
+});
 </script>
+
 {% endblock %}

@@ -27,8 +27,9 @@ class Commandes
     #[ORM\Column(length: 255)]
     private ?string $adresseLivraison = null;
 
-    #[ORM\Column(enumType: Paiement::class)]
-    private ?Paiement $paiement = null;
+ #[ORM\Column(length: 50)]
+private ?string $paiement = null;
+
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     private ?LigneCommande $ligneCommande = null;
@@ -91,7 +92,7 @@ class Commandes
         return $this->paiement;
     }
 
-    public function setPaiement(Paiement $paiement): static
+    public function setPaiement(string $paiement): static
     {
         $this->paiement = $paiement;
 

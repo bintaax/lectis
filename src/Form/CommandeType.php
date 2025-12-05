@@ -15,28 +15,26 @@ class CommandeType extends AbstractType
         $builder
             // Adresse
             ->add('adresse', TextType::class, [
-                'label' => 'Adresse de livraison'
+                'label' => 'Adresse de livraison',
+                'attr' => ['class' => 'border px-3 py-2 rounded w-full']
+
             ])
             ->add('codePostal', TextType::class, [
-                'label' => 'Code postal'
+                'label' => 'Code postal',
+                'attr' => ['class' => 'border px-3 py-2 rounded w-full']
             ])
             ->add('ville', TextType::class, [
-                'label' => 'Ville'
+                'label' => 'Ville',
+                'attr' => ['class' => 'border px-3 py-2 rounded w-full']
             ])
 
-            // Paiement : renvoie directement un Enum
-            ->add('paiement', ChoiceType::class, [
-                'label' => 'Méthode de paiement',
-                'choices' => Paiement::cases(),  // 🔥 toutes les valeurs de l’Enum
-                'choice_label' => function (?Paiement $choice) {
-                    return match ($choice) {
-                        Paiement::CB => 'Carte bancaire',
-                        Paiement::PAYPAL => 'PayPal',
-                        default => 'Autre'
-                    };
-                },
-                'expanded' => true,   // boutons radio
-                'multiple' => false,
-            ]);
-    }
-}
+          ->add('paiement', ChoiceType::class, [
+    'choices' => [
+        'Carte bancaire' => 'carte_bancaire',
+        'PayPal' => 'paypal',
+    ],
+    'expanded' => true,   // si tu veux afficher des boutons radio
+    'multiple' => false,
+]);
+
+}}

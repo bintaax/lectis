@@ -17,52 +17,52 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommandesController extends AbstractController
 {
     #[Route('/commande', name: 'app_commandes')]
-    public function commande(
-        PanierRepository $panierRepository,
-        Request $request
-    ){
+public function commande(
+    PanierRepository $panierRepository,
+    Request $request
+): Response {
 
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
+    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+    $user = $this->getUser();
 
-        $panier = $panierRepository->findOneBy(['utilisateur' => $user]);
+    $panier = $panierRepository->findOneBy(['utilisateur' => $user]);
 
-        if (!$panier || $panier->getLignePaniers()->isEmpty()) {
-            $this->addFlash('error', 'Votre panier est vide.');
-            return $this->redirectToRoute('app_panier');
-        }
-
-        // 🔥 Calcule le total
-        $total = 0;
-        foreach ($panier->getLignePaniers() as $ligne) {
-            $total += $ligne->getLivre()->getPrix() * $ligne->getQuantite();
-        }
-
-        // Formulaire global
-        $form = $this->createForm(CommandeType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $data = $form->getData();
-
-return $this->redirectToRoute('app_commande_valider', [
-    'data' => json_encode([
-        'adresse' => $data['adresse'],
-        'codePostal' => $data['codePostal'],
-        'ville' => $data['ville'],
-        'paiement' => $data['paiement']->value, // valeur string pour passer dans l'URL
-    ])
-]);
-
-
-        return $this->render('commandes/index.html.twig', [
-            'lignes' => $panier->getLignePaniers(),
-            'total' => $total,
-            'form' => $form->createView()
-        ]);
+    if (!$panier || $panier->getLignePaniers()->isEmpty()) {
+        $this->addFlash('error', 'Votre panier est vide.');
+        return $this->redirectToRoute('app_panier');
     }
+
+    // 🔥 Calcule le total
+    $total = 0;
+    foreach ($panier->getLignePaniers() as $ligne) {
+        $total += $ligne->getLivre()->getPrix() * $ligne->getQuantite();
+    }
+
+    // Formulaire global
+    $form = $this->createForm(CommandeType::class);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+        $data = $form->getData();
+
+        return $this->redirectToRoute('app_commande_valider', [
+            'data' => json_encode([
+                'adresse' => $data['adresse'],
+                'codePostal' => $data['codePostal'],
+                'ville' => $data['ville'],
+                'paiement' => $data['paiement'],
+            ])
+        ]);
+    } // ← ❗ ACOLADES CORRECTEMENT FERMÉE
+
+    return $this->render('commandes/index.html.twig', [
+        'lignes' => $panier->getLignePaniers(),
+        'total' => $total,
+        'form' => $form->createView()
+    ]);
 }
+
     #[Route('/commande/valider/{data}', name: 'app_commande_valider')]
     public function valider(
         string $data,
@@ -82,7 +82,7 @@ return $this->redirectToRoute('app_commande_valider', [
         $commande = new Commandes();
         $commande->setUtilisateurs($user);
         $commande->setStatut(Statut::EN_ATTENTE);
-        $commande->setPaiement(Paiement::from($data['paiement']));
+        $commande->setPaiement($data['paiement']);
         $commande->setAdresseLivraison(
             $data['adresse'] . ' ' . $data['codePostal'] . ' ' . $data['ville']
         );

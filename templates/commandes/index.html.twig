@@ -6,8 +6,12 @@
 
 <div class="mt-20 max-w-4xl mx-auto px-6">
 
+     <a href="{{ path('app_livres') }}" class="font-semibold underline mb-6 inline-block">
+        <i class="fa-solid fa-arrow-down fa-rotate-90 text-xs"></i> Retour au catalogue
+    </a>
+
     <!-- TITRE -->
-    <h1 class="text-3xl sm:text-4xl font-bold mb-10 text-blue-800">
+    <h1 class="text-3xl sm:text-4xl font-bold mb-10">
         Finaliser ma commande
     </h1>
 
@@ -22,7 +26,7 @@
                     <p class="text-sm text-gray-500">Quantité : {{ ligne.quantite }}</p>
                 </div>
 
-                <p class="font-bold text-blue-800">
+                <p class="font-bold ">
                     {{ (ligne.livre.prix * ligne.quantite) | number_format(2, ',', ' ') }} €
                 </p>
             </div>
@@ -44,7 +48,7 @@
 
     <!-- FORMULAIRE : ADRESSE + PAIEMENT -->
     <div class="bg-white shadow-lg rounded-xl p-6 mb-10 border border-gray-200">
-        <h2 class="text-2xl font-semibold mb-6">Adresse & Paiement</h2>
+        <h2 class="text-2xl font-semibold mb-6">Adresse et Paiement</h2>
 
         {{ form_start(form) }}
 
@@ -54,12 +58,12 @@
                 {{ form_row(form.ville) }}
             </div>
 
-            <div class="mt-8">
-                <h3 class="text-xl font-semibold mb-3">Méthode de paiement</h3>
+            <div class="mt-8 gap-2">
+                <h3 class="text-xl font-semibold mb-3">Veuillez choisir votre moyen de paiement</h3>
                 {{ form_row(form.paiement) }}
             </div>
 
-            <button class="mt-8 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow">
+            <button class="mt-8 text-white px-6 py-3 rounded-lg font-semibold shadow w-full">
                 Valider ma commande
             </button>
 
