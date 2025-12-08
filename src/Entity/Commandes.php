@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Enum\Paiement;
 use App\Enum\Statut;
 use App\Repository\CommandesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommandesRepository::class)]
@@ -19,6 +20,10 @@ class Commandes
     private ?Utilisateurs $utilisateurs = null;
 
     #[ORM\Column]
+private ?\DateTimeImmutable $createdAt = null;
+
+
+    #[ORM\Column]
     private ?float $total = null;
 
     #[ORM\Column(enumType: Statut::class)]
@@ -27,12 +32,20 @@ class Commandes
     #[ORM\Column(length: 255)]
     private ?string $adresseLivraison = null;
 
- #[ORM\Column(length: 50)]
-private ?string $paiement = null;
+    #[ORM\Column(length: 50)]
+    private ?string $paiement = null;
 
+    /**
+     * @var Collection<int, LigneCommande>
+     */
+    #[ORM\OneToMany(mappedBy: 'commande', targetEntity: LigneCommande::class, cascade: ['persist', 'remove'])]
+    private Collection $ligneCommandes;
 
-    #[ORM\ManyToOne(inversedBy: 'commandes')]
-    private ?LigneCommande $ligneCommande = null;
+    public function __construct()
+    {
+        $this->ligneCommandes = new ArrayCollection();
+         $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -47,7 +60,6 @@ private ?string $paiement = null;
     public function setUtilisateurs(?Utilisateurs $utilisateurs): static
     {
         $this->utilisateurs = $utilisateurs;
-
         return $this;
     }
 
@@ -59,7 +71,6 @@ private ?string $paiement = null;
     public function setTotal(float $total): static
     {
         $this->total = $total;
-
         return $this;
     }
 
@@ -71,7 +82,6 @@ private ?string $paiement = null;
     public function setStatut(Statut $statut): static
     {
         $this->statut = $statut;
-
         return $this;
     }
 
@@ -83,11 +93,10 @@ private ?string $paiement = null;
     public function setAdresseLivraison(string $adresseLivraison): static
     {
         $this->adresseLivraison = $adresseLivraison;
-
         return $this;
     }
 
-    public function getPaiement(): ?Paiement
+    public function getPaiement()
     {
         return $this->paiement;
     }
@@ -95,19 +104,45 @@ private ?string $paiement = null;
     public function setPaiement(string $paiement): static
     {
         $this->paiement = $paiement;
-
         return $this;
     }
 
-    public function getLigneCommande(): ?LigneCommande
+    /**
+     * @return Collection<int, LigneCommande>
+     */
+    public function getLigneCommandes(): Collection
     {
-        return $this->ligneCommande;
+        return $this->ligneCommandes;
     }
 
-    public function setLigneCommande(?LigneCommande $ligneCommande): static
+    public function addLigneCommande(LigneCommande $ligneCommande): static
     {
-        $this->ligneCommande = $ligneCommande;
-
+        if (!$this->ligneCommandes->contains($ligneCommande)) {
+            $this->ligneCommandes->add($ligneCommande);
+            $ligneCommande->setCommande($this);
+        }
         return $this;
     }
+
+    public function removeLigneCommande(LigneCommande $ligneCommande): static
+    {
+        if ($this->ligneCommandes->removeElement($ligneCommande)) {
+            if ($ligneCommande->getCommande() === $this) {
+                $ligneCommande->setCommande(null);
+            }
+        }
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+{
+    return $this->createdAt;
+}
+
+public function setCreatedAt(\DateTimeImmutable $createdAt): static
+{
+    $this->createdAt = $createdAt;
+    return $this;
+}
+
 }

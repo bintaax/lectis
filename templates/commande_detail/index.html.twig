@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail commande #{{ commande.id }}{% endblock %}
+
+{% block body %}
+<div class="mt-24 max-w-4xl mx-auto px-6">
+
+    <h1 class="text-3xl font-bold mb-8">
+        📦 Détail de la commande #{{ commande.id }}
+    </h1>
+
+    <!-- DATE + TOTAL -->
+    <div class="mb-6 text-gray-700">
+        <p>Date : <strong>{{ commande.createdAt|date('d/m/Y H:i') }}</strong></p>
+        <p>Total : <strong>{{ commande.total }} €</strong></p>
+    </div>
+
+    <!-- CALCUL DES JOURS DEPUIS LA COMMANDE -->
+    {% set today = "now"|date("U") %}
+    {% set created = commande.createdAt|date("U") %}
+    {% set diffDays = ((today - created) / 86400)|round(0, 'floor') %}
+
+    <!-- SUIVI FICTIF -->
+    <div class="bg-white p-6 rounded-xl shadow border border-gray-200 mb-10">
+        <h2 class="text-xl font-semibold mb-4">Suivi de votre commande</h2>
+
+        <div class="relative border-l border-gray-300 ml-3">
+
+            <!-- 1. Commande passée -->
+            <div class="mb-6 ml-4">
+                <div class="flex items-center">
+                    <span class="w-4 h-4 rounded-full bg-green-500"></span>
+                    <p class="ml-3 text-green-600 font-semibold">
+                        Commande passée
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2. En préparation (active dès 1 jour) -->
+            <div class="mb-6 ml-4">
+                <div class="flex items-center">
+                    <span class="w-4 h-4 rounded-full 
+                        {% if diffDays >= 1 %}bg-green-500{% else %}bg-gray-300{% endif %}">
+                    </span>
+                    <p class="ml-3 
+                        {% if diffDays >= 1 %}text-green-600 font-semibold{% endif %}">
+                        En préparation
+                    </p>
+                </div>
+            </div>
+
+            <!-- 3. En cours de livraison (active dès 3 jours) -->
+            <div class="mb-6 ml-4">
+                <div class="flex items-center">
+                    <span class="w-4 h-4 rounded-full 
+                        {% if diffDays >= 3 %}bg-green-500{% else %}bg-gray-300{% endif %}">
+                    </span>
+                    <p class="ml-3 
+                        {% if diffDays >= 3 %}text-green-600 font-semibold{% endif %}">
+                        En cours de livraison
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. Livrée (active dès 7 jours) -->
+            <div class="mb-6 ml-4">
+                <div class="flex items-center">
+                    <span class="w-4 h-4 rounded-full 
+                        {% if diffDays >= 7 %}bg-green-500{% else %}bg-gray-300{% endif %}">
+                    </span>
+                    <p class="ml-3 
+                        {% if diffDays >= 7 %}text-green-600 font-semibold{% endif %}">
+                        Livrée
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ARTICLES COMMANDÉS -->
+    <div class="bg-white p-6 rounded-xl shadow border border-gray-200">
+        <h2 class="text-xl font-semibold mb-6">Articles commandés</h2>
+
+        {% for ligne in commande.ligneCommandes %}
+            <div class="flex justify-between items-center py-4 border-b last:border-none">
+                <div>
+                    <p class="font-semibold">{{ ligne.livre.titre }}</p>
+                    <p class="text-gray-500 text-sm">
+                        Quantité : {{ ligne.quantite }}
+                    </p>
+                </div>
+
+                <p class="font-bold">
+                    {{ (ligne.livre.prix * ligne.quantite) | number_format(2, ',', ' ') }} €
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <a href="{{ path('app_compte') }}"
+       class="inline-block mt-6 text-blue-600 hover:underline">
+        ← Retour à mon espace personnel
+    </a>
+
+</div>
+{% endblock %}
