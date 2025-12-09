@@ -16,6 +16,7 @@
             <div class="items-center justify-center text-center">            
             <i class="fa-solid fa-face-sad-tear text-6xl"></i>
             <p class="text-gray-500">Votre panier est vide.</p></div>
+            {% if not app.user %}<p class="text-center">Veuillez <span class="font-bold hover:underline"><a href="{{path('app_login')}}">vous connecter</a></span> ou <span class="font-bold hover:underline"><a href="{{path('app_register')}}">vous inscrire</a></span></p>{% endif %}
 
         {% else %}
 

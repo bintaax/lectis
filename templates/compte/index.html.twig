@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon espace personnel{% endblock %}
+{% block title %}Mon compte{% endblock %}
 
 {% block body %}
 <div class="mt-24 max-w-5xl mx-auto px-6">
 
     {# Titre #}
     <h1 class="text-4xl font-bold mb-8 text-bluegray-dark">
-        👤 Mon espace personnel
+        👤 Mon compte
     </h1>
 
     {# Messages flash #}
@@ -63,9 +63,13 @@
         <p class="text-gray-700"><strong>Nom :</strong> {{ app.user.nom }}</p>
         <p class="text-gray-700"><strong>Email :</strong> {{ app.user.email }}</p>
 
-        <p class="text-sm text-gray-500 mt-4">
-            Si vous souhaitez modifier vos informations, merci de contacter le support.
-        </p>
+        <p class="font-bold text-sm mt-5">Que souhaitez-vous modifier ? : <a href="{{path('app_compte_modifier')}}" class="hover:underline">vos informations personnelles</a> ou <a href="{{path('app_compte_password')}}" class="hover:underline">votre mot de passe</a></p>
+        <a href="{{ path('app_compte_supprimer') }}"
+   onclick="return confirm('Voulez-vous vraiment supprimer votre compte ?')"
+   class="text-red-600 font-semibold hover:underline">
+   Supprimer mon compte
+</a>
+
     </section>
 
     {# 2. ADRESSE DE LIVRAISON #}
@@ -103,17 +107,16 @@
                 {% for commande in commandes %}
                     <div class="border border-gray-200 rounded-lg p-4">
                         <p class="text-sm text-gray-500">
-                            Commande n° <strong>{{ commande.id }}</strong>
+                            Commande n° <strong>{{ commande.numeroCommande }}</strong>
                         </p>
 
                         <p class="text-sm text-gray-500">
-                            Statut : <strong>{{ commande.statut.value|title }}</strong>
+                            Statut : <strong>{{ commande.statut.label }}</strong>
                         </p>
 
                         <p class="text-sm text-gray-500">
                             Total : <strong>{{ commande.total|number_format(2, ',', ' ') }} €</strong>
                         </p>
-
                         <a href="{{ path('app_commande_detail', { id: commande.id }) }}"
                            class="inline-flex items-center mt-2 rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
                             Voir le détail

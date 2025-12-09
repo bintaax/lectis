@@ -42,9 +42,20 @@
             </a>
 
              <!-- 🛒 PANIER -->
-           <a href="{{ path('app_panier') }}" class="relative">
-              <i class="fa-solid fa-cart-shopping md:text-3xl hover:text-[#293a49]"></i>
-            </a> 
+           <a href="{{ path('app_panier') }}" class="relative hidden md:block">
+    <i class="fa-solid fa-cart-shopping text-3xl"></i>
+
+    {% if app.user %}
+        {% set panier = app.user.paniers|last %}
+        {% if panier and panier.lignePaniers|length > 0 %}
+            <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold 
+                         w-5 h-5 flex items-center justify-center rounded-full">
+                {{ panier.lignePaniers|length }}
+            </span>
+        {% endif %}
+    {% endif %}
+</a>
+
 
         
         </div>

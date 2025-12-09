@@ -5,78 +5,99 @@
 {% block body %}
 <div class="mt-24 max-w-4xl mx-auto px-6">
 
+    <!-- TITRE -->
     <h1 class="text-3xl font-bold mb-8">
-        📦 Détail de la commande #{{ commande.id }}
+        📦 Détail de la commande #{{ commande.numeroCommande }}
     </h1>
+
+    <!-- BANDEAU SI COMMANDE ANNULÉE -->
+    {% if commande.statut.value == 'annulee' %}
+        <div class="p-4 mb-6 bg-red-100 border border-red-300 text-red-700 rounded-lg">
+            ❌ Cette commande a été annulée.
+        </div>
+    {% endif %}
 
     <!-- DATE + TOTAL -->
     <div class="mb-6 text-gray-700">
-        <p>Date : <strong>{{ commande.createdAt|date('d/m/Y H:i') }}</strong></p>
-        <p>Total : <strong>{{ commande.total }} €</strong></p>
+        <p>Date : <strong>{{ commande.createdAt|date('d/m/Y') }}</strong></p>
+        <p>Total : 
+            <strong>{{ commande.total | number_format(2, ',', ' ') }} €</strong>
+        </p>
     </div>
 
-    <!-- CALCUL DES JOURS DEPUIS LA COMMANDE -->
+    <!-- CALCUL AUTOMATIQUE DES JOURS DEPUIS LA COMMANDE -->
     {% set today = "now"|date("U") %}
     {% set created = commande.createdAt|date("U") %}
     {% set diffDays = ((today - created) / 86400)|round(0, 'floor') %}
 
-    <!-- SUIVI FICTIF -->
-    <div class="bg-white p-6 rounded-xl shadow border border-gray-200 mb-10">
-        <h2 class="text-xl font-semibold mb-4">Suivi de votre commande</h2>
-
-        <div class="relative border-l border-gray-300 ml-3">
+    <!-- TIMELINE AUTOMATIQUE (SEULEMENT SI PAS ANNULÉE) -->
+    {% if commande.statut.value != 'annulee' %}
+        <div class="relative border-l border-gray-300 ml-3 mb-10">
 
             <!-- 1. Commande passée -->
             <div class="mb-6 ml-4">
                 <div class="flex items-center">
                     <span class="w-4 h-4 rounded-full bg-green-500"></span>
-                    <p class="ml-3 text-green-600 font-semibold">
-                        Commande passée
-                    </p>
+                    <p class="ml-3 text-green-600 font-semibold">Commande passée</p>
                 </div>
             </div>
 
-            <!-- 2. En préparation (active dès 1 jour) -->
+            <!-- 2. En préparation -->
             <div class="mb-6 ml-4">
                 <div class="flex items-center">
                     <span class="w-4 h-4 rounded-full 
-                        {% if diffDays >= 1 %}bg-green-500{% else %}bg-gray-300{% endif %}">
-                    </span>
+                        {% if diffDays >= 1 %}bg-green-500{% else %}bg-gray-300{% endif %}
+                    "></span>
                     <p class="ml-3 
-                        {% if diffDays >= 1 %}text-green-600 font-semibold{% endif %}">
+                        {% if diffDays >= 1 %}text-green-600 font-semibold{% endif %}
+                    ">
                         En préparation
                     </p>
                 </div>
             </div>
 
-            <!-- 3. En cours de livraison (active dès 3 jours) -->
+            <!-- 3. En cours de livraison -->
             <div class="mb-6 ml-4">
                 <div class="flex items-center">
                     <span class="w-4 h-4 rounded-full 
-                        {% if diffDays >= 3 %}bg-green-500{% else %}bg-gray-300{% endif %}">
-                    </span>
+                        {% if diffDays >= 3 %}bg-green-500{% else %}bg-gray-300{% endif %}
+                    "></span>
                     <p class="ml-3 
-                        {% if diffDays >= 3 %}text-green-600 font-semibold{% endif %}">
+                        {% if diffDays >= 3 %}text-green-600 font-semibold{% endif %}
+                    ">
                         En cours de livraison
                     </p>
                 </div>
             </div>
 
-            <!-- 4. Livrée (active dès 7 jours) -->
+            <!-- 4. Livrée -->
             <div class="mb-6 ml-4">
                 <div class="flex items-center">
                     <span class="w-4 h-4 rounded-full 
-                        {% if diffDays >= 7 %}bg-green-500{% else %}bg-gray-300{% endif %}">
-                    </span>
+                        {% if diffDays >= 7 %}bg-green-500{% else %}bg-gray-300{% endif %}
+                    "></span>
                     <p class="ml-3 
-                        {% if diffDays >= 7 %}text-green-600 font-semibold{% endif %}">
+                        {% if diffDays >= 7 %}text-green-600 font-semibold{% endif %}
+                    ">
                         Livrée
                     </p>
                 </div>
             </div>
 
         </div>
-    </div>
+    {% endif %}
+
+    <!-- BOUTON ANNULER (UNIQUEMENT SI ANNULABLE ET PAS ANNULÉE) -->
+    {% if commande.statut.value != 'annulee' and diffDays < 3 %}
+        <a href="{{ path('app_commande_annuler', { id: commande.id }) }}"
+           class="inline-block mb-8 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+            Annuler la commande
+        </a>
+    {% elseif diffDays >= 3 and commande.statut.value != 'annulee' %}
+        <p class="text-gray-500 italic mb-8">
+            ❌ La commande ne peut plus être annulée car elle est en cours de livraison.
+        </p>
+    {% endif %}
 
     <!-- ARTICLES COMMANDÉS -->
     <div class="bg-white p-6 rounded-xl shadow border border-gray-200">
@@ -86,9 +107,7 @@
             <div class="flex justify-between items-center py-4 border-b last:border-none">
                 <div>
                     <p class="font-semibold">{{ ligne.livre.titre }}</p>
-                    <p class="text-gray-500 text-sm">
-                        Quantité : {{ ligne.quantite }}
-                    </p>
+                    <p class="text-gray-500 text-sm">Quantité : {{ ligne.quantite }}</p>
                 </div>
 
                 <p class="font-bold">
@@ -99,7 +118,7 @@
     </div>
 
     <a href="{{ path('app_compte') }}"
-       class="inline-block mt-6 text-blue-600 hover:underline">
+       class="inline-block font-bold mt-6 hover:underline">
         ← Retour à mon espace personnel
     </a>
 

@@ -19,6 +19,10 @@ class Commandes
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     private ?Utilisateurs $utilisateurs = null;
 
+    #[ORM\Column(length: 20, unique: true)]
+private ?string $numeroCommande = null;
+
+
     #[ORM\Column]
 private ?\DateTimeImmutable $createdAt = null;
 
@@ -45,6 +49,8 @@ private ?\DateTimeImmutable $createdAt = null;
     {
         $this->ligneCommandes = new ArrayCollection();
          $this->createdAt = new \DateTimeImmutable();
+         $this->numeroCommande = 'CMD-' . strtoupper(bin2hex(random_bytes(4)));
+
     }
 
     public function getId(): ?int
@@ -142,6 +148,17 @@ private ?\DateTimeImmutable $createdAt = null;
 public function setCreatedAt(\DateTimeImmutable $createdAt): static
 {
     $this->createdAt = $createdAt;
+    return $this;
+}
+
+public function getNumeroCommande(): ?string
+{
+    return $this->numeroCommande;
+}
+
+public function setNumeroCommande(string $numeroCommande): static
+{
+    $this->numeroCommande = $numeroCommande;
     return $this;
 }
 

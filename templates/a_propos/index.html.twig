@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À propos{% endblock %}
+
+{% block body %}
+
+<div class="mt-24 max-w-4xl mx-auto px-6">
+
+    <!-- SECTION PUNCHLINE -->
+    <section class="mb-16 text-center">
+       <div class="flex flex-col items-center mb-12">
+    <img src="{{ asset('assets/img/avatar.png') }}"
+         alt="Avatar développeuse"
+         class="w-32 h-32 rounded-full shadow-lg border-4 border-white object-cover">
+    
+    <h1 class="text-4xl font-extrabold text-blue-700 mt-4">
+        🚀 Dev Mode : ON
+    </h1>
+</div>
+
+        <p class="text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto">
+            Je suis <strong>Bintou</strong>, développeuse web.  
+            Je construis des interfaces qui ont du style,  
+            des fonctionnalités qui tiennent debout,  
+            et des projets qui racontent une histoire.
+        </p>
+
+        <p class="mt-6 text-xl font-semibold text-gray-900">
+            🧠 Je code. 🔥 Je crash. 🔧 Je debug. 🚀 Je réussis.
+        </p>
+    </section>
+
+
+    <!-- LIGNE DE SÉPARATION -->
+    <div class="border-t border-gray-300 my-12"></div>
+
+
+    <!-- SECTION STORYTELLING -->
+    <section class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">
+            📖 Mon histoire de développeuse
+        </h2>
+
+        <p class="leading-7 text-gray-700 mb-4">
+            Il était une fois… moi, <strong>Bintou</strong>, une développeuse web armée d’un clavier, d’un navigateur, 
+            et d’une curiosité parfois un peu trop grande. Un jour, j’ai décidé de me lancer dans une quête digne 
+            des plus grandes sagas : <strong>créer une librairie en ligne de A à Z</strong>.
+        </p>
+
+        <p class="leading-7 text-gray-700 mb-4">
+            Les premières lignes de code ressemblaient à un puzzle sans image. Chaque bug était un mini-boss.
+            Chaque fonctionnalité validée était un niveau gagné. Et les messages d’erreur ?  
+            Des énigmes laissées par un mage mystérieux appelé <strong>Doctrine</strong>.
+        </p>
+
+        <p class="leading-7 text-gray-700 mb-4">
+            Puis peu à peu, le site a pris vie :
+        </p>
+
+        <ul class="list-disc list-inside text-gray-700 mb-4">
+            <li>un panier qui fonctionne 🛒</li>
+            <li>une gestion des commandes complète 📦</li>
+            <li>un suivi automatique basé sur le temps ⏳</li>
+            <li>un espace utilisateur fluide 👤</li>
+            <li>la possibilité d’annuler une commande ❌</li>
+            <li>et même la suppression de compte 😮</li>
+        </ul>
+
+        <p class="leading-7 text-gray-700 mb-4">
+            À travers ce projet, j’ai appris que le développement, ce n’est pas seulement écrire du code :
+            c’est persévérer, expérimenter, créer… et sourire quand <em>tout</em> finit par fonctionner après 48 minutes
+            de debugging intensif.
+        </p>
+
+        <p class="leading-7 text-gray-700 font-semibold">
+            Ce site n’est pas juste une librairie : c’est mon aventure numérique, une preuve que la passion et la détermination 
+            peuvent transformer une idée en projet réel.
+        </p>
+
+        <p class="mt-6 text-gray-800 font-bold text-lg">
+            Bienvenue dans mon univers.  
+            Promis, je sauvegarde souvent maintenant. 😄
+        </p>
+    </section>
+
+    <!-- SECTION LECTIS -->
+<section class="mt-16 bg-blue-50 p-8 rounded-xl border border-blue-200 shadow-sm">
+    <h2 class="text-3xl font-bold text-blue-800 mb-6">
+        📚 L’histoire de Lectis
+    </h2>
+
+    <p class="leading-7 text-gray-700 mb-4">
+        <strong>Lectis</strong>, c’est le nom que j’ai voulu donner à cette librairie numérique. 
+        Un nom simple, doux et un peu mystérieux — qui évoque la lecture, l’exploration et l’imagination.
+    </p>
+
+    <p class="leading-7 text-gray-700 mb-4">
+        Le concept était clair : créer un espace moderne où chaque lecteur peut découvrir des ouvrages,
+        les ajouter à son panier, suivre ses commandes… tout cela dans une interface élégante et intuitive.
+        Je voulais que Lectis ressemble à un endroit chaleureux, comme une petite librairie de quartier,
+        mais version 2.0.
+    </p>
+
+    <p class="leading-7 text-gray-700 mb-4">
+        Lectis, ce n’est donc pas seulement un site : c’est une expérience.  
+        Une librairie pensée non pas pour être immense, mais pour être <strong>propre, simple et agréable à utiliser</strong>.
+        C’est un terrain de jeu pour mettre en pratique mes compétences en développement web 
+        tout en construisant quelque chose qui me ressemble.
+    </p>
+
+    <p class="leading-7 text-gray-700 mb-4">
+        Ce projet m’a permis d’apprendre à structurer une application complète :  
+        une base de données solide, un espace utilisateur sécurisé, un workflow de commandes,
+        et même un système de suivi automatique pour donner vie à l’expérience.
+    </p>
+
+    <p class="leading-7 text-blue-900 font-semibold">
+        Lectis est le reflet de mon parcours : un mélange de curiosité, de persévérance
+        et de passion pour la création. Et ce n’est que le début.
+    </p>
+</section>
+
+
+</div>
+
+{% endblock %}
