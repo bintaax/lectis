@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FAQ{% endblock %}
+
+{% block body %}
+
+    <div class="p-10">
+        <h1 class="text-center font-bold text-4xl">Foire à Questions</h1>
+
+        {# Accordion #}
+        <div class="md:px-8 md:py-16 items-center justify-center mt-5">
+        <div class="space-y-2">
+  <details class="group [&amp;_summary::-webkit-details-marker]:hidden">
+    <summary class="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-gray-200 bg-white px-4 py-3 font-medium text-gray-900 hover:bg-gray-50">
+      <span> 📚 Commandes</span>
+
+      <svg class="size-5 shrink-0 transition-transform duration-300 group-open:-rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </summary>
+
+    <div class="p-4">
+      <p>
+        <span class="font-bold">Comment passer une commande ?</span><br>
+        Ajoutez vos articles au panier, cliquer sur "Ajouter au panier", puis suivez les étapes de paiement.
+      </p>
+       <p>
+        <span class="font-bold">Un livre est-il disponible ?</span><br>
+        La disponibilité est affichée sur chaque fiche produit. En cas de rupture, il vous sera indiqué.
+      </p>
+    </div>
+  </details>
+
+  <details class="group [&amp;_summary::-webkit-details-marker]:hidden">
+    <summary class="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-gray-200 bg-white px-4 py-3 font-medium text-gray-900 hover:bg-gray-50">
+      <span>🚚 Livraison</span>
+
+      <svg class="size-5 shrink-0 transition-transform duration-300 group-open:-rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </summary>
+
+    <div class="p-4">
+      <p>
+        <span class="font-bold">Quels sont les délais de livraison ? </span><br> Entre 2 et 5 jours ouvrés pour la France. Les délais internationaux varient selon la destination.
+      </p>
+        <p>
+        <span class="font-bold">Puis-je suivre ma commande? </span><br> Oui ! Vous pouvez suivre votre commande directement depuis votre espace personnel.
+      </p>
+    </div>
+  </details>
+
+  <details class="group [&amp;_summary::-webkit-details-marker]:hidden">
+    <summary class="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-gray-200 bg-white px-4 py-3 font-medium text-gray-900 hover:bg-gray-50">
+      <span>💳 Paiement</span>
+
+      <svg class="size-5 shrink-0 transition-transform duration-300 group-open:-rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </summary>
+
+    <div class="p-4">
+         <p>
+        <span class="font-bold">Quels moyens de paiement acceptez-vous ? </span><br> Carte bancaire, PayPal, et cartes cadeaux Lectis.
+      </p>
+    </div>
+  </details>
+
+    <details class="group [&amp;_summary::-webkit-details-marker]:hidden">
+    <summary class="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-gray-200 bg-white px-4 py-3 font-medium text-gray-900 hover:bg-gray-50">
+      <span>🔄 Retours</span>
+
+      <svg class="size-5 shrink-0 transition-transform duration-300 group-open:-rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </summary>
+
+    <div class="p-4">
+         <p>
+        <span class="font-bold">Puis-je retourner un livre? </span><br> Oui, sous 14 jours après réception, s'il est neuf et non abîmé.
+      </p>
+    </div>
+  </details>
+
+  
+</div>
+</div>
+        
+    </div>
+{% endblock %}

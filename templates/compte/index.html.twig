@@ -7,7 +7,7 @@
 
     {# Titre #}
     <h1 class="text-4xl font-bold mb-8 text-bluegray-dark">
-        👤 Mon compte
+         Mon compte
     </h1>
 
     {# Messages flash #}
@@ -66,7 +66,7 @@
         <p class="font-bold text-sm mt-5">Que souhaitez-vous modifier ? : <a href="{{path('app_compte_modifier')}}" class="hover:underline">vos informations personnelles</a> ou <a href="{{path('app_compte_password')}}" class="hover:underline">votre mot de passe</a></p>
         <a href="{{ path('app_compte_supprimer') }}"
    onclick="return confirm('Voulez-vous vraiment supprimer votre compte ?')"
-   class="text-red-600 font-semibold hover:underline">
+   class="text-red-600 font-semibold text-sm hover:underline">
    Supprimer mon compte
 </a>
 
@@ -107,7 +107,7 @@
                 {% for commande in commandes %}
                     <div class="border border-gray-200 rounded-lg p-4">
                         <p class="text-sm text-gray-500">
-                            Commande n° <strong>{{ commande.numeroCommande }}</strong>
+                            Commande <strong>{{ commande.numeroCommande }}</strong>
                         </p>
 
                         <p class="text-sm text-gray-500">
