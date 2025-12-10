@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisation des cookies – Lectis{% endblock %}
+
+{% block body %}
+<section class="max-w-4xl mx-auto mt-12 mb-20 bg-white p-10 rounded-xl shadow-lg">
+
+    <h1 class="text-4xl font-bold text-center mb-6">🍪 Utilisation des cookies</h1>
+
+    <p class="text-center text-gray-600 mb-10">
+        Cette page explique l'utilisation des cookies sur le site <strong>Lectis</strong>.
+    </p>
+
+    <hr class="my-10 border-gray-200">
+
+    <h2 class="text-2xl font-semibold mb-4">🔍 Qu’est-ce qu’un cookie ?</h2>
+    <p class="mb-6">
+        Un cookie est un petit fichier enregistré sur votre appareil lors de votre visite sur un site web.
+        Il permet au site de mémoriser certaines informations pour améliorer votre navigation.
+    </p>
+
+    <hr class="my-10 border-gray-200">
+
+    <h2 class="text-2xl font-semibold mb-4">📌 Utilisation des cookies sur Lectis</h2>
+
+    <p class="mb-4">
+        À ce jour, le site <strong>Lectis</strong> n’utilise pas de cookies destinés au suivi, à la publicité
+        ou à l’analyse statistique.
+    </p>
+
+    <p class="mb-6">
+        Seuls des cookies strictement nécessaires au bon fonctionnement du site peuvent être déposés
+        (par exemple : sécurité, session, accès aux pages).
+    </p>
+
+    <div class="bg-gray-100 p-4 rounded-lg mb-10 border">
+        <p class="text-gray-700">
+            📌 <strong>Important :</strong> Lorsque des cookies supplémentaires (mesure d’audience, préférences,
+            etc.) seront mis en place, une bannière de consentement conforme au RGPD sera affichée.
+        </p>
+    </div>
+
+    <hr class="my-10 border-gray-200">
+
+    <h2 class="text-2xl font-semibold mb-4">🛠️ Gestion des cookies</h2>
+
+    <p class="mb-4">Vous pouvez gérer ou supprimer les cookies à tout moment depuis votre navigateur :</p>
+
+    <ul class="list-disc ml-6 space-y-1 mb-10">
+        <li>Chrome : Paramètres → Confidentialité → Cookies</li>
+        <li>Firefox : Options → Vie privée → Cookies</li>
+        <li>Safari : Préférences → Confidentialité</li>
+        <li>Edge : Paramètres → Cookies et autorisations</li>
+    </ul>
+
+    <p class="mb-6">
+        La désactivation des cookies essentiels peut altérer certaines fonctionnalités du site.
+    </p>
+
+    <hr class="my-10 border-gray-200">
+
+    <p class="text-center text-gray-700">
+        📩 Pour toute question concernant les cookies, contactez-nous via notre <strong><a href="{{path('app_contact')}}">formulaire de contact</a></strong> ou directement par mail :  
+        <a href="mailto:support@lectis.org" class="font-semibold text-blue-600">support@lectis.org</a>
+    </p>
+
+</section>
+{% endblock %}
+
