@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -101,35 +101,80 @@ public function password(
     ]);
 }
 
-#[Route('/compte/supprimer', name: 'app_compte_supprimer')]
+
+
+#[Route('/compte/supprimer', name: 'app_compte_supprimer', methods: ['POST'])]
 public function supprimer(
     EntityManagerInterface $em,
-    RequestStack $requestStack
+    RequestStack $requestStack,
+    Request $request,
+    TokenStorageInterface $tokenStorage
 ): Response {
+    /** @var \App\Entity\Utilisateurs|null $user */
     $user = $this->getUser();
 
     if (!$user) {
         return $this->redirectToRoute('app_login');
     }
 
-    // Déconnexion : suppression du token de sécurité
-    $this->container->get('security.token_storage')->setToken(null);
+    // (si tu as mis le CSRF dans le form twig)
+    if (!$this->isCsrfTokenValid('delete-account', $request->request->get('_token'))) {
+        throw $this->createAccessDeniedException('Token CSRF invalide.');
+    }
 
-    // Invalidate session
+    // ✅ supprimer les paniers en base
+    foreach ($user->getPaniers() as $panier) {
+        $em->remove($panier);
+    }
+
+    // ✅ anonymiser/désactiver au lieu de supprimer en base (car commandes liées)
+    $user->anonymizeAndDeactivate();
+    $em->flush();
+
+    // ✅ couper le token de sécurité (app.user ne doit plus exister)
+    $tokenStorage->setToken(null);
+
+    // ✅ invalider la session
     $session = $requestStack->getSession();
     if ($session) {
+        $session->clear();
         $session->invalidate();
     }
 
-    // Suppression du compte dans la BDD
-    $em->remove($user);
-    $em->flush();
-
     $this->addFlash('success', 'Votre compte a bien été supprimé.');
-    return $this->redirectToRoute('app_home');
+
+    // ✅ logout Symfony (nettoie aussi remember_me si activé)
+    return $this->redirectToRoute('app_logout');
 }
 
+#[Route('/compte/lectis-plus', name: 'app_compte_lectis_plus')]
+public function lectisPlus(): Response
+{
+    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
+    return $this->render('compte/lectis_plus.html.twig');
+}
 
+#[Route('/compte/lectis-plus/adherer', name: 'app_compte_lectis_plus_adherer', methods: ['POST'])]
+public function lectisPlusAdherer(EntityManagerInterface $em, Request $request): Response
+{
+    /** @var \App\Entity\Utilisateurs $user */
+    $user = $this->getUser();
+    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+    if (!$this->isCsrfTokenValid('lectis_plus_join', $request->request->get('_token'))) {
+        throw $this->createAccessDeniedException('Token CSRF invalide.');
+    }
+
+    if (!$user->isAdherent()) {
+        $user->becomeAdherent(); // méthode dans Utilisateurs
+        $em->flush();
+        $this->addFlash('success', 'Bienvenue dans Lectis+ 📚💙');
+    } else {
+        $this->addFlash('info', 'Vous êtes déjà adhérent Lectis+ 🙂');
+    }
+
+    return $this->redirectToRoute('app_compte');
+}
 
 }

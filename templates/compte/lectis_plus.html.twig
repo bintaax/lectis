@@ -1,0 +1,169 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lectis+ | Votre univers lecture{% endblock %}
+
+{% block body %}
+{# On définit les variables pour s'assurer qu'elles sont accessibles si elles ne sont pas dans le CSS global #}
+<style>
+    :root {
+        --bluegray-light:   #EEF3F8;
+        --bluegray-medium:  #CDD6E2;
+        --bluegray-deep:    #7B8A9A;
+        --bluegray-dark:    #2E3A45;
+        --bluegray-accent:  #3F5366;
+        --bluegray-hover :  #293a49;
+        --neutral-white:    #FFFFFF;
+        --neutral-light:    #F7F9FC;
+        --neutral-soft:     #E1E5EB;
+    }
+</style>
+
+<div class="min-h-screen bg-[--bluegray-light] py-12 px-4 sm:px-6 lg:px-8 text-[--bluegray-dark]">
+    <div class="max-w-6xl mx-auto">
+        
+        {# Hero Section - Utilisation du Dark & Accent #}
+        <div class="relative overflow-hidden rounded-[2rem] bg-[--bluegray-dark] shadow-xl mb-10">
+            {# Texture subtile #}
+            <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"%23CDD6E2\" fill-opacity=\"0.4\" fill-rule=\"evenodd\"%3E%3Ccircle cx=\"3\" cy=\"3\" r=\"3\"/%3E%3C/g%3E%3C/svg%3E');"></div>
+
+            <div class="relative p-8 md:p-16">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
+                    <div class="max-w-2xl">
+                        <span class="inline-block px-3 py-1 rounded bg-[--bluegray-accent] text-[--bluegray-medium] text-xs font-bold uppercase tracking-widest mb-6">
+                            Offre exclusive
+                        </span>
+                        <h1 class="text-4xl md:text-5xl font-bold text-[--neutral-white] mb-6 tracking-tight">
+                            Lectis <span class="text-[--bluegray-medium]">+</span>
+                        </h1>
+                        <p class="text-lg text-[--bluegray-medium] leading-relaxed mb-8 opacity-90">
+                            Plus qu'un programme, une expérience dédiée aux amoureux du papier. 
+                            Cumulez des <span class="text-[--neutral-white] font-semibold">points lecture</span> et débloquez des avantages exclusifs au fil de vos découvertes.
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-6">
+                            <div class="flex items-center gap-2 text-[--neutral-light] text-sm">
+                                <div class="w-1.5 h-1.5 rounded-full bg-[--bluegray-deep]"></div>
+                                1€ = 1 point lecture
+                            </div>
+                            <div class="flex items-center gap-2 text-[--neutral-light] text-sm">
+                                <div class="w-1.5 h-1.5 rounded-full bg-[--bluegray-deep]"></div>
+                                Statuts & badges
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-shrink-0">
+                        <a href="{{ path('app_compte') }}" class="group flex items-center gap-2 bg-transparent hover:bg-[--bluegray-accent] border border-[--bluegray-deep] text-[--neutral-white] px-6 py-3 rounded-lg transition-all duration-300">
+                            <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                            Retour au compte
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {# Footer du Hero - Medium #}
+            <div class="bg-[--bluegray-accent] border-t border-[--bluegray-deep]/30 p-6 md:px-16">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="flex items-center gap-4 text-[--neutral-light]">
+                        <span class="text-xl">📚</span>
+                        <span class="text-sm font-medium">Bibliothèque récompensée</span>
+                    </div>
+                    <div class="flex items-center gap-4 text-[--neutral-light] md:border-l md:border-[--bluegray-deep]/30 md:pl-8">
+                        <span class="text-xl">✨</span>
+                        <span class="text-sm font-medium">Récompenses exclusives</span>
+                    </div>
+                    <div class="flex items-center gap-4 text-[--neutral-light] md:border-l md:border-[--bluegray-deep]/30 md:pl-8">
+                        <span class="text-xl">📅</span>
+                        <span class="text-sm font-medium">Accès anticipés</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Cards Section #}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            {# Card Points #}
+            <div class="group bg-[--neutral-white] p-8 rounded-xl border border-[--neutral-soft] shadow-sm hover:border-[--bluegray-deep] transition-all duration-300">
+                <div class="w-12 h-12 bg-[--bluegray-light] text-[--bluegray-accent] rounded flex items-center justify-center mb-6 group-hover:bg-[--bluegray-accent] group-hover:text-[--neutral-white] transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-[--bluegray-dark] mb-3">Points Lecture</h3>
+                <p class="text-[--bluegray-deep] text-sm leading-relaxed mb-6">Chaque livre acheté alimente votre compteur. Transformez vos achats en avantages concrets.</p>
+                <div class="p-3 bg-[--neutral-light] rounded border border-[--neutral-soft] text-xs font-bold text-[--bluegray-accent]">
+                    SENSATIONNEL : 1€ = 1 POINT
+                </div>
+            </div>
+
+            {# Card Récompenses #}
+            <div class="group bg-[--neutral-white] p-8 rounded-xl border border-[--neutral-soft] shadow-sm hover:border-[--bluegray-deep] transition-all duration-300">
+                <div class="w-12 h-12 bg-[--bluegray-light] text-[--bluegray-accent] rounded flex items-center justify-center mb-6 group-hover:bg-[--bluegray-accent] group-hover:text-[--neutral-white] transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-[--bluegray-dark] mb-3">Statuts Membres</h3>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex items-center gap-2 text-[--bluegray-deep]">
+                        <span class="w-1 h-1 bg-[--bluegray-accent] rounded-full"></span>
+                        <strong class="text-[--bluegray-dark]">Lecteur :</strong> Badge + Surprise
+                    </li>
+                    <li class="flex items-center gap-2 text-[--bluegray-deep]">
+                        <span class="w-1 h-1 bg-[--bluegray-accent] rounded-full"></span>
+                        <strong class="text-[--bluegray-dark]">Passionné :</strong> Accès Prioritaire
+                    </li>
+                    <li class="flex items-center gap-2 text-[--bluegray-deep]">
+                        <span class="w-1 h-1 bg-[--bluegray-accent] rounded-full"></span>
+                        <strong class="text-[--bluegray-dark]">Bibliophile :</strong> Statut VIP
+                    </li>
+                </ul>
+            </div>
+
+            {# Card Précommandes #}
+            <div class="group bg-[--neutral-white] p-8 rounded-xl border border-[--neutral-soft] shadow-sm hover:border-[--bluegray-deep] transition-all duration-300">
+                <div class="w-12 h-12 bg-[--bluegray-light] text-[--bluegray-accent] rounded flex items-center justify-center mb-6 group-hover:bg-[--bluegray-accent] group-hover:text-[--neutral-white] transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-[--bluegray-dark] mb-3">Avant-premières</h3>
+                <p class="text-[--bluegray-deep] text-sm leading-relaxed mb-6">Ne ratez plus aucune sortie majeure. Votre fidélité vous place en tête de liste.</p>
+                <div class="text-[--bluegray-accent] font-bold text-sm flex items-center gap-2 group-hover:translate-x-1 transition-transform cursor-pointer">
+                    Voir les nouveautés →
+                </div>
+            </div>
+        </div>
+
+        {# Action Block - Utilisation des variables de boutons #}
+        <div class="bg-[--bluegray-medium] rounded-[2rem] p-8 md:p-12 border border-[--bluegray-deep]/20 shadow-inner">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
+                {% if app.user and app.user.isAdherent %}
+                    <div class="text-center lg:text-left">
+                        <h3 class="text-2xl font-bold text-[--bluegray-dark] mb-2">Votre espace est prêt ✅</h3>
+                        <p class="text-[--bluegray-accent] opacity-80">Retrouvez votre progression et vos badges dans votre compte.</p>
+                    </div>
+                    <a href="{{ path('app_compte') }}" class="w-full lg:w-auto px-10 py-4 bg-[--bluegray-accent] hover:bg-[--bluegray-hover] text-[--neutral-white] font-bold rounded shadow-lg transition-colors text-center">
+                        Accéder à mon espace
+                    </a>
+                {% else %}
+                    <div class="text-center lg:text-left max-w-xl">
+                        <h3 class="text-2xl font-bold text-[--bluegray-dark] mb-4">Rejoindre Lectis+ gratuitement</h3>
+                        <p class="text-[--bluegray-accent] opacity-80">L'adhésion est immédiate. Commencez à cumuler vos points lecture dès votre prochaine commande.</p>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                        <form method="post" action="{{ path('app_compte_lectis_plus_adherer') }}" class="contents">
+                            <input type="hidden" name="_token" value="{{ csrf_token('lectis_plus_join') }}">
+                            <button type="submit" class="px-10 py-4 bg-[--bluegray-accent] hover:bg-[--bluegray-hover] text-[--neutral-white] font-bold rounded shadow-lg transition-all active:scale-95">
+                                Adhérer maintenant
+                            </button>
+                        </form>
+                        <a href="{{ path('app_compte') }}" class="px-10 py-4 bg-transparent border border-[--bluegray-deep] text-[--bluegray-dark] font-bold rounded hover:bg-[--bluegray-light] transition-colors text-center">
+                            Plus tard
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="mt-8 text-center text-[--bluegray-deep] text-xs">
+            <p>* Programme de démonstration fictif — aucune réduction réelle ne sera appliquée lors du paiement.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

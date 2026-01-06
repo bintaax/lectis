@@ -92,3 +92,23 @@ function deleteLine(ligneId) {
         .catch(err => console.error("Erreur deleteLine :", err));
 }
 
+// Onglets de l'espace personnel
+
+document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.tab-button');
+    const panels = document.querySelectorAll('.tab-panel');
+
+    function showTab(name) {
+        panels.forEach(panel => panel.classList.add('hidden'));
+        document.getElementById('tab-' + name).classList.remove('hidden');
+
+        buttons.forEach(btn => btn.classList.remove('bg-white', 'border', 'border-b-0'));
+        const activeBtn = document.querySelector('[data-tab="' + name + '"]');
+        activeBtn.classList.add('bg-white', 'border', 'border-b-0');
+    }
+
+    showTab('profil');
+    buttons.forEach(btn =>
+        btn.addEventListener('click', () => showTab(btn.getAttribute('data-tab')))
+    );
+});

@@ -32,6 +32,10 @@
             <p class="text-sm text-gray-500">Connecté(e) en tant que</p>
             <p class="text-xl font-semibold">
                 {{ app.user.prenom ?? app.user.nom ?? app.user.email }}
+                  {% if app.user and app.user.isAdherent %}
+            <p class="text-sm font-bold text-green-600">Adhérent(e) Lectis +</p>                                                                                                                
+
+        {% endif %}
             </p>
             <p class="text-sm text-gray-500">Email : {{ app.user.email }}</p>
         </div>
@@ -40,6 +44,9 @@
             <p class="text-sm text-gray-500">Nombre de commandes</p>
             <p class="text-2xl font-bold">{{ commandes|length }}</p>
         </div>
+      
+
+        
     </div>
 
     {# Onglets #}
@@ -64,12 +71,20 @@
         <p class="text-gray-700"><strong>Email :</strong> {{ app.user.email }}</p>
 
         <p class="font-bold text-sm mt-5">Que souhaitez-vous modifier ? : <a href="{{path('app_compte_modifier')}}" class="hover:underline">vos informations personnelles</a> ou <a href="{{path('app_compte_password')}}" class="hover:underline">votre mot de passe</a></p>
-        <a href="{{ path('app_compte_supprimer') }}"
+        <form method="post" action="{{ path('app_compte_supprimer') }}"
+      onsubmit="return confirm('Confirmer la suppression de votre compte ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete-account') }}">
+    <button type="submit" class="mt-6 inline-flex items-center gap-2 rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white hover:bg-red-700">
+        Supprimer mon compte
+    </button>
+</form>
+
+{#         <a href="{{ path('app_compte_supprimer') }}"
    onclick="return confirm('Voulez-vous vraiment supprimer votre compte ?')"
    class="text-red-600 font-semibold text-sm hover:underline">
    Supprimer mon compte
 </a>
-
+ #}
     </section>
 
     {# 2. ADRESSE DE LIVRAISON #}

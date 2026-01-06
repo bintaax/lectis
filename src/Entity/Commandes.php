@@ -16,16 +16,19 @@ class Commandes
     #[ORM\Column]
     private ?int $id = null;
 
+    // FK existante dans ta DB : commandes.utilisateurs_id -> utilisateurs.id
     #[ORM\ManyToOne(inversedBy: 'commandes')]
+    #[ORM\JoinColumn(name: 'utilisateurs_id', referencedColumnName: 'id', nullable: false)]
     private ?Utilisateurs $utilisateurs = null;
 
     #[ORM\Column(length: 20, unique: true)]
-private ?string $numeroCommande = null;
-
+    private ?string $numeroCommande = null;
 
     #[ORM\Column]
-private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+private ?\DateTimeImmutable $deletedAt = null;
 
     #[ORM\Column]
     private ?float $total = null;
@@ -48,9 +51,10 @@ private ?\DateTimeImmutable $createdAt = null;
     public function __construct()
     {
         $this->ligneCommandes = new ArrayCollection();
-         $this->createdAt = new \DateTimeImmutable();
-         $this->numeroCommande = 'CMD-' . strtoupper(bin2hex(random_bytes(4)));
+        $this->createdAt = new \DateTimeImmutable();
 
+        // garde ton format actuel
+        $this->numeroCommande = 'CMD-' . strtoupper(bin2hex(random_bytes(4)));
     }
 
     public function getId(): ?int
@@ -63,9 +67,33 @@ private ?\DateTimeImmutable $createdAt = null;
         return $this->utilisateurs;
     }
 
+    // Je laisse la signature nullable comme tu l’avais (API inchangée),
+    // mais en pratique, vu nullable:false, évite de passer null.
     public function setUtilisateurs(?Utilisateurs $utilisateurs): static
     {
         $this->utilisateurs = $utilisateurs;
+        return $this;
+    }
+
+    public function getNumeroCommande(): ?string
+    {
+        return $this->numeroCommande;
+    }
+
+    public function setNumeroCommande(string $numeroCommande): static
+    {
+        $this->numeroCommande = $numeroCommande;
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
         return $this;
     }
 
@@ -102,7 +130,7 @@ private ?\DateTimeImmutable $createdAt = null;
         return $this;
     }
 
-    public function getPaiement()
+    public function getPaiement(): ?string
     {
         return $this->paiement;
     }
@@ -127,6 +155,7 @@ private ?\DateTimeImmutable $createdAt = null;
             $this->ligneCommandes->add($ligneCommande);
             $ligneCommande->setCommande($this);
         }
+
         return $this;
     }
 
@@ -137,29 +166,9 @@ private ?\DateTimeImmutable $createdAt = null;
                 $ligneCommande->setCommande(null);
             }
         }
+
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-{
-    return $this->createdAt;
-}
-
-public function setCreatedAt(\DateTimeImmutable $createdAt): static
-{
-    $this->createdAt = $createdAt;
-    return $this;
-}
-
-public function getNumeroCommande(): ?string
-{
-    return $this->numeroCommande;
-}
-
-public function setNumeroCommande(string $numeroCommande): static
-{
-    $this->numeroCommande = $numeroCommande;
-    return $this;
-}
-
+    
 }

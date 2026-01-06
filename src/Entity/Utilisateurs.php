@@ -59,6 +59,17 @@ private Collection $paniers;
     #[ORM\Column]
     private bool $isVerified = false;
 
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+private ?\DateTimeImmutable $deletedAt = null;
+
+#[ORM\Column(options: ['default' => false])]
+private bool $isAdherent = false;
+
+#[ORM\Column(type: 'datetime_immutable', nullable: true)]
+private ?\DateTimeImmutable $adherentAt = null;
+
+
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
@@ -237,4 +248,54 @@ public function removePanier(Panier $panier): static
 
         return $this;
     }
+
+    public function getDeletedAt(): ?\DateTimeImmutable
+{
+    return $this->deletedAt;
+}
+
+public function isDeleted(): bool
+{
+    return $this->deletedAt !== null;
+}
+public function anonymizeAndDeactivate(): void
+{
+    $this->deletedAt = new \DateTimeImmutable();
+
+    // anonymisation
+    $this->nom = 'Utilisateur';
+    $this->prenom = 'supprimé';
+
+    // email doit rester unique (tu as une contrainte UNIQUE)
+    // => on génère un email unique basé sur l'id si dispo
+    $idPart = $this->id ?? random_int(100000, 999999);
+    $this->email = 'deleted_' . $idPart . '@lectis.local';
+
+    // on invalide le password (au cas où)
+    $this->password = password_hash(bin2hex(random_bytes(24)), PASSWORD_BCRYPT);
+
+    // optionnel : on remet les rôles
+    $this->roles = ['ROLE_USER'];
+
+    // optionnel : on désactive la vérification
+    $this->isVerified = false;
+}
+
+
+public function isAdherent(): bool
+{
+    return $this->isAdherent;
+}
+
+public function getAdherentAt(): ?\DateTimeImmutable
+{
+    return $this->adherentAt;
+}
+
+public function becomeAdherent(): void
+{
+    $this->isAdherent = true;
+    $this->adherentAt = new \DateTimeImmutable();
+}
+
 }
