@@ -1,107 +1,124 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Politique de confidentialité – Lectis{% endblock %}
+{% block title %}Politique de confidentialité | Lectis{% endblock %}
 
 {% block body %}
-<section class="max-w-4xl mx-auto mt-12 mb-20 bg-white p-10 rounded-xl shadow-lg">
+<style>
+    :root {
+        --bluegray-light:   #EEF3F8;
+        --bluegray-medium:  #CDD6E2;
+        --bluegray-deep:    #7B8A9A;
+        --bluegray-dark:    #2E3A45;
+        --bluegray-accent:  #3F5366;
+        --neutral-white:    #FFFFFF;
+    }
+    .privacy-content h2 {
+        color: var(--bluegray-dark);
+        font-weight: 700;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    .privacy-content p, .privacy-content li {
+        color: var(--bluegray-accent);
+        line-height: 1.7;
+    }
+</style>
 
-    <h1 class="text-4xl font-bold text-center mb-6">🔐 Politique de confidentialité</h1>
+<div class="min-h-screen bg-[--bluegray-light] py-16 px-4">
+    <div class="max-w-4xl mx-auto">
+        
+        <section class="bg-[--neutral-white] p-8 md:p-16 rounded-[2rem] shadow-xl border border-[--bluegray-medium]/30 privacy-content">
+            
+            {# En-tête #}
+            <div class="text-center mb-12">
+                <span class="text-[--bluegray-deep] font-bold uppercase tracking-[0.2em] text-xs">Protection des données</span>
+                <h1 class="text-4xl md:text-5xl font-black text-[--bluegray-dark] mt-4 mb-6">Confidentialité</h1>
+                <p class="text-[--bluegray-accent] italic opacity-75 text-sm max-w-lg mx-auto leading-relaxed">
+                    Document simplifié rédigé dans le cadre d’un projet d’apprentissage. Nous accordons une importance capitale à la sécurité de vos informations.
+                </p>
+                <div class="w-16 h-1 bg-[--bluegray-medium] mx-auto mt-8 rounded-full"></div>
+            </div>
 
-    <p class="text-center text-gray-600 mb-10">
-        Cette politique explique comment le site <strong>Lectis</strong> traite les données personnelles
-        des utilisateurs.
-    </p>
+            <div class="space-y-8">
+                
+                {# 1. Responsable #}
+                <div class="p-6 bg-[--bluegray-light]/30 rounded-2xl border border-[--bluegray-medium]/20">
+                    <h2 class="!mt-0 !mb-4 text-xl italic">1. Responsable du traitement</h2>
+                    <p>
+                        Le responsable du traitement des données personnelles est la société <strong>Lectis</strong>. 
+                        Pour toute question relative à vos données, contactez-nous à : 
+                        <a href="mailto:support@lectis.org" class="font-bold text-[--bluegray-dark] underline">support@lectis.org</a>.
+                    </p>
+                </div>
 
-    <p class="mb-6 text-sm text-gray-500">
-        Document simplifié, à titre d’exemple dans un projet d’apprentissage.
-    </p>
+                {# 2 & 3. Données et Finalités #}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h2>2. Données collectées</h2>
+                        <ul class="space-y-2 list-disc ml-5">
+                            <li>Identification (Nom, Email) via les formulaires.</li>
+                            <li>Navigation (Pages, temps de visite) de façon anonyme.</li>
+                            <li>Données de compte (Identifiants).</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2>3. Finalités</h2>
+                        <ul class="space-y-2 list-disc ml-5">
+                            <li>Répondre à vos messages de contact.</li>
+                            <li>Améliorer l'expérience utilisateur.</li>
+                            <li>Gérer vos commandes et votre espace client.</li>
+                        </ul>
+                    </div>
+                </div>
 
-    <hr class="my-8 border-gray-200">
+                <h2>4. Conservation et Destinataires</h2>
+                <p>
+                    Vos données sont conservées pour une durée strictement nécessaire (maximum 3 ans pour les contacts commerciaux). 
+                    <strong>Elles ne sont jamais vendues à des tiers</strong> et ne sont accessibles qu'à l'équipe Lectis et nos prestataires techniques (hébergement).
+                </p>
 
-    <h2 class="text-2xl font-semibold mb-4">1. Responsable du traitement</h2>
-    <p class="mb-6">
-        Le responsable du traitement des données personnelles est la société fictive <strong>Lectis</strong>.
-        Pour toute question, vous pouvez nous contacter à : 
-        <a href="mailto:support@lectis.com" class="text-blue-600 font-semibold">support@lectis.org</a>.
-    </p>
+                {# 5. Vos Droits (Mise en valeur) #}
+                <div class="bg-[--bluegray-dark] text-white p-8 rounded-2xl shadow-lg my-12">
+                    <h2 class="!text-white !mt-0 !mb-6 !border-none">⚖️ Vos Droits (RGPD)</h2>
+                    <p class="text-[--bluegray-medium] mb-6">Conformément au RGPD, vous disposez d'un contrôle total sur vos informations :</p>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div class="flex items-center gap-2">✔ Accès & Rectification</div>
+                        <div class="flex items-center gap-2">✔ Suppression (Droit à l'oubli)</div>
+                        <div class="flex items-center gap-2">✔ Opposition au traitement</div>
+                        <div class="flex items-center gap-2">✔ Portabilité des données</div>
+                    </div>
+                    <p class="mt-8 pt-6 border-t border-white/10 text-xs italic">
+                        Exercez ces droits par email à <a href="mailto:support@lectis.org" class="underline font-bold">support@lectis.org</a>.
+                    </p>
+                </div>
 
-    <h2 class="text-2xl font-semibold mb-4">2. Données collectées</h2>
-    <p class="mb-4">
-        Selon votre utilisation du site, les données suivantes peuvent être collectées :
-    </p>
-    <ul class="list-disc ml-6 space-y-1 mb-6">
-        <li>Données d’identification (nom, prénom, adresse e-mail) via le formulaire de contact.</li>
-        <li>Données de navigation (pages visitées, temps de consultation) de manière anonyme ou statistique.</li>
-    </ul>
+                <h2>6. Cookies & Sécurité</h2>
+                <p>
+                    Nous utilisons des mesures de sécurité renforcées (chiffrement, accès restreints) pour protéger vos données. 
+                    Pour le détail technique des cookies utilisés sur le site, veuillez consulter notre page dédiée :
+                </p>
+                <div class="mt-4">
+                    <a href="{{ path('app_cookies') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-[--bluegray-light] text-[--bluegray-dark] rounded-xl font-bold hover:bg-[--bluegray-medium] transition-all">
+                        <span>🍪</span> Voir la politique des cookies
+                    </a>
+                </div>
 
-    <h2 class="text-2xl font-semibold mb-4">3. Finalités du traitement</h2>
-    <p class="mb-4">
-        Vos données peuvent être traitées pour les finalités suivantes :
-    </p>
-    <ul class="list-disc ml-6 space-y-1 mb-6">
-        <li>répondre à vos demandes envoyées via le formulaire de contact ;</li>
-        <li>améliorer l’expérience utilisateur et le contenu du site ;</li>
-        <li>réaliser, le cas échéant, des statistiques anonymes de fréquentation.</li>
-    </ul>
+            </div>
 
-    <h2 class="text-2xl font-semibold mb-4">4. Base légale</h2>
-    <p class="mb-6">
-        Le traitement de vos données repose sur votre consentement (ex. formulaire de contact) et
-        l’intérêt légitime d’améliorer le site et son fonctionnement.
-    </p>
+            {# Footer du document #}
+            <div class="mt-16 pt-8 border-t border-[--bluegray-light] text-center">
+                <p class="text-xs font-bold text-[--bluegray-deep] uppercase tracking-widest mb-4">Dernière mise à jour : Janvier 2026</p>
+                <a href="{{ path('app_contact') }}" class="text-[--bluegray-accent] font-bold hover:text-[--bluegray-dark] transition-colors underline underline-offset-4">
+                    Retour au formulaire de contact
+                </a>
+            </div>
 
-    <h2 class="text-2xl font-semibold mb-4">5. Durée de conservation</h2>
-    <p class="mb-6">
-        Les données sont conservées pour une durée limitée, strictement nécessaire aux finalités
-        pour lesquelles elles sont collectées, puis supprimées ou anonymisées.
-    </p>
+        </section>
 
-    <h2 class="text-2xl font-semibold mb-4">6. Destinataires des données</h2>
-    <p class="mb-6">
-        Les données collectées ne sont pas vendues à des tiers. Elles peuvent être accessibles
-        à des prestataires techniques (hébergeur, outils de mails) dans le cadre du fonctionnement
-        du site.
-    </p>
-
-    <h2 class="text-2xl font-semibold mb-4">7. Vos droits</h2>
-    <p class="mb-4">
-        Conformément au RGPD et à la loi “Informatique et Libertés”, vous disposez des droits suivants :
-    </p>
-    <ul class="list-disc ml-6 space-y-1 mb-6">
-        <li>droit d’accès à vos données ;</li>
-        <li>droit de rectification ;</li>
-        <li>droit d’effacement ;</li>
-        <li>droit d’opposition et de limitation du traitement ;</li>
-        <li>droit à la portabilité, dans certains cas.</li>
-    </ul>
-
-    <p class="mb-6">
-        Pour exercer vos droits, vous pouvez nous écrire à :
-        <a href="mailto:support@lectis.com" class="text-blue-600 font-semibold">support@lectis.org</a>.
-    </p>
-
-    <h2 class="text-2xl font-semibold mb-4">8. Cookies</h2>
-    <p class="mb-4">
-        Pour plus d’informations sur l’utilisation des cookies, vous pouvez consulter notre page
-        dédiée :
-    </p>
-    <p class="mb-6">
-        <a href="{{ path('app_cookies') }}" class="text-blue-600 font-semibold">
-            🍪 Utilisation des cookies
-        </a>
-    </p>
-
-    <h2 class="text-2xl font-semibold mb-4">9. Sécurité</h2>
-    <p class="mb-6">
-        Le site met en œuvre des mesures techniques et organisationnelles raisonnables pour protéger
-        vos données contre tout accès non autorisé, perte ou altération.
-    </p>
-
-    <h2 class="text-2xl font-semibold mb-4">10. Modification de la politique</h2>
-    <p class="mb-2">
-        La présente politique de confidentialité peut être mise à jour afin de refléter l’évolution du site
-        ou de la réglementation. La version en vigueur est celle affichée sur cette page.
-    </p>
-
-</section>
+    </div>
+</div>
 {% endblock %}

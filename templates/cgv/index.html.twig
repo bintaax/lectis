@@ -1,86 +1,98 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Conditions Générales de Vente – Lectis{% endblock %}
+{% block title %}Conditions Générales de Vente | Lectis{% endblock %}
 
 {% block body %}
-<section class="max-w-4xl mx-auto mt-12 mb-20 bg-white p-10 rounded-xl shadow-lg">
 
-    <h1 class="text-4xl font-bold text-center mb-6">📚 Conditions Générales de Vente (CGV)</h1>
+<div class="min-h-screen bg-[--bluegray-light] py-16 px-4">
+    <div class="max-w-4xl mx-auto">
+        
+        <section class="bg-[--neutral-white] p-8 md:p-16 rounded-4xl shadow-xl border border-[--bluegray-medium]/30 cgv-content">
+            
+            {# En-tête #}
+            <div class="text-center mb-12">
+                <span class="text-[--bluegray-deep] font-bold uppercase tracking-[0.2em] text-xs">Commerce</span>
+                <h1 class="text-4xl md:text-5xl font-black text-[--bluegray-dark] mt-4 mb-6">Conditions de Vente</h1>
+                <div class="bg-[--bluegray-light] px-6 py-3 rounded-xl inline-block">
+                    <p class="text-[--bluegray-accent] italic text-sm">
+                        Projet de démonstration • Aucun paiement réel ne sera effectué.
+                    </p>
+                </div>
+                <div class="w-16 h-1 bg-[--bluegray-medium] mx-auto mt-8 rounded-full"></div>
+            </div>
 
-    <p class="text-center text-gray-600 mb-10">
-        Les présentes Conditions Générales de Vente encadrent les ventes réalisées sur le site
-        <strong>Lectis</strong>.
-    </p>
+            <div class="space-y-6">
+                <p>
+                    Les présentes Conditions Générales de Vente encadrent les ventes simulées réalisées sur le site 
+                    <strong>Lectis</strong>. Toute validation de commande implique l'acceptation de ces termes.
+                </p>
 
-    <p class="mb-6 text-sm text-gray-500">
-        Document simplifié, adapté à un projet de démonstration. Ne constitue pas un conseil juridique.
-    </p>
+                <h2>1. Champ d’application</h2>
+                <p>
+                    Les présentes CGV s’appliquent à toute commande passée sur <strong>Lectis</strong>. 
+                    L’Utilisateur reconnaît les avoir consultées et acceptées avant de valider son panier.
+                </p>
 
-    <hr class="my-8 border-gray-200">
+                <h2>2. Produits et Disponibilité</h2>
+                <p>
+                    Les produits présentés sont des ouvrages physiques. Les descriptions, visuels et titres sont fournis 
+                    à titre indicatif pour illustrer le fonctionnement de la base de données du projet.
+                </p>
 
-    <h2 class="text-2xl font-semibold mb-4">1. Champ d’application</h2>
-    <p class="mb-6">
-        Les présentes CGV s’appliquent à toute commande passée sur le site <strong>Lectis</strong>.
-        L’Utilisateur reconnaît les accepter pleinement avant toute validation de commande.
-    </p>
+                <h2>3. Tarification</h2>
+                <p>
+                    Les prix sont affichés en euros TTC. Dans le cadre de ce projet de développement web, ces prix 
+                    n’ont pas de valeur contractuelle et ne correspondent à aucune transaction financière réelle.
+                </p>
 
-    <h2 class="text-2xl font-semibold mb-4">2. Produits</h2>
-    <p class="mb-6">
-        Les produits proposés sont principalement des livres et ouvrages présentés sur le site.
-        Les informations (titres, descriptions, prix) sont fournies à titre indicatif dans le cadre d’un projet
-        fictif.
-    </p>
+                <h2>4. Processus de Commande</h2>
+                <div class="bg-[--bluegray-light]/50 p-6 rounded-2xl border border-[--bluegray-medium]/20 my-6">
+                    <p class="text-sm">
+                        Le parcours d'achat (Ajout au panier, validation, suivi) est une simulation technique. 
+                        <strong>Aucune expédition de marchandise n'est effectuée.</strong>
+                    </p>
+                </div>
 
-    <h2 class="text-2xl font-semibold mb-4">3. Prix</h2>
-    <p class="mb-6">
-        Les prix sont indiqués en euros, toutes taxes comprises (TTC). Dans le cadre du projet, les prix
-        n’ont pas de valeur contractuelle réelle et n’entraînent aucune transaction effective.
-    </p>
+                <h2>5. Simulation de Paiement</h2>
+                <p>
+                    Les moyens de paiement proposés sont simulés. Le site ne collecte aucune coordonnée bancaire réelle 
+                    et n'est relié à aucun terminal de paiement en production.
+                </p>
 
-    <h2 class="text-2xl font-semibold mb-4">4. Commande</h2>
-    <p class="mb-6">
-        La validation d’une commande sur le site vaut acceptation des présentes CGV.
-        Dans le cadre de ce projet, aucune expédition ni paiement réel ne sont effectués.
-    </p>
+                <h2>6. Droit de rétractation et Retours</h2>
+                <p>
+                    Bien que fictif, ce site respecte la logique du droit de rétractation de 14 jours. 
+                    Pour plus d'informations sur les procédures simulées, consultez :
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 mt-4">
+                    <a href="{{ path('app_retours') }}" class="flex-1 text-center p-4 bg-white border border-[--bluegray-medium] rounded-xl text-[--bluegray-dark] font-bold hover:bg-[--bluegray-light] transition-all">
+                        Politique de Retour
+                    </a>
+                    <a href="{{ path('app_remboursement') }}" class="flex-1 text-center p-4 bg-white border border-[--bluegray-medium] rounded-xl text-[--bluegray-dark] font-bold hover:bg-[--bluegray-light] transition-all">
+                        Politique de Remboursement
+                    </a>
+                </div>
 
-    <h2 class="text-2xl font-semibold mb-4">5. Paiement</h2>
-    <p class="mb-6">
-        Les moyens de paiement éventuellement proposés (carte bancaire, etc.) sont simulés dans le cadre
-        d’un projet de démonstration. Aucune donnée bancaire réelle n’est collectée via le site.
-    </p>
+                <h2>7. Responsabilité et Droit applicable</h2>
+                <p>
+                    <strong>Lectis</strong> est un projet étudiant. L'Éditeur ne peut être tenu responsable en cas 
+                    de bugs, d'erreurs d'affichage ou d'indisponibilité du site. Ces CGV sont soumises au droit français.
+                </p>
+            </div>
 
-    <h2 class="text-2xl font-semibold mb-4">6. Livraison</h2>
-    <p class="mb-6">
-        Les informations de livraison affichées (délais, modes d’envoi) sont fictives et utilisées à des fins
-        pédagogiques pour illustrer un parcours client.
-    </p>
+            {# Footer du document #}
+            <div class="mt-16 pt-8 border-t border-[--bluegray-light] text-center">
+                <p class="text-xs font-bold text-[--bluegray-deep] uppercase tracking-widest mb-4">Une question sur le projet ?</p>
+                <a href="https://bintousylla.dev" class="inline-block px-8 py-3 bg-[--bluegray-dark] hover:bg-[--bluegray-hover] text-white font-bold rounded-xl transition-all shadow-md">
+                    Contacter la développeuse
+                </a>
+            </div>
 
-    <h2 class="text-2xl font-semibold mb-4">7. Droit de rétractation</h2>
-    <p class="mb-6">
-        Dans un contexte réel, l’acheteur disposerait d’un délai de 14 jours pour exercer son droit de
-        rétractation, sauf exceptions prévues par la loi (ebooks, contenus numériques déjà téléchargés, etc.).
-        Dans ce projet, aucune vente réelle n’est réalisée.
-    </p>
+        </section>
 
-    <h2 class="text-2xl font-semibold mb-4">8. Retours et remboursements</h2>
-    <p class="mb-4">
-        Les conditions de retour et de remboursement sont détaillées dans les pages :
-    </p>
-    <ul class="list-disc ml-6 mb-6">
-        <li><a href="{{ path('app_retours') }}" class="text-blue-600 font-semibold">Politique de retour</a></li>
-        <li><a href="{{ path('app_remboursement') }}" class="text-blue-600 font-semibold">Politique de remboursement</a></li>
-    </ul>
-
-    <h2 class="text-2xl font-semibold mb-4">9. Responsabilité</h2>
-    <p class="mb-6">
-        <strong>Lectis</strong> ne pourra être tenue responsable d’un quelconque dommage lié à l’utilisation
-        du site dans le cadre de ce projet fictif (bugs, interruption, erreurs d’affichage, etc.).
-    </p>
-
-    <h2 class="text-2xl font-semibold mb-4">10. Droit applicable</h2>
-    <p class="mb-2">
-        Les présentes CGV sont soumises au droit français.
-    </p>
-
-</section>
+        <div class="mt-8 text-center text-[--bluegray-deep] text-xs">
+            <p>Dernière mise à jour : Janvier 2026</p>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,40 +1,76 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Politique de remboursement – Lectis{% endblock %}
+{% block title %}Politique de remboursement | Lectis{% endblock %}
 
 {% block body %}
-<section class="max-w-4xl mx-auto mt-12 mb-20 bg-white p-10 rounded-xl shadow-lg">
 
-    <h1 class="text-4xl font-bold text-center mb-6">💳 Politique de remboursement</h1>
 
-    <p class="text-center text-gray-600 mb-10">
-        Une fois le produit retourné et vérifié, le remboursement sera effectué sous
-        <strong>7 jours ouvrés</strong>.
-    </p>
+<div class="min-h-screen bg-[--bluegray-light] py-16 px-4">
+    <div class="max-w-4xl mx-auto">
+        
+        <section class="bg-[--neutral-white] p-8 md:p-16 rounded-[2rem] shadow-xl border border-[--bluegray-medium]/30 refund-content">
+            
+            <div class="text-center mb-12">
+                <span class="text-[--bluegray-deep] font-bold uppercase tracking-widest text-xs">Transactions</span>
+                <h1 class="text-4xl md:text-5xl font-black text-[--bluegray-dark] mt-4 mb-6 text-center">Politque de remboursement</h1>
+                <p class="text-[--bluegray-accent] text-lg max-w-lg mx-auto leading-relaxed">
+                    Une fois votre retour réceptionné et validé par nos services, nous procédons à votre remboursement sous <strong>7 jours ouvrés</strong>.
+                </p>
+                <div class="w-16 h-1 bg-[--bluegray-medium] mx-auto mt-8 rounded-full"></div>
+            </div>
 
-    <hr class="my-10 border-gray-200">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-10">
+                {# Mode de remboursement #}
+                <div class="p-6 bg-[--bluegray-light]/50 rounded-2xl border border-[--bluegray-medium]/20">
+                    <h2 class="text-xl !mt-0 !mb-4">💳 Mode opératoire</h2>
+                    <p class="text-sm text-[--bluegray-accent] leading-relaxed">
+                        Le remboursement est effectué automatiquement sur le <strong>moyen de paiement utilisé</strong> lors de la commande (Carte Bancaire, PayPal ou Carte Cadeau).
+                    </p>
+                </div>
 
-    <h2 class="text-2xl font-semibold mb-4">❌ Articles non remboursables</h2>
+                {# Articles non remboursables #}
+                <div class="p-6 bg-red-50/50 rounded-2xl border border-red-100">
+                    <h2 class="text-xl !mt-0 !mb-4 !text-red-900">❌ Restrictions</h2>
+                    <ul class="space-y-2 text-sm text-red-800/80">
+                        <li>• Livres abîmés, annotés ou cornés</li>
+                        <li>• Retours hors délais (14 jours)</li>
+                        <li>• Cartes cadeaux déjà activées</li>
+                    </ul>
+                </div>
+            </div>
 
-    <ul class="list-disc ml-6 space-y-1 mb-10">
-        <li>Ebooks ou contenus numériques téléchargés.</li>
-        <li>Articles abîmés, annotés ou utilisés.</li>
-        <li>Cartes cadeaux.</li>
-    </ul>
+            <hr class="border-[--bluegray-light] my-10">
 
-    <hr class="my-10 border-gray-200">
+            {# Remboursements en retard #}
+            <h2 class="text-2xl">⏳ Remboursement non reçu ?</h2>
+            <p class="mb-6 text-[--bluegray-accent]">Si vous ne voyez pas apparaître la transaction après 7 jours ouvrés, nous vous conseillons de :</p>
+            
+            <div class="space-y-4">
+                <div class="flex items-center gap-4 p-4 rounded-xl border border-[--bluegray-light] hover:border-[--bluegray-medium] transition-colors">
+                    <span class="text-xl">🏦</span>
+                    <p class="text-sm font-medium text-[--bluegray-dark]">Contacter votre banque (les délais d'affichage peuvent varier selon les établissements).</p>
+                </div>
+                <div class="flex items-center gap-4 p-4 rounded-xl border border-[--bluegray-light] hover:border-[--bluegray-medium] transition-colors">
+                    <span class="text-xl">📧</span>
+                    <p class="text-sm font-medium text-[--bluegray-dark]">
+                        Nous contacter à <a href="mailto:support@lectis.org" class="text-[--bluegray-accent] underline font-bold">support@lectis.org</a> avec votre numéro de commande.
+                    </p>
+                </div>
+            </div>
 
-    <h2 class="text-2xl font-semibold mb-4">⏳ Remboursements en retard</h2>
+            {# Bouton de contact rapide #}
+            <div class="mt-12 text-center">
+                <a href="{{path('app_contact')}}" class="inline-flex items-center gap-2 px-8 py-3 bg-[--bluegray-accent] hover:bg-[--bluegray-hover] text-white font-bold rounded-xl shadow-lg transition-all">
+                    Ouvrir un ticket support
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
+            </div>
 
-    <p class="mb-4">Si vous ne voyez pas votre remboursement :</p>
+        </section>
 
-    <ul class="list-disc ml-6 space-y-1 mb-10">
-        <li>Vérifiez votre compte bancaire.</li>
-        <li>Contactez votre banque ou service de paiement.</li>
-        <li>
-            Contactez notre support via notre <strong><a href="{{path('app_contact')}}">formulaire de contact</a></strong> ou directement par mail :  <a href="mailto:support@lectis.org" class="font-semibold text-blue-600">support@lectis.org</a>
-        </li>
-    </ul>
-
-</section>
+        <div class="mt-8 text-center text-[--bluegray-deep] text-xs">
+            <p>Lectis s'engage à respecter les directives européennes sur les droits des consommateurs.</p>
+        </div>
+    </div>
+</div>
 {% endblock %}

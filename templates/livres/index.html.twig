@@ -1,107 +1,91 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Catalogue{% endblock %}
+{% block title %}Catalogue | Lectis{% endblock %}
 
 {% block body %}
+<style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    .book-card img { transition: transform 0.5s ease; }
+    .book-card:hover img { transform: scale(1.05); }
+</style>
 
-<!-- MESSAGE DE BIENVENUE -->
-{% if app.user %}
-    <p class="text-gray-700 mt-10 text-xl md:text-2xl text-center px-6">
-        👋 Bienvenue, 
-        <span class="font-bold">{{ app.user.prenom ?? app.user.email }}</span> !
-    </p>
-{% endif %}
+<div class="bg-[--bluegray-light] min-h-screen pb-20">
 
-<!-- CATALOGUE PAR GENRE -->
-{% for genre, livres in livresParGenre %}
+    {# MESSAGE DE BIENVENUE #}
+    {% if app.user %}
+        <div class="pt-12 pb-6 px-6 text-center">
+            <h1 class="text-3xl font-black text-[--bluegray-dark]">
+                Bienvenue <span class="text-[--bluegray-accent]">{{ app.user.prenom ?? 'Lecteur' }}</span> !
+            </h1>
+        </div>
+    {% endif %}
 
-    {% set genreId = genre|lower|replace({' ':'-'}) %}
+    {# BOUCLE DES GENRES #}
+    {% for genre, livres in livresParGenre %}
+        {% set genreId = genre|lower|replace({' ':'-'}) %}
 
-    <section class="px-6 md:px-12 py-16">
-
-        <h2 class="text-3xl md:text-4xl font-bold text-bluegray-dark mb-6">
-            {{ genre }}
-        </h2>
-
-        <div class="relative">
-
-            <!-- Bouton gauche -->
-            <button 
-                class="absolute left-0 top-1/2 -translate-y-1/2 z-10 
-                       bg-white/80 hover:bg-white shadow p-2 rounded-full hidden sm:block"
-                onclick="scrollLeft('{{ genreId }}')">
-                ←
-            </button>
-
-            <!-- CONTENEUR SCROLLABLE -->
-            <div id="{{ genreId }}" 
-                 class="flex gap-6 overflow-x-auto scroll-smooth py-4 px-2 no-scrollbar">
-
-                {% for livre in livres %}
-
-                    <div class=" bg-white p-4 border border-default shadow-xs 
-                                rounded-xl 
-                                min-w-[160px] sm:min-w-[200px] md:min-w-[220px] lg:min-w-[240px]">
-
-                        <!-- IMAGE COUVERTURE RESPONSIVE -->
-                        <a href="{{ path('app_detail', { slug: livre.slug }) }}">
-                            <div class="w-full h-[220px] sm:h-[260px] md:h-[300px] lg:h-[320px] 
-                                        overflow-hidden rounded-lg bg-white">
-                                <img 
-                                    class="w-full h-full object-cover" 
-                                    src="/assets/img/{{ livre.photo }}" 
-                                    alt="{{ livre.titre }}"
-                                />
-                            </div>
-                        </a>
-
-                        <!-- TITRE -->
-                        <a href="{{ path('app_detail', { slug: livre.slug }) }}">
-                            <p class="mt-4 mb-1 text-sm sm:text-base md:text-lg font-semibold text-heading line-clamp-2">
-                                {{ livre.titre }}
-                            </p>
-                        </a>
-
-                        <!-- AUTEUR -->
-                        <p class="mb-2 text-body text-xs sm:text-sm truncate">
-                            {{ livre.auteur }}
-                        </p>
-
-                        <!-- PRIX -->
-                        <p class="mb-2 text-body text-lg sm:text-xl font-semibold">
-                            {{ livre.prix }} €
-                        </p>
-
-                        <!-- DISPONIBILITÉ -->
-                        <div class="mb-3">
-                            {{ livre.getDisponibiliteBadge()|raw }}
-                        </div>
-
-                        <!-- BOUTON DÉTAIL -->
-                        <button class="hover:bg-[#293a49]"><a href="{{ path('app_detail', { slug: livre.slug }) }}"
-                           class=" text-white ">
-                            Voir le détail
-                            <i class="fa-solid fa-arrow-down fa-rotate-270 ml-2"></i>
-                        </a></button>
-
-                    </div>
-
-                {% endfor %}
-
+        <section class="px-6 md:px-12 py-10">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-[--bluegray-dark] flex items-center gap-3">
+                    <span class="w-8 h-1 bg-[--bluegray-accent] rounded-full"></span>
+                    {{ genre }}
+                </h2>
+                
+                {# BOUTONS DE NAVIGATION SCROLL #}
+                <div class="hidden sm:flex gap-2">
+                    <button onclick="document.getElementById('{{ genreId }}').scrollBy({left: -300, behavior: 'smooth'})" 
+                            class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[--bluegray-medium] text-[--bluegray-dark] hover:bg-[--bluegray-dark] hover:text-white transition-all shadow-sm">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button onclick="document.getElementById('{{ genreId }}').scrollBy({left: 300, behavior: 'smooth'})" 
+                            class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[--bluegray-medium] text-[--bluegray-dark] hover:bg-[--bluegray-dark] hover:text-white transition-all shadow-sm">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
 
-            <!-- Bouton droite -->
-            <button 
-                class="absolute right-0 top-1/2 -translate-y-1/2 z-10 
-                       bg-white/80 hover:bg-white shadow p-2 rounded-full hidden sm:block"
-                onclick="scrollRight('{{ genreId }}')">
-                →
-            </button>
+            {# CONTENEUR DES LIVRES #}
+            <div id="{{ genreId }}" class="flex gap-6 overflow-x-auto scroll-smooth py-4 no-scrollbar">
+                {% for livre in livres %}
+                    <div class="book-card bg-white p-4 rounded-2xl shadow-sm border border-[--bluegray-medium]/30 min-w-[180px] sm:min-w-[220px] max-w-[240px] flex flex-col transition-all hover:shadow-xl hover:-translate-y-1">
+                        
+                        {# IMAGE COUVERTURE #}
+                        <a href="{{ path('app_detail', { slug: livre.slug }) }}" class="relative block overflow-hidden rounded-xl bg-[--bluegray-light] aspect-[2/3]">
+                            <img class="w-full h-full object-cover" 
+                                 src="/assets/img/{{ livre.photo }}" 
+                                 alt="{{ livre.titre }}" />
+                        </a>
 
-        </div>
+                        {# DÉTAILS DU LIVRE #}
+                        <div class="mt-4 flex flex-col flex-grow">
+                            <a href="{{ path('app_detail', { slug: livre.slug }) }}">
+                                <h3 class="text-sm sm:text-base font-bold text-[--bluegray-dark] line-clamp-2 hover:text-[--bluegray-accent] transition-colors leading-tight min-h-[2.5rem]">
+                                    {{ livre.titre }}
+                                </h3>
+                            </a>
+                            <p class="text-[--bluegray-deep] text-xs mt-1 truncate">{{ livre.auteur }}</p>
+                            
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="text-lg font-black text-[--bluegray-dark]">{{ livre.prix }} €</span>
+                                <div class="scale-90 origin-right">
+                                    {{ livre.getDisponibiliteBadge()|raw }}
+                                </div>
+                            </div>
 
-    </section>
+                            {# BOUTON D'ACTION #}
+                            <a href="{{ path('app_detail', { slug: livre.slug }) }}" 
+                               class="mt-4 w-full py-2.5 bg-[--bluegray-accent] hover:bg-[--bluegray-hover] text-white text-xs font-bold rounded-lg text-center transition-all flex items-center justify-center gap-2">
+                                Voir le livre
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endfor %}
 
-{% endfor %}
-
+</div>
 {% endblock %}

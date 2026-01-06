@@ -1,60 +1,99 @@
 {% extends 'base.html.twig' %}
-{% block title %} Mon panier {% endblock %}
+
+{% block title %}Mon panier | Lectis{% endblock %}
 
 {% block body %}
-<section class="px-6 py-10 max-w-4xl mx-auto">
 
-     <a href="{{ path('app_livres') }}" class="font-semibold underline mb-6 inline-block">
-        <i class="fa-solid fa-arrow-down fa-rotate-90 text-xs"></i> Retour au catalogue
-    </a>
+<div class="bg-[--bluegray-light] min-h-screen py-12">
+    <section class="px-6 max-w-4xl mx-auto">
 
-    <h1 class="text-3xl font-bold mb-6">Mon panier</h1>
+        <a href="{{ path('app_livres') }}" class="inline-flex items-center gap-2 text-[--bluegray-deep] text-sm font-bold hover:text-[--bluegray-dark] mb-8 transition-colors">
+            <i class="fa-solid fa-chevron-left"></i> 
+            Continuer mes achats
+        </a>
 
-    <div id="panier-container">
+        <h1 class="text-3xl md:text-4xl font-black text-[--bluegray-dark] mb-10">Mon panier</h1>
 
-        {% if panier is null or lignes is empty %}
-            <div class="items-center justify-center text-center">            
-            <i class="fa-solid fa-face-sad-tear text-6xl"></i>
-            <p class="text-gray-500">Votre panier est vide.</p></div>
-            {% if not app.user %}<p class="text-center">Veuillez <span class="font-bold hover:underline"><a href="{{path('app_login')}}">vous connecter</a></span> ou <span class="font-bold hover:underline"><a href="{{path('app_register')}}">vous inscrire</a></span></p>{% endif %}
+        <div id="panier-container">
 
-        {% else %}
-
-            {% for ligne in lignes %}
-                <div class="flex items-center gap-6 p-4 bg-white shadow rounded mb-4">
-
-                 <img src="{{ asset('assets/img/' ~ ligne.livre.photo) }}" class="w-24 h-32 object-cover">
-                    <div class="flex-1">
-
-                        <h2 class="font-bold text-xl">{{ ligne.livre.titre }}</h2>
-
-                        <div class="mt-2 flex items-center gap-4">
-                            <button onclick="updateQtt({{ ligne.id }}, {{ ligne.quantite - 1 }})" class="text-white">−</button>
-                            <span>{{ ligne.quantite }}</span>
-                            <button onclick="updateQtt({{ ligne.id }}, {{ ligne.quantite + 1 }})"  class="text-white">+</button>
-                        </div>
-
-                        <p class="mt-2">
-                            Sous-total :
-                            
-                            <strong>{{ (ligne.livre.prix * ligne.quantite)|number_format(2, ',', ' ') }} €</strong>
-                        </p>
+            {% if panier is null or lignes is empty %}
+                <div class="bg-white rounded-[2rem] p-12 text-center shadow-xl border border-[--bluegray-medium]/20">
+                    <div class="w-24 h-24 bg-[--bluegray-light] rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fa-solid fa-basket-shopping text-4xl text-[--bluegray-deep]"></i>
                     </div>
-
-                    <button class=" bg-transparent" onclick="deleteLine({{ ligne.id }})">
-                        <i class="fa-solid fa-trash text-red-600"></i>
-                    </button>
-
+                    <h2 class="text-xl font-bold text-[--bluegray-dark] mb-2">Votre panier est vide</h2>
+                    <p class="text-[--bluegray-deep] mb-8">Il semble que vous n'ayez pas encore ajouté de trésors à votre collection.</p>
+                    
+                    {% if not app.user %}
+                        <div class="p-6 bg-[--bluegray-light]/50 rounded-2xl inline-block">
+                            <p class="text-sm text-[--bluegray-accent]">
+                                <a href="{{path('app_login')}}" class="font-bold underline">Connectez-vous</a> pour retrouver votre panier enregistré.
+                            </p>
+                        </div>
+                    {% endif %}
                 </div>
-            {% endfor %}
 
-            <div class="text-right text-2xl font-bold mt-8">
-                Total : {{ (total) |number_format(2, ',', ' ') }} €
-            </div>
-            <button class="text-white w-full mt-5"><a href="{{path('app_commandes')}}">Valider la commande</a></button>
-        {% endif %}
-  
-    </div>
+            {% else %}
 
-</section>
+                <div class="space-y-4">
+                    {% for ligne in lignes %}
+                        <div class="flex flex-col sm:flex-row items-center gap-6 p-5 bg-white shadow-sm rounded-3xl border border-[--bluegray-medium]/20">
+                            
+                            <div class="w-20 h-28 flex-shrink-0 shadow-md rounded-lg overflow-hidden">
+                                <img src="{{ asset('assets/img/' ~ ligne.livre.photo) }}" class="w-full h-full object-cover" alt="{{ ligne.livre.titre }}">
+                            </div>
+
+                            <div class="flex-1 text-center sm:text-left">
+                                <h2 class="font-bold text-lg text-[--bluegray-dark] leading-tight mb-1">{{ ligne.livre.titre }}</h2>
+                                <p class="text-xs text-[--bluegray-deep] mb-4">{{ ligne.livre.auteur }}</p>
+
+                                <div class="flex items-center justify-center sm:justify-start gap-4">
+                                    <div class="flex items-center bg-[--bluegray-light] rounded-xl p-1">
+                                        <button onclick="updateQtt({{ ligne.id }}, {{ ligne.quantite - 1 }})" 
+                                                class="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm text-[--bluegray-dark] hover:bg-[--bluegray-dark] hover:text-white transition-all font-bold">
+                                            −
+                                        </button>
+                                        <span class="px-4 font-bold text-[--bluegray-dark] text-sm">{{ ligne.quantite }}</span>
+                                        <button onclick="updateQtt({{ ligne.id }}, {{ ligne.quantite + 1 }})" 
+                                                class="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm text-[--bluegray-dark] hover:bg-[--bluegray-dark] hover:text-white transition-all font-bold">
+                                            +
+                                        </button>
+                                    </div>
+                                    
+                                    <button class="text-red-400 hover:text-red-600 transition-colors p-2" onclick="deleteLine({{ ligne.id }})">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="text-center sm:text-right min-w-[100px]">
+                                <p class="text-xs text-[--bluegray-deep] uppercase font-bold tracking-widest mb-1">Sous-total</p>
+                                <p class="text-xl font-black text-[--bluegray-dark]">
+                                    {{ (ligne.livre.prix * ligne.quantite)|number_format(2, ',', ' ') }} €
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="mt-10 p-8 bg-[--bluegray-dark] rounded-[2rem] shadow-xl text-white">
+                    <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-6">
+                        <span class="text-[--bluegray-medium] font-bold uppercase tracking-widest text-sm">Total de la commande</span>
+                        <span class="text-3xl font-black">{{ (total)|number_format(2, ',', ' ') }} €</span>
+                    </div>
+                    
+                    <a href="{{path('app_commandes')}}" 
+                       class="block w-full py-4 bg-white text-[--bluegray-dark] text-center font-black rounded-2xl hover:bg-[--bluegray-light] transition-all shadow-lg uppercase tracking-widest text-sm">
+                        Valider ma commande
+                    </a>
+                    
+                    <p class="text-center mt-4 text-[--bluegray-deep] text-[10px] uppercase tracking-tighter">
+                        <i class="fa-solid fa-lock mr-2"></i> Paiement 100% sécurisé
+                    </p>
+                </div>
+            {% endif %}
+      
+        </div>
+    </section>
+</div>
 {% endblock %}

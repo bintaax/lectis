@@ -1,126 +1,126 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}À propos{% endblock %}
+{% block title %}À propos | Lectis{% endblock %}
 
 {% block body %}
+<style>
+    :root {
+        --bluegray-light:   #EEF3F8;
+        --bluegray-medium:  #CDD6E2;
+        --bluegray-deep:    #7B8A9A;
+        --bluegray-dark:    #2E3A45;
+        --bluegray-accent:  #3F5366;
+        --bluegray-hover :  #293a49;
+        --neutral-white:    #FFFFFF;
+    }
+</style>
 
-<div class="mt-24 max-w-4xl mx-auto px-6">
+<div class="min-h-screen bg-[--bluegray-light] py-16 px-6">
+    <div class="max-w-4xl mx-auto">
 
-    <!-- SECTION PUNCHLINE -->
-    <section class="mb-16 text-center">
-       <div class="flex flex-col items-center mb-12">
-    <img src="{{ asset('assets/img/avatar.png') }}"
-         alt="Avatar développeuse"
-         class="w-32 h-32 rounded-full shadow-lg border-4 border-white object-cover">
-    
-    <h1 class="text-4xl font-extrabold text-blue-700 mt-4">
-        🚀 Dev Mode : ON
-    </h1>
+        <section class="mb-16 text-center">
+            <div class="flex flex-col items-center mb-8">
+                <div class="relative">
+                    {# Cercle décoratif derrière l'avatar #}
+                    <div class="absolute inset-0 bg-[--bluegray-medium] rounded-full blur-2xl opacity-50 scale-125"></div>
+                    <img src="{{ asset('assets/img/avatar.png') }}"
+                         alt="Bintou - Développeuse"
+                         class="relative w-32 h-32 md:w-40 md:h-40 rounded-full shadow-2xl border-4 border-white object-cover">
+                    <div class="absolute bottom-2 right-2 bg-emerald-500 w-6 h-6 rounded-full border-4 border-white shadow-sm" title="Disponible pour coder"></div>
+                </div>
+                
+                <h1 class="text-4xl md:text-5xl font-black text-[--bluegray-dark] mt-8 tracking-tight">
+                    Hello, je suis <span class="text-[--bluegray-accent]">Bintou</span>.
+                </h1>
+            </div>
+
+            <p class="text-lg md:text-xl text-[--bluegray-accent] leading-relaxed max-w-2xl mx-auto opacity-90">
+                Développeuse web passionnée, je construis des interfaces qui ont du style, 
+                des fonctionnalités qui tiennent debout, et des projets qui racontent une histoire.
+            </p>
+
+            <div class="mt-8 flex justify-center gap-2">
+                <span class="px-3 py-1 bg-[--bluegray-dark] text-white text-xs font-bold rounded shadow-sm">🧠 CODE</span>
+                <span class="px-3 py-1 bg-[--bluegray-deep] text-white text-xs font-bold rounded shadow-sm">🔧 DEBUG</span>
+                <span class="px-3 py-1 bg-[--bluegray-accent] text-white text-xs font-bold rounded shadow-sm">🚀 RÉUSSITE</span>
+            </div>
+        </section>
+
+        <section class="bg-[--neutral-white] p-8 md:p-12 rounded-[2rem] shadow-xl border border-[--bluegray-medium]/30 relative overflow-hidden">
+            {# Décoration de fond discrète #}
+            <div class="absolute top-0 right-0 p-4 opacity-5 text-8xl font-black select-none text-[--bluegray-dark]">
+                &lt;/&gt;
+            </div>
+
+            <h2 class="text-3xl font-bold text-[--bluegray-dark] mb-8 flex items-center gap-3">
+                <span class="text-2xl">📖</span> Mon histoire de dev
+            </h2>
+
+            <div class="space-y-6 text-[--bluegray-dark] leading-relaxed opacity-90 text-lg">
+                <p>
+                    Il était une fois… une développeuse armée d’un clavier, d’un navigateur, et d’une curiosité insatiable. 
+                    Un jour, j'ai décidé de me lancer dans une quête : <strong>créer Lectis, une librairie en ligne complète</strong>.
+                </p>
+
+                <p>
+                    Chaque bug était un mini-boss. Chaque fonctionnalité validée était un niveau gagné. Et les messages d’erreur ? 
+                    Des énigmes laissées par un mage mystérieux appelé <span class="text-[--bluegray-deep] font-mono font-bold">Doctrine</span>.
+                </p>
+
+                <div class="bg-[--bluegray-light] p-6 rounded-2xl border-l-4 border-[--bluegray-accent]">
+                    <p class="font-bold mb-3 italic">Au cours de ce périple, j'ai implémenté :</p>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm font-medium">
+                        <li class="flex items-center gap-2"><span class="text-emerald-600">✔</span> Panier dynamique 🛒</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-600">✔</span> Workflow de commandes 📦</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-600">✔</span> Suivi temporel auto ⏳</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-600">✔</span> Sécurité utilisateur 👤</li>
+                    </ul>
+                </div>
+
+                <p>
+                    J'ai appris que le développement, c’est persévérer, expérimenter... et sourire quand <em>tout</em> fonctionne enfin 
+                    après 48 minutes de debugging intensif.
+                </p>
+            </div>
+
+            <div class="mt-10 pt-8 border-t border-[--bluegray-light] flex flex-col md:flex-row items-center justify-between gap-6">
+                <p class="font-bold text-[--bluegray-accent]">Promis, je sauvegarde souvent maintenant. 😄</p>
+                <a href="https://bintousylla.dev" class="px-6 py-3 bg-[--bluegray-dark] hover:bg-[--bluegray-hover] text-white rounded-xl font-bold transition-all shadow-lg active:scale-95">
+                    Travaillons ensemble
+                </a>
+            </div>
+        </section>
+
+        <section class="mt-12 bg-[--bluegray-medium]/40 p-8 md:p-12 rounded-[2rem] border border-[--bluegray-medium]/50">
+            <h2 class="text-3xl font-bold text-[--bluegray-dark] mb-8 flex items-center gap-3">
+                <span class="text-2xl">📚</span> L’ADN de Lectis
+            </h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="space-y-4 text-[--bluegray-accent]">
+                    <p>
+                        <strong>Lectis</strong> évoque la lecture et l’exploration. C'est un espace moderne pensé comme une 
+                        petite librairie de quartier, mais version 2.0.
+                    </p>
+                    <p>
+                        Mon but était de créer une interface <strong>propre, simple et agréable</strong>. Lectis est le reflet 
+                        de mon parcours : un mélange de curiosité et de passion pour la création.
+                    </p>
+                </div>
+                
+                <div class="bg-[--neutral-white] p-6 rounded-2xl shadow-sm border border-[--bluegray-medium]/30">
+                    <h4 class="font-bold text-[--bluegray-dark] mb-4 text-sm uppercase tracking-widest">Stack Technique</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-[--bluegray-light] rounded text-[--bluegray-dark] font-mono text-xs">PHP / Symfony</span>
+                        <span class="px-3 py-1 bg-[--bluegray-light] rounded text-[--bluegray-dark] font-mono text-xs">Twig</span>
+                        <span class="px-3 py-1 bg-[--bluegray-light] rounded text-[--bluegray-dark] font-mono text-xs">Tailwind CSS</span>
+                        <span class="px-3 py-1 bg-[--bluegray-light] rounded text-[--bluegray-dark] font-mono text-xs">Doctrine ORM</span>
+                        <span class="px-3 py-1 bg-[--bluegray-light] rounded text-[--bluegray-dark] font-mono text-xs">MySQL</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
 </div>
-
-        <p class="text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto">
-            Je suis <strong>Bintou</strong>, développeuse web.  
-            Je construis des interfaces qui ont du style,  
-            des fonctionnalités qui tiennent debout,  
-            et des projets qui racontent une histoire.
-        </p>
-
-        <p class="mt-6 text-xl font-semibold text-gray-900">
-            🧠 Je code. 🔥 Je crash. 🔧 Je debug. 🚀 Je réussis.
-        </p>
-    </section>
-
-
-    <!-- LIGNE DE SÉPARATION -->
-    <div class="border-t border-gray-300 my-12"></div>
-
-
-    <!-- SECTION STORYTELLING -->
-    <section class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">
-            📖 Mon histoire de développeuse
-        </h2>
-
-        <p class="leading-7 text-gray-700 mb-4">
-            Il était une fois… moi, <strong>Bintou</strong>, une développeuse web armée d’un clavier, d’un navigateur, 
-            et d’une curiosité parfois un peu trop grande. Un jour, j’ai décidé de me lancer dans une quête digne 
-            des plus grandes sagas : <strong>créer une librairie en ligne de A à Z</strong>.
-        </p>
-
-        <p class="leading-7 text-gray-700 mb-4">
-            Les premières lignes de code ressemblaient à un puzzle sans image. Chaque bug était un mini-boss.
-            Chaque fonctionnalité validée était un niveau gagné. Et les messages d’erreur ?  
-            Des énigmes laissées par un mage mystérieux appelé <strong>Doctrine</strong>.
-        </p>
-
-        <p class="leading-7 text-gray-700 mb-4">
-            Puis peu à peu, le site a pris vie :
-        </p>
-
-        <ul class="list-disc list-inside text-gray-700 mb-4">
-            <li>un panier qui fonctionne 🛒</li>
-            <li>une gestion des commandes complète 📦</li>
-            <li>un suivi automatique basé sur le temps ⏳</li>
-            <li>un espace utilisateur fluide 👤</li>
-            <li>la possibilité d’annuler une commande ❌</li>
-            <li>et même la suppression de compte 😮</li>
-        </ul>
-
-        <p class="leading-7 text-gray-700 mb-4">
-            À travers ce projet, j’ai appris que le développement, ce n’est pas seulement écrire du code :
-            c’est persévérer, expérimenter, créer… et sourire quand <em>tout</em> finit par fonctionner après 48 minutes
-            de debugging intensif.
-        </p>
-
-        <p class="leading-7 text-gray-700 font-semibold">
-            Ce site n’est pas juste une librairie : c’est mon aventure numérique, une preuve que la passion et la détermination 
-            peuvent transformer une idée en projet réel.
-        </p>
-
-        <p class="mt-6 text-gray-800 font-bold text-lg">
-            Bienvenue dans mon univers.  
-            Promis, je sauvegarde souvent maintenant. 😄
-        </p>
-    </section>
-
-    <!-- SECTION LECTIS -->
-<section class="mt-16 bg-blue-50 p-8 rounded-xl border border-blue-200 shadow-sm">
-    <h2 class="text-3xl font-bold text-blue-800 mb-6">
-        📚 L’histoire de Lectis
-    </h2>
-
-    <p class="leading-7 text-gray-700 mb-4">
-        <strong>Lectis</strong>, c’est le nom que j’ai voulu donner à cette librairie numérique. 
-        Un nom simple, doux et un peu mystérieux — qui évoque la lecture, l’exploration et l’imagination.
-    </p>
-
-    <p class="leading-7 text-gray-700 mb-4">
-        Le concept était clair : créer un espace moderne où chaque lecteur peut découvrir des ouvrages,
-        les ajouter à son panier, suivre ses commandes… tout cela dans une interface élégante et intuitive.
-        Je voulais que Lectis ressemble à un endroit chaleureux, comme une petite librairie de quartier,
-        mais version 2.0.
-    </p>
-
-    <p class="leading-7 text-gray-700 mb-4">
-        Lectis, ce n’est donc pas seulement un site : c’est une expérience.  
-        Une librairie pensée non pas pour être immense, mais pour être <strong>propre, simple et agréable à utiliser</strong>.
-        C’est un terrain de jeu pour mettre en pratique mes compétences en développement web 
-        tout en construisant quelque chose qui me ressemble.
-    </p>
-
-    <p class="leading-7 text-gray-700 mb-4">
-        Ce projet m’a permis d’apprendre à structurer une application complète :  
-        une base de données solide, un espace utilisateur sécurisé, un workflow de commandes,
-        et même un système de suivi automatique pour donner vie à l’expérience.
-    </p>
-
-    <p class="leading-7 text-blue-900 font-semibold">
-        Lectis est le reflet de mon parcours : un mélange de curiosité, de persévérance
-        et de passion pour la création. Et ce n’est que le début.
-    </p>
-</section>
-
-
-</div>
-
 {% endblock %}

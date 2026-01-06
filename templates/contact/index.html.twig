@@ -1,35 +1,96 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact{% endblock %}
+{% block title %}Contact | Lectis{% endblock %}
 
 {% block body %}
-<div class="mt-20 px-10 max-w-2xl mx-auto">
 
-    <h1 class="text-4xl font-bold text-bluegray-dark mb-8 text-center">Contactez-nous</h1>
 
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="bg-green-200 text-green-700 px-4 py-2 rounded mb-4">
-                {{ message }}
+<div class="min-h-screen bg-[--bluegray-light] py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+            
+            {# Colonne de gauche : Infos & Design #}
+            <div class="lg:col-span-2 space-y-8">
+                <div>
+                    <span class="text-[--bluegray-deep] font-bold uppercase tracking-widest text-xs">Une question ?</span>
+                    <h1 class="text-4xl md:text-5xl font-bold text-[--bluegray-dark] mt-2 mb-6">Parlons de vos prochaines <span class="text-[--bluegray-deep]">lectures</span>.</h1>
+                    <p class="text-[--bluegray-accent] leading-relaxed opacity-80">
+                        Notre équipe de bibliophiles est à votre écoute pour toute question sur vos commandes ou notre programme Lectis+.
+                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4 group">
+                        <div class="w-12 h-12 bg-[--neutral-white] rounded-xl flex items-center justify-center shadow-sm border border-[--bluegray-medium] group-hover:bg-[--bluegray-accent] group-hover:text-white transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-[--bluegray-deep] uppercase">Email</p>
+                            <p class="font-semibold text-[--bluegray-dark]">contact@lectis.org</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 group">
+                        <div class="w-12 h-12 bg-[--neutral-white] rounded-xl flex items-center justify-center shadow-sm border border-[--bluegray-medium] group-hover:bg-[--bluegray-accent] group-hover:text-white transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-[--bluegray-deep] uppercase">Bureaux</p>
+                            <p class="font-semibold text-[--bluegray-dark]">Paris, France</p>
+                        </div>
+                    </div>
+                </div>
+
+                {# Badge de réassurance #}
+                <div class="p-6 bg-[--bluegray-medium]/30 rounded-2xl border border-[--bluegray-medium]/50">
+                    <p class="text-sm text-[--bluegray-dark] italic opacity-80">
+                        "Réponse garantie sous 24h ouvrées par l'un de nos conseillers passionnés."
+                    </p>
+                </div>
             </div>
-        {% endfor %}
-    {% endfor %}
 
-    {{ form_start(form) }}
+            {# Colonne de droite : Le Formulaire #}
+            <div class="lg:col-span-3 bg-[--neutral-white] p-8 md:p-10 rounded-[2rem] shadow-xl border border-[--bluegray-medium]/20">
+                
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 px-6 py-4 rounded-xl mb-8 flex items-center gap-3">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
 
-        <div class="space-y-4">
-            {{form_row(form.field_name)}}
-            {{form_row(form.field_surname)}}
-            {{ form_row(form.email) }}
-            {{ form_row(form.objet) }}
-            {{ form_row(form.message) }}
+                {{ form_start(form) }}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            {{ form_row(form.field_surname) }}
+                        </div>
+                        <div>
+                            {{ form_row(form.field_name) }}
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        {{ form_row(form.email) }}
+                    </div>
+
+                    <div class="mt-6">
+                        {{ form_row(form.objet) }}
+                    </div>
+
+                    <div class="mt-6">
+                        {{ form_row(form.message) }}
+                    </div>
+
+                    <button class="mt-10 w-full bg-[--bluegray-accent] hover:bg-[--bluegray-hover] text-[--neutral-white] font-bold py-4 rounded-xl shadow-lg transition-all active:scale-[0.98]">
+                        Envoyer le message
+                    </button>
+                {{ form_end(form) }}
+            </div>
+
         </div>
-
-        <button class="mt-6 text-white px-6 py-2 rounded w-full">
-            Envoyer
-        </button>
-
-    {{ form_end(form) }}
-
+    </div>
 </div>
 {% endblock %}

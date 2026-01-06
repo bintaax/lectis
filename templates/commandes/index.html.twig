@@ -1,75 +1,167 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Finaliser ma commande{% endblock %}
+{% block title %}Finaliser ma commande | Lectis{% endblock %}
 
 {% block body %}
+<style>
 
-<div class="mt-20 max-w-4xl mx-auto px-6">
+    .payment-methods-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+}
 
-     <a href="{{ path('app_livres') }}" class="font-semibold underline mb-6 inline-block">
-        <i class="fa-solid fa-arrow-down fa-rotate-90 text-xs"></i> Retour au catalogue
-    </a>
+.payment-label {
+    display: flex;
+    align-items: center;      /* Centre verticalement tout le contenu */
+    justify-content: space-between; /* Pousse l'input à droite */
+    padding: 1rem 1.25rem;
+    background-color: white;
+    border: 2px solid var(--bluegray-light);
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
 
-    <!-- TITRE -->
-    <h1 class="text-3xl sm:text-4xl font-bold mb-10">
-        Finaliser ma commande
-    </h1>
+.payment-label:hover {
+    background-color: var(--bluegray-light);
+}
 
-    <!-- RÉCAP PANIER -->
-    <div class="bg-white shadow-lg rounded-xl p-6 mb-10 border border-gray-200">
-        <h2 class="text-2xl font-semibold mb-4">Récapitulatif</h2>
+/* Style de l'input radio */
+.payment-radio {
+    width: 1.25rem !important;  /* Taille fixe pour éviter les déformations */
+    height: 1.25rem !important;
+    margin: 0 !important;       /* Supprime les marges par défaut de Symfony */
+    cursor: pointer;
+    accent-color: var(--bluegray-dark); /* Change la couleur du rond sur les navigateurs modernes */
+}
 
-        {% for ligne in lignes %}
-            <div class="flex justify-between items-center border-b py-3 last:border-none">
-                <div>
-                    <p class="font-semibold text-lg">{{ ligne.livre.titre }}</p>
-                    <p class="text-sm text-gray-500">Quantité : {{ ligne.quantite }}</p>
+/* Effet quand la ligne est sélectionnée */
+.payment-option:has(.payment-radio:checked) .payment-label {
+    border-color: var(--bluegray-dark);
+    background-color: #f8fafc; /* Un bleu-blanc très léger */
+}
+</style>
+
+<div class="bg-[--bluegray-light] min-h-screen py-12">
+    <div class="max-w-4xl mx-auto px-6">
+
+        {# Retour au catalogue #}
+        <a href="{{ path('app_livres') }}" class="inline-flex items-center gap-2 text-[--bluegray-deep] text-sm font-bold hover:text-[--bluegray-dark] mb-8 transition-colors">
+            <i class="fa-solid fa-chevron-left"></i> 
+            Retour au catalogue
+        </a>
+
+        <h1 class="text-3xl md:text-4xl font-black text-[--bluegray-dark] mb-10">Finaliser ma commande</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            
+            {# COLONNE GAUCHE : FORMULAIRES #}
+            <div class="lg:col-span-2 space-y-6">
+                
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-[--bluegray-medium]/20">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 bg-[--bluegray-light] rounded-full flex items-center justify-center text-[--bluegray-dark] font-bold">1</div>
+                        <h2 class="text-xl font-bold text-[--bluegray-dark]">Vos informations</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                        <div class="p-4 bg-[--bluegray-light]/30 rounded-xl border border-[--bluegray-light]">
+                            <p class="text-[--bluegray-deep] font-bold uppercase text-[10px] mb-1">Identité</p>
+                            <p class="text-[--bluegray-dark] font-bold">{{ app.user.prenom }} {{ app.user.nom }}</p>
+                        </div>
+                        <div class="p-4 bg-[--bluegray-light]/30 rounded-xl border border-[--bluegray-light]">
+                            <p class="text-[--bluegray-deep] font-bold uppercase text-[10px] mb-1">Email de contact</p>
+                            <p class="text-[--bluegray-dark] font-bold truncate">{{ app.user.email }}</p>
+                        </div>
+                    </div>
                 </div>
 
-                <p class="font-bold ">
-                    {{ (ligne.livre.prix * ligne.quantite) | number_format(2, ',', ' ') }} €
-                </p>
-            </div>
-        {% endfor %}
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-[--bluegray-medium]/20">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 bg-[--bluegray-light] rounded-full flex items-center justify-center text-[--bluegray-dark] font-bold">2</div>
+                        <h2 class="text-xl font-bold text-[--bluegray-dark]">Livraison & Paiement</h2>
+                    </div>
 
-        <div class="text-right mt-6 text-xl font-bold text-gray-800">
-            Total : {{ total | number_format(2, ',', ' ') }} €
+                    {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+                        
+                        <div class="space-y-4">
+                            {{ form_row(form.adresse, {'label': 'Adresse de livraison'}) }}
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {{ form_row(form.codePostal, {'label': 'Code Postal'}) }}
+                                {{ form_row(form.ville, {'label': 'Ville'}) }}
+                            </div>
+                        </div>
+
+                        <hr class="border-[--bluegray-light]">
+
+                    <div class="payment-methods-grid">
+    {% for child in form.paiement %}
+        <div class="payment-option">
+            {# On lie l'input et le label via l'ID #}
+            <label for="{{ child.vars.id }}" class="payment-label">
+                <div class="flex items-center gap-3">
+                    {% if 'Carte' in child.vars.label %}
+                        <i class="fa-brands fa-cc-visa text-xl text-[--bluegray-deep]"></i>
+                    {% elseif 'Paypal' in child.vars.label %}
+                        <i class="fa-brands fa-paypal text-xl text-[--bluegray-deep]"></i>
+                    {% else %}
+                        <i class="fa-solid fa-wallet text-xl text-[--bluegray-deep]"></i>
+                    {% endif %}
+                    <span class="font-bold text-[--bluegray-dark]">{{ child.vars.label }}</span>
+                </div>
+
+                {{ form_widget(child, {'attr': {'class': 'payment-radio'}}) }}
+            </label>
         </div>
-    </div>
-
-    <!-- INFORMATIONS CLIENT -->
-    <div class="bg-white shadow-lg rounded-xl p-6 mb-10 border border-gray-200">
-        <h2 class="text-2xl font-semibold mb-4">Vos informations personnelles</h2>
-
-        <p><strong>Nom :</strong> {{ app.user.nom }}</p>
-        <p><strong>Prénom :</strong> {{ app.user.prenom }}</p>
-        <p><strong>Email :</strong> {{ app.user.email }}</p>
-    </div>
-
-    <!-- FORMULAIRE : ADRESSE + PAIEMENT -->
-    <div class="bg-white shadow-lg rounded-xl p-6 mb-10 border border-gray-200">
-        <h2 class="text-2xl font-semibold mb-6">Adresse et Paiement</h2>
-
-        {{ form_start(form) }}
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {{ form_row(form.adresse) }}
-                {{ form_row(form.codePostal) }}
-                {{ form_row(form.ville) }}
-            </div>
-
-            <div class="mt-8 gap-2">
-                <h3 class="text-xl font-semibold mb-3">Veuillez choisir votre moyen de paiement</h3>
-                {{ form_row(form.paiement) }}
-            </div>
-
-            <button class="mt-8 text-white px-6 py-3 rounded-lg font-semibold shadow w-full">
-                Valider ma commande
-            </button>
-
-        {{ form_end(form) }}
-    </div>
-
+    {% endfor %}
 </div>
 
+                        <button type="submit" class="w-full py-4 bg-[--bluegray-dark] text-white font-black rounded-2xl hover:bg-[--bluegray-accent] transition-all shadow-lg uppercase tracking-widest text-sm mt-8">
+                            Confirmer et payer
+                        </button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+
+            {# COLONNE DROITE : RÉCAPITULATIF (Sticky sur Desktop) #}
+            <aside class="lg:col-span-1 lg:sticky lg:top-8">
+                <div class="bg-white rounded-3xl shadow-xl border border-[--bluegray-medium]/30 overflow-hidden">
+                    <div class="p-6 border-b border-[--bluegray-light]">
+                        <h2 class="font-bold text-[--bluegray-dark] flex items-center gap-2">
+                            <i class="fa-solid fa-receipt text-[--bluegray-deep]"></i>
+                            Votre panier
+                        </h2>
+                    </div>
+
+                    <div class="p-6 space-y-4 max-h-[400px] overflow-y-auto">
+                        {% for ligne in lignes %}
+                            <div class="flex justify-between items-start gap-4 text-sm">
+                                <div class="flex-1">
+                                    <p class="font-bold text-[--bluegray-dark] leading-tight">{{ ligne.livre.titre }}</p>
+                                    <p class="text-[--bluegray-deep] text-xs">Quantité : {{ ligne.quantite }}</p>
+                                </div>
+                                <p class="font-bold text-[--bluegray-dark] whitespace-nowrap">
+                                    {{ (ligne.livre.prix * ligne.quantite) | number_format(2, ',', ' ') }} €
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="p-6 bg-[--bluegray-dark] text-white">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[--bluegray-medium] text-xs uppercase font-bold tracking-widest">Total TTC</span>
+                            <span class="text-2xl font-black">{{ total | number_format(2, ',', ' ') }} €</span>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-white/10 flex items-center gap-2 text-[10px] text-[--bluegray-medium] uppercase">
+                            <i class="fa-solid fa-lock"></i>
+                            Transaction sécurisée
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </div>
+</div>
 {% endblock %}
