@@ -59,7 +59,7 @@
               
               {% set panier = app.user.paniers|last %}
               {% if panier and panier.lignePaniers|length > 0 %}
-                <span class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold 
+                <span id="panier-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-2xs font-bold 
                              w-5 h-5 flex items-center justify-center rounded-full border-2 border-[--bluegray-medium]">
                     {{ panier.lignePaniers|length }}
                 </span>
@@ -70,7 +70,7 @@
           {# 🔓 BOUTON DÉCONNEXION #}
           <a href="{{ path('app_logout') }}" 
              class="px-5 py-2 bg-red-600 text-white text-xs font-black uppercase tracking-widest rounded shadow-md hover:bg-red-700 transition-all">
-            Quitter
+            Déconnexion
           </a>
 
         {% else %}

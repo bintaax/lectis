@@ -151,7 +151,7 @@
                                 </div>
                                 <div class="text-right">
                                     <p class="text-xl font-black text-[--bluegray-dark]">{{ commande.total|number_format(2, ',', ' ') }} €</p>
-                                    <a href="{{ path('app_commande_detail', { id: commande.id }) }}" class="text-xs font-bold text-[--bluegray-accent] hover:text-[--bluegray-dark] underline">Voir le détail</a>
+                                    <a href="{{ path('app_commande_detail', { numeroCommande: commande.numeroCommande }) }}" class="text-xs font-bold text-[--bluegray-accent] hover:text-[--bluegray-dark] underline">Voir le détail</a>
                                 </div>
                             </div>
                         {% endfor %}

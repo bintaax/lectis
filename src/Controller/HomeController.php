@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class HomeController extends AbstractController
 {
-    #[Route('/home', name: 'app_home')]
+    #[Route('/accueil', name: 'app_home')]
     public function index(LivresRepository $repo): Response
 {
     $bestSellers = $repo->findBestSellers(); // ta méthode personnalisée
