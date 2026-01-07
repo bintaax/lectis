@@ -1,115 +1,95 @@
-
-<footer>
-  <div class="mx-auto  space-y-8 px-4 py-16 sm:px-6 lg:space-y-16 lg:px-8">
-    <div class="sm:flex sm:items-center sm:justify-between">
-      <div>
-           <img src="{{ asset('assets/img/logo-nonebackground.png') }}" alt="Logo" style="width: 100px;">
+<footer class="bg-[--bluegray-light] border-t border-[--bluegray-medium]/40 mt-20">
+  <div class="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:px-8 lg:px-12">
+    
+    <div class="xl:grid xl:grid-cols-3 xl:gap-16">
+      
+      {# PARTIE GAUCHE : LOGO ET DESCRIPTION #}
+      <div class="space-y-8">
+        <img src="{{ asset('assets/img/logo-nonebackground.png') }}" 
+             alt="Lectis Logo" 
+             class="h-20 w-auto object-contain filter drop-shadow-sm">
+             
+        <p class="text-sm leading-relaxed text-[--bluegray-accent] max-w-sm">
+          Votre prochaine aventure littéraire commence ici. Une sélection soignée de livres pour tous les lecteurs passionnés. Rejoignez la communauté Lectis.
+        </p>
+        
+        {# RÉSEAUX SOCIAUX #}
+        <div class="flex gap-6">
+          <a href="#" class="text-[--bluegray-deep] hover:text-[--bluegray-dark] transition-all hover:-translate-y-1">
+            <i class="fa-brands fa-facebook text-2xl"></i>
+          </a>
+          <a href="#" class="text-[--bluegray-deep] hover:text-[--bluegray-dark] transition-all hover:-translate-y-1">
+            <i class="fa-brands fa-instagram text-2xl"></i>
+          </a>
+          <a href="#" class="text-[--bluegray-deep] hover:text-[--bluegray-dark] transition-all hover:-translate-y-1">
+            <i class="fa-brands fa-tiktok text-2xl"></i>
+          </a>
+          <a href="#" class="text-[--bluegray-deep] hover:text-[--bluegray-dark] transition-all hover:-translate-y-1">
+            <i class="fa-brands fa-x-twitter text-2xl"></i>
+          </a>
+          <a href="https://github.com/bintaax" class="text-[--bluegray-deep] hover:text-[--bluegray-dark] transition-all hover:-translate-y-1">
+            <i class="fa-brands fa-github text-2xl"></i>
+          </a>
+        </div>
       </div>
 
-      <ul class="mt-8 flex justify-start gap-6 sm:mt-0 sm:justify-end">
-        <li>
-          <a href="#" rel="noreferrer" target="_blank" >
-          <i class="fa-brands fa-facebook text-xl hover:text-[#293a49]"></i>
-          </a>
-        </li>
-          <li>
-          <a href="#" rel="noreferrer" target="_blank" >
-          <i class="fa-brands fa-instagram text-xl hover:text-[#293a49]"></i>
-          </a>
-        </li>
-            <li>
-          <a href="#" rel="noreferrer" target="_blank" >
-          <i class="fa-brands fa-tiktok text-xl hover:text-[#293a49]"></i>
-          </a>
-        </li>
-               <li>
-          <a href="#" rel="noreferrer" target="_blank" >
-          <i class="fa-brands fa-x-twitter text-xl hover:text-[#293a49]"></i>
-          </a>
-        </li>
-                  <li>
-          <a href="https://github.com/bintaax" rel="noreferrer" target="_blank" >
-          <i class="fa-brands fa-github text-xl hover:text-[#293a49]"></i>
-          </a>
-        </li>
+      {# PARTIE DROITE : LIENS #}
+      <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+        <div class="md:grid md:grid-cols-2 md:gap-8">
+          
+          <div>
+            <h3 class="text-xs font-black uppercase tracking-[0.2em] text-[--bluegray-dark]">La librairie</h3>
+            <ul class="mt-6 space-y-4">
+              <li><a href="{{path('app_a_propos')}}" class="text-sm text-[--bluegray-accent] hover:text-[--bluegray-dark] font-medium transition-colors">À propos</a></li>
+              <li><a href="{{path('app_contact')}}" class="text-sm text-[--bluegray-accent] hover:text-[--bluegray-dark] font-medium transition-colors">Contact</a></li>
+              <li><a href="{{path('app_f_a_q')}}" class="text-sm text-[--bluegray-accent] hover:text-[--bluegray-dark] font-medium transition-colors">FAQ</a></li>
+            </ul>
+          </div>
 
-      </ul>
-    </div>
+          <div class="mt-10 md:mt-0">
+            <h3 class="text-xs font-black uppercase tracking-[0.2em] text-[--bluegray-dark]">Services</h3>
+            <ul class="mt-6 space-y-4">
+              <li><a href="{{path('app_retours')}}" class="text-sm text-[--bluegray-accent] hover:text-[--bluegray-dark] font-medium transition-colors">Retours</a></li>
+              <li><a href="{{path('app_remboursement')}}" class="text-sm text-[--bluegray-accent] hover:text-[--bluegray-dark] font-medium transition-colors">Remboursements</a></li>
+              <li><a href="{{path('app_mentions_legales')}}" class="text-sm text-[--bluegray-accent] hover:text-[--bluegray-dark] font-medium transition-colors">Mentions légales</a></li>
+            </ul>
+          </div>
+        </div>
 
-    <div
-      class="grid grid-cols-1 gap-8 border-t border-gray-100 pt-8 sm:grid-cols-2 lg:grid-cols-4 lg:pt-16"
-    >
+        <div class="md:grid md:grid-cols-2 md:gap-8">
+          
+          <div>
+            <h3 class="text-xs font-black uppercase tracking-[0.2em] text-[--bluegray-dark]">Conditions</h3>
+            <ul class="mt-6 space-y-4">
+              <li><a href="{{path('app_cgu')}}" class="text-sm text-[--bluegray-accent] hover:text-[--bluegray-dark] font-medium transition-colors">CGU</a></li>
+              <li><a href="{{path('app_cgv')}}" class="text-sm text-[--bluegray-accent] hover:text-[--bluegray-dark] font-medium transition-colors">CGV</a></li>
+            </ul>
+          </div>
 
-      <div>
-        <p class="font-medium">La librairie</p>
-
-        <ul class="mt-6 space-y-4 text-sm">
-          <li>
-            <a href="{{path('app_a_propos')}}" class="hover:underline"> A propos </a>
-          </li>
-        </ul>
-      </div>
-
-      <div>
-        <p class="font-medium">Liens utiles</p>
-
-        <ul class="mt-6 space-y-4 text-sm">
-          <li>
-            <a href="{{path('app_contact')}}" class="hover:underline"> Contact </a>
-          </li>
-
-          <li>
-            <a href="{{path('app_f_a_q')}}" class="hover:underline"> FAQ </a>
-          </li>
-        </ul>
-      </div>
-
-        <div>
-        <p class="font-medium">Informations légales</p>
-
-        <ul class="mt-6 space-y-4 text-sm">
-          <li>
-            <a href="{{path('app_mentions_legales')}}" class="hover:underline">Mentions légales</a>
-          </li>
-
-          <li>
-            <a href="{{path('app_retours')}}" class="hover:underline"> Politique de retour </a>
-          </li>
-
-          <li>
-            <a href="{{path('app_remboursement')}}" class="hover:underline"> Politique de remboursement </a>
-          </li>
-        </ul>
-      </div>
-
-            <div>
-        <p class="font-medium">Conditions générales</p>
-
-        <ul class="mt-6 space-y-4 text-sm">
-          <li>
-            <a href="{{path('app_cgu')}}" class="hover:underline">Conditions générales d'utilisation</a>
-          </li>
-
-          <li>
-            <a href="{{path('app_cgv')}}" class="hover:underline"> Conditions générales de vente </a>
-          </li>
-
-          <li>
-            <a href="{{path('app_cookies')}}" class="hover:underline"> Politique en matière de cookies </a>
-          </li>
-            <li>
-            <a href="{{path('app_confidentialite')}}" class="hover:underline"> Politique de confidentialité </a>
-          </li>
-        </ul>
+          <div class="mt-10 md:mt-0">
+            <h3 class="text-xs font-black uppercase tracking-[0.2em] text-[--bluegray-dark]">Confidentialité</h3>
+            <ul class="mt-6 space-y-4">
+              <li><a href="{{path('app_cookies')}}" class="text-sm text-[--bluegray-accent] hover:text-[--bluegray-dark] font-medium transition-colors">Cookies</a></li>
+              <li><a href="{{path('app_confidentialite')}}" class="text-sm text-[--bluegray-accent] hover:text-[--bluegray-dark] font-medium transition-colors">Vie privée</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
-
-
-    <p class="text-xs text-gray-500">&copy; 2025-2026. Lectis. Tous droits réservés.</p>
+    {# BAS DU FOOTER #}
+    <div class="mt-16 border-t border-[--bluegray-medium]/30 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+      <p class="text-[10px] text-[--bluegray-deep] uppercase font-bold tracking-widest">
+        &copy; 2025-2026 Lectis. Fait avec passion pour les amoureux du papier.
+      </p>
+      
+      {# Méthodes de paiement avec un léger fond pour les faire ressortir #}
+      <div class="flex gap-4 px-4 py-2 bg-white/50 rounded-full border border-white/80 shadow-sm text-xl text-[--bluegray-deep]">
+        <i class="fa-brands fa-cc-visa"></i>
+        <i class="fa-brands fa-cc-mastercard"></i>
+        <i class="fa-brands fa-cc-paypal"></i>
+        <i class="fa-brands fa-cc-apple-pay"></i>
+      </div>
+    </div>
   </div>
-
-
-
 </footer>
-<script src="{{asset('assets/js/script.js')}}"></script>
