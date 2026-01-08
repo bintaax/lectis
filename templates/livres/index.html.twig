@@ -59,7 +59,7 @@
                         </a>
 
                         {# DÉTAILS DU LIVRE #}
-                        <div class="mt-4 flex flex-col flex-grow">
+                        <div class="mt-4 flex flex-col grow">
                             <a href="{{ path('app_detail', { slug: livre.slug }) }}">
                                 <h3 class="text-sm sm:text-base font-bold text-[--bluegray-dark] line-clamp-2 hover:text-[--bluegray-accent] transition-colors leading-tight min-h-[2.5rem]">
                                     {{ livre.titre }}
@@ -84,7 +84,7 @@
 
         {# On ajuste un peu la taille du badge pour qu'il ne pousse pas la ligne #}
         <span class="bg-green-100 text-green-700 text-[10px] uppercase font-bold px-2 py-0.5 rounded-md self-center">
-            -1€ 
+            -10% 
         </span>
     </div>
 {% else %}

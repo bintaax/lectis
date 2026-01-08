@@ -47,7 +47,24 @@
                                 <h2 class="font-bold text-lg text-[--bluegray-dark] leading-tight mb-1">{{ ligne.livre.titre }}</h2>
                                 <p class="text-xs text-[--bluegray-deep] mb-4">{{ ligne.livre.auteur }}</p>
 
-                                <div class="flex items-center justify-center sm:justify-start gap-4">
+                                <div class="text-center sm:text-right min-w-[120px]">
+    <p class="text-[10px] text-[--bluegray-deep] uppercase font-bold tracking-widest mb-1">Sous-total</p>
+    
+    {% if app.user and app.user.isAdherent %}
+        <p class="text-xl font-black text-[--bluegray-dark]">
+            {{ (ligne.livre.prixFidelite * ligne.quantite)|number_format(2, ',', ' ') }} €
+        </p>
+        <p class="text-[10px] text-green-600 font-bold uppercase">
+            Prix Adhérent Lectis+
+        </p>
+    {% else %}
+        <p class="text-xl font-black text-[--bluegray-dark]">
+            {{ (ligne.livre.prix * ligne.quantite)|number_format(2, ',', ' ') }} €
+        </p>
+    {% endif %}
+</div>
+
+                               {#  <div class="flex items-center justify-center sm:justify-start gap-4">
                                     <div class="flex items-center bg-[--bluegray-light] rounded-xl p-1">
                                         <button onclick="updateQtt({{ ligne.id }}, {{ ligne.quantite - 1 }})" 
                                                 class="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm text-[--bluegray-dark] hover:bg-[--bluegray-dark] hover:text-white transition-all font-bold">
@@ -58,20 +75,21 @@
                                                 class="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm text-[--bluegray-dark] hover:bg-[--bluegray-dark] hover:text-white transition-all font-bold">
                                             +
                                         </button>
-                                    </div>
+                                    </div> #}
                                     
                                     <button class="text-red-400 hover:text-red-600 transition-colors p-2" onclick="deleteLine({{ ligne.id }})">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 </div>
                             </div>
+                            
 
-                            <div class="text-center sm:text-right min-w-[100px]">
+                        {#     <div class="text-center sm:text-right min-w-[100px]">
                                 <p class="text-xs text-[--bluegray-deep] uppercase font-bold tracking-widest mb-1">Sous-total</p>
                                 <p class="text-xl font-black text-[--bluegray-dark]">
                                     {{ (ligne.livre.prix * ligne.quantite)|number_format(2, ',', ' ') }} €
                                 </p>
-                            </div>
+                            </div> #}
                         </div>
                     {% endfor %}
                 </div>
@@ -87,7 +105,7 @@
                         Valider ma commande
                     </a>
                     
-                    <p class="text-center mt-4 text-[--bluegray-deep] text-[10px] uppercase tracking-tighter">
+                    <p class="text-center mt-4 text-[--bluegray-deep] text-2xs uppercase tracking-tighter">
                         <i class="fa-solid fa-lock mr-2"></i> Paiement 100% sécurisé
                     </p>
                 </div>

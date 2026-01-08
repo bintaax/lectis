@@ -37,13 +37,28 @@ final class PanierController extends AbstractController
                 'total' => 0,
             ]);
         }
-
+/* 
         $lignes = $panier->getLignePaniers();
         $total = 0;
 
         foreach ($lignes as $ligne) {
             $total += (float) $ligne->getLivre()->getPrix() * $ligne->getQuantite();
-        }
+        } */
+
+        // ... dans index()
+$lignes = $panier->getLignePaniers();
+$total = 0;
+
+foreach ($lignes as $ligne) {
+    // LOGIQUE RÉDUITE : 
+    // Si l'utilisateur est adhérent, on utilise getPrixFidelite(), sinon getPrix()
+    $livre = $ligne->getLivre();
+    $prixUnitaire = ($user && $user->isAdherent()) 
+        ? $livre->getPrixFidelite() 
+        : $livre->getPrix();
+
+    $total += (float) $prixUnitaire * $ligne->getQuantite();
+}
         
         return $this->render('panier/index.html.twig', [
             'panier' => $panier,
@@ -159,4 +174,6 @@ final class PanierController extends AbstractController
 
         return $this->json(['success' => true]);
     }
+
+    
 }

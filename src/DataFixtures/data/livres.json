@@ -11,6 +11,20 @@
     "disponibilite": true,
     "ageAutorise": 16,
     "genre": "Policier",
+    "isBestSeller": false
+  },
+     {
+    "titre": "La Psy",
+    "auteur": "Freida McFadden",
+    "editeur": "City",
+    "resume": "Jeunes mariés, Tricia et Ethan recherchent la maison de leurs rêves. Alors qu'ils visitent un manoir isolé ayant appartenu au docteur Adrienne Hale, une psychiatre renommée disparue sans laisser de trace quatre ans plus tôt, une violente tempête de neige les piège sur place. Et la maison n’a rien d’un cocon rassurant... Il y a ces empreintes de pas récentes sur le parquet, ces bruits à l’étage, comme si quelqu’un vivait là. Pire encore  : Tricia découvre une pièce secrète qui renferme les enregistrements audio de chaque patient du docteur Hale. La jeune femme les écoute les uns après les autres, tard dans la nuit. La toile de mensonges ayant conduit à la disparition de la psy se dévoile lentement. Mais déterrer de vilains petits secrets est un jeu dangereux, et lorsque Tricia écoute le dernier enregistrement, il est déjà trop tard...",
+    "datePublication": "2024-04-17",
+    "nbPages": 384,
+    "prix": 22,
+    "photo": "psy.jpg",
+    "disponibilite": true,
+    "ageAutorise": 16,
+    "genre": "Policier",
     "isBestSeller": true
   },
     {
@@ -631,7 +645,7 @@
     "datePublication": "2024-10-02",  
     "nbPages": 608, 
     "prix": 8.90,
-    "photo": "memoires-psychiatre.webp",
+    "photo": "memoires-psychiatre.jpeg",
     "disponibilite": false,
     "ageAutorise": 16,
     "genre": "Policier",
