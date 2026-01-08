@@ -1,7 +1,54 @@
  
 // Menu burger
-
 document.addEventListener("DOMContentLoaded", () => {
+    const menuToggle = document.getElementById("menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener("click", (e) => {
+            e.stopPropagation(); // Empêche la fermeture immédiate
+            mobileMenu.classList.toggle("hidden");
+            
+            // Bonus : Change l'icône de burger à "X" si tu veux
+            const icon = menuToggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-xmark');
+            }
+        });
+
+        menuToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    
+    if (mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.remove('hidden');
+        mobileMenu.style.display = 'block'; // On force l'affichage
+    } else {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.style.display = 'none'; // On force la disparition
+    }
+
+    const icon = menuToggle.querySelector('i');
+    if (icon) {
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-xmark');
+    }
+});
+
+        // Fermer le menu si on clique n'importe où ailleurs sur la page
+        document.addEventListener("click", (e) => {
+            if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                mobileMenu.classList.add("hidden");
+                const icon = menuToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-xmark');
+                }
+            }
+        });
+    }
+});
+/* document.addEventListener("DOMContentLoaded", () => {
     const menuToggle = document.getElementById("menu-toggle");
     const mobileMenu = document.getElementById("mobile-menu");
 
@@ -18,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     menuToggle.addEventListener("click", () => {
         mobileMenu.classList.toggle("hidden");
     });
-});
+}); */
 
 // Flèches du catalogue
     function scrollLeft(id) {
