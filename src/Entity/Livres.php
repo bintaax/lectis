@@ -233,4 +233,11 @@ class Livres
 
         return $this;
     }
+
+    public function getPrixFidelite(): float
+{
+    // On retourne le prix actuel moins 1 euro
+    // On s'assure que le prix ne tombe pas en dessous de 0.01€
+    return max(0.01, $this->prix - 1.0);
+}
 }
