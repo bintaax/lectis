@@ -18,10 +18,10 @@
         <div class="flex flex-col lg:flex-row gap-8 lg:gap-16">
 
             <div class="w-full lg:w-2/5 flex justify-center lg:block lg:sticky lg:top-10 h-fit">
-                <div class="bg-white p-3 md:p-4 rounded-[2rem] shadow-xl border border-[--bluegray-medium]/20 w-full max-w-[320px] lg:max-w-full">
+                <div class="bg-white p-3 md:p-4 rounded-4xl shadow-xl border border-[--bluegray-medium]/20 w-full max-w-[320px] lg:max-w-full">
                     <img src="/assets/img/{{ livre.photo }}" 
                          alt="{{ livre.titre }}"
-                         class="w-full h-auto aspect-[2/3] object-cover rounded-[1.5rem]">
+                         class="w-full h-auto aspect-2/3 object-cover rounded-3xl">
                 </div>
             </div>
 
@@ -57,7 +57,7 @@
     <p class="text-xs text-[--bluegray-medium] uppercase font-bold line-through">
         {{ livre.prix|number_format(2, ',', ' ') }} €
     </p>
-    <div class="inline-block bg-green-500 text-[10px] md:text-xs text-white font-bold px-2 py-0.5 rounded-lg mb-2">
+    <div class="inline-block bg-green-500 text-2xs md:text-xs text-white font-bold px-2 py-0.5 rounded-lg mb-2">
         PRIX MEMBRE LECTIS+
     </div>
     <p class="text-3xl font-black text-white">
@@ -69,7 +69,7 @@
     <p class="text-3xl font-black text-white">
         {{ livre.prix|number_format(2, ',', ' ') }} €
     </p>
-    <p class="text-[10px] text-[--bluegray-medium] mt-1 italic">
+    <p class="text-2xs text-[--bluegray-medium] mt-1 italic">
         Devenez adhérent pour économiser 1€
     </p>
 

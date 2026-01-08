@@ -49,10 +49,10 @@
             {# CONTENEUR DES LIVRES #}
             <div id="{{ genreId }}" class="flex gap-6 overflow-x-auto scroll-smooth py-4 no-scrollbar">
                 {% for livre in livres %}
-                    <div class="book-card bg-white p-4 rounded-2xl shadow-sm border border-[--bluegray-medium]/30 min-w-[180px] sm:min-w-[220px] max-w-[240px] flex flex-col transition-all hover:shadow-xl hover:-translate-y-1">
+                    <div class="book-card bg-white p-4 rounded-2xl shadow-sm border border-[--bluegray-medium]/30 min-w-[180px] sm:min-w-[220px] max-w-60 flex flex-col transition-all hover:shadow-xl hover:-translate-y-1">
                         
                         {# IMAGE COUVERTURE #}
-                        <a href="{{ path('app_detail', { slug: livre.slug }) }}" class="relative block overflow-hidden rounded-xl bg-[--bluegray-light] aspect-[2/3]">
+                        <a href="{{ path('app_detail', { slug: livre.slug }) }}" class="relative block overflow-hidden rounded-xl bg-[--bluegray-light] aspect-2/3">
                             <img class="w-full h-full object-cover" 
                                  src="/assets/img/{{ livre.photo }}" 
                                  alt="{{ livre.titre }}" />
@@ -61,7 +61,7 @@
                         {# DÉTAILS DU LIVRE #}
                         <div class="mt-4 flex flex-col grow">
                             <a href="{{ path('app_detail', { slug: livre.slug }) }}">
-                                <h3 class="text-sm sm:text-base font-bold text-[--bluegray-dark] line-clamp-2 hover:text-[--bluegray-accent] transition-colors leading-tight min-h-[2.5rem]">
+                                <h3 class="text-sm sm:text-base font-bold text-[--bluegray-dark] line-clamp-2 hover:text-[--bluegray-accent] transition-colors leading-tight min-h-10">
                                     {{ livre.titre }}
                                 </h3>
                             </a>
@@ -83,7 +83,7 @@
         </span>
 
         {# On ajuste un peu la taille du badge pour qu'il ne pousse pas la ligne #}
-        <span class="bg-green-100 text-green-700 text-[10px] uppercase font-bold px-2 py-0.5 rounded-md self-center">
+        <span class="bg-green-100 text-green-700 text-2xs uppercase font-bold px-2 py-0.5 rounded-md self-center">
             -10% 
         </span>
     </div>

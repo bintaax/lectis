@@ -59,7 +59,7 @@
             <div class="lg:col-span-2 space-y-6">
                 
                 {# Étape 1 : Identité #}
-                <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-[--bluegray-medium]/20">
+                <div class="bg-white p-8 rounded-4xl shadow-sm border border-[--bluegray-medium]/20">
                     <div class="flex items-center gap-3 mb-6">
                         <div class="w-8 h-8 bg-[--bluegray-dark] rounded-full flex items-center justify-center text-white text-sm font-bold">1</div>
                         <h2 class="text-xl font-bold text-[--bluegray-dark]">Vos informations</h2>
@@ -67,18 +67,18 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="p-4 bg-[--bluegray-light]/30 rounded-2xl border border-[--bluegray-light]">
-                            <p class="text-[--bluegray-deep] font-bold uppercase text-[10px] mb-1 tracking-widest">Client</p>
+                            <p class="text-[--bluegray-deep] font-bold uppercase text-2xs mb-1 tracking-widest">Client</p>
                             <p class="text-[--bluegray-dark] font-black">{{ app.user.prenom }} {{ app.user.nom }}</p>
                         </div>
                         <div class="p-4 bg-[--bluegray-light]/30 rounded-2xl border border-[--bluegray-light]">
-                            <p class="text-[--bluegray-deep] font-bold uppercase text-[10px] mb-1 tracking-widest">Email</p>
+                            <p class="text-[--bluegray-deep] font-bold uppercase text-2xs mb-1 tracking-widest">Email</p>
                             <p class="text-[--bluegray-dark] font-black truncate">{{ app.user.email }}</p>
                         </div>
                     </div>
                 </div>
 
                 {# Étape 2 : Livraison et Paiement #}
-                <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-[--bluegray-medium]/20">
+                <div class="bg-white p-8 rounded-4xl shadow-sm border border-[--bluegray-medium]/20">
                     <div class="flex items-center gap-3 mb-6">
                         <div class="w-8 h-8 bg-[--bluegray-dark] rounded-full flex items-center justify-center text-white text-sm font-bold">2</div>
                         <h2 class="text-xl font-bold text-[--bluegray-dark]">Livraison & Paiement</h2>
@@ -139,7 +139,7 @@
                             <div class="flex justify-between items-start gap-4 text-sm">
                                 <div class="flex-1">
                                     <p class="font-bold text-[--bluegray-dark] leading-tight">{{ ligne.livre.titre }}</p>
-                                    <p class="text-[--bluegray-deep] text-[10px] font-bold uppercase">Qté : {{ ligne.quantite }}</p>
+                                    <p class="text-[--bluegray-deep] text-2xs font-bold uppercase">Qté : {{ ligne.quantite }}</p>
                                 </div>
                                 
                                 <div class="text-right">

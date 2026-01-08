@@ -25,7 +25,7 @@
   <div class="w-full flex h-20 items-center justify-between px-4 sm:px-10 lg:px-16">
 
     {# 1. LOGO #}
-    <div class="flex-shrink-0">
+    <div class="shrink-0">
         <a class="block transition hover:opacity-80" href="{{ path('app_home') }}">
           <img src="{{ asset('assets/img/logo-nonebackground.png') }}" alt="Lectis Logo" style="width: 180px;">
         </a>
@@ -91,7 +91,7 @@
 </header>
 
 {# 4. MENU MOBILE (Style Drawer / Plein écran) #}
-<nav id="mobile-menu" class="hidden absolute top-[80px] left-0 w-full bg-white shadow-xl z-50 border-t border-gray-100 lg:hidden">
+<nav id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-white shadow-xl z-50 border-t border-gray-100 lg:hidden">
   <ul class="flex flex-col items-center gap-6 py-8 text-sm font-black text-[--bluegray-dark] uppercase tracking-widest">
     <li><a class="hover:text-white" href="{{ path('app_home') }}">Accueil</a></li>
     <li><a class="hover:text-white" href="{{ path('app_livres') }}">Nos livres</a></li>
