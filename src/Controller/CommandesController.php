@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Commandes;
 use App\Entity\LigneCommande;
 use App\Enum\Statut;
-use App\Enum\Paiement;
 use App\Form\CommandeType;
 use App\Repository\PanierRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,51 +16,50 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommandesController extends AbstractController
 {
     #[Route('/commande', name: 'app_commandes')]
-public function commande(
-    PanierRepository $panierRepository,
-    Request $request
-): Response {
+    public function commande(
+        PanierRepository $panierRepository,
+        Request $request
+    ): Response {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
 
-    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-    $user = $this->getUser();
+        $panier = $panierRepository->findOneBy(['utilisateur' => $user]);
 
-    $panier = $panierRepository->findOneBy(['utilisateur' => $user]);
+        if (!$panier || $panier->getLignePaniers()->isEmpty()) {
+            $this->addFlash('error', 'Votre panier est vide.');
+            return $this->redirectToRoute('app_panier');
+        }
 
-    if (!$panier || $panier->getLignePaniers()->isEmpty()) {
-        $this->addFlash('error', 'Votre panier est vide.');
-        return $this->redirectToRoute('app_panier');
-    }
+        // 🔥 CALCUL DU TOTAL AVEC REMISE -10% SI ADHÉRENT
+        $total = 0;
+        foreach ($panier->getLignePaniers() as $ligne) {
+            $livre = $ligne->getLivre();
+            // Utilise le prix réduit si l'user est adhérent
+            $prixUnitaire = ($user->isAdherent()) ? $livre->getPrixFidelite() : $livre->getPrix();
+            $total += $prixUnitaire * $ligne->getQuantite();
+        }
 
-    // 🔥 Calcule le total
-    $total = 0;
-    foreach ($panier->getLignePaniers() as $ligne) {
-        $total += $ligne->getLivre()->getPrix() * $ligne->getQuantite();
-    }
+        $form = $this->createForm(CommandeType::class);
+        $form->handleRequest($request);
 
-    // Formulaire global
-    $form = $this->createForm(CommandeType::class);
-    $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            return $this->redirectToRoute('app_commande_valider', [
+                'data' => json_encode([
+                    'adresse' => $data['adresse'],
+                    'codePostal' => $data['codePostal'],
+                    'ville' => $data['ville'],
+                    'paiement' => $data['paiement'],
+                ])
+            ]);
+        }
 
-    if ($form->isSubmitted() && $form->isValid()) {
-
-        $data = $form->getData();
-
-        return $this->redirectToRoute('app_commande_valider', [
-            'data' => json_encode([
-                'adresse' => $data['adresse'],
-                'codePostal' => $data['codePostal'],
-                'ville' => $data['ville'],
-                'paiement' => $data['paiement'],
-            ])
+        return $this->render('commandes/index.html.twig', [
+            'lignes' => $panier->getLignePaniers(),
+            'total' => $total, // Ce total est maintenant le bon !
+            'form' => $form->createView()
         ]);
-    } // ← ❗ ACOLADES CORRECTEMENT FERMÉE
-
-    return $this->render('commandes/index.html.twig', [
-        'lignes' => $panier->getLignePaniers(),
-        'total' => $total,
-        'form' => $form->createView()
-    ]);
-}
+    }
 
     #[Route('/commande/valider/{data}', name: 'app_commande_valider')]
     public function valider(
@@ -69,7 +67,6 @@ public function commande(
         PanierRepository $panierRepository,
         EntityManagerInterface $em
     ): Response {
-
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
 
@@ -78,7 +75,6 @@ public function commande(
 
         $data = json_decode($data, true);
 
-        // 📦 Créer la commande
         $commande = new Commandes();
         $commande->setUtilisateurs($user);
         $commande->setStatut(Statut::EN_ATTENTE);
@@ -87,27 +83,28 @@ public function commande(
             $data['adresse'] . ' ' . $data['codePostal'] . ' ' . $data['ville']
         );
 
-        $total = 0;
+        $totalFinal = 0;
         $em->persist($commande);
 
-        // 🔁 Copier les lignes du panier
         foreach ($panier->getLignePaniers() as $lignePanier) {
+            $livre = $lignePanier->getLivre();
+            
+            // 🔥 APPLICATION DE LA REMISE LORS DE LA CRÉATION DE LA LIGNE DE COMMANDE
+            $prixApplique = ($user->isAdherent()) ? $livre->getPrixFidelite() : $livre->getPrix();
 
             $ligneCommande = new LigneCommande();
             $ligneCommande->setCommande($commande);
-            $ligneCommande->setLivre($lignePanier->getLivre());
+            $ligneCommande->setLivre($livre);
             $ligneCommande->setQuantite($lignePanier->getQuantite());
-            $ligneCommande->setPrixUnitaire($lignePanier->getLivre()->getPrix());
+            $ligneCommande->setPrixUnitaire($prixApplique); // On enregistre le prix payé réellement
 
-            $total += $lignePanier->getLivre()->getPrix() * $lignePanier->getQuantite();
+            $totalFinal += $prixApplique * $lignePanier->getQuantite();
 
             $em->persist($ligneCommande);
         }
 
-        // 💶 Enregistrer le total final
-        $commande->setTotal($total);
+        $commande->setTotal($totalFinal);
 
-        // 🧹 Vider le panier
         foreach ($panier->getLignePaniers() as $lp) {
             $em->remove($lp);
         }

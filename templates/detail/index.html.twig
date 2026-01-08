@@ -52,21 +52,33 @@
                     <div class="text-center sm:text-left">
                         <p class="text-2xs text-[--bluegray-medium] uppercase font-bold tracking-widest">Prix</p>
                         
-                        {% if not app.user%}
-                        <p class="text-3xl font-black text-white">
-                            {{ livre.prix | number_format(2, ',', ' ') }} €
-                        </p>
-                        {% endif %}
+                        {# CAS 1 : L'utilisateur est connecté ET adhérent #}
+{% if app.user and app.user.isAdherent %}
+    <p class="text-xs text-[--bluegray-medium] uppercase font-bold line-through">
+        {{ livre.prix|number_format(2, ',', ' ') }} €
+    </p>
+    <div class="inline-block bg-green-500 text-[10px] md:text-xs text-white font-bold px-2 py-0.5 rounded-lg mb-2">
+        PRIX MEMBRE LECTIS+
+    </div>
+    <p class="text-3xl font-black text-white">
+        {{ livre.prixFidelite|number_format(2, ',', ' ') }} €
+    </p>
 
-                        {% if app.user and app.user.isAdherent %}
-                        <p class="text-2xs text-[--bluegray-medium] uppercase font-bold line-through">{{livre.prix|number_format(2, ',', ' ')}} €</p>
-                               <button class="bg-green-500 md:text-sm text-white font-bold px-2 rounded-lg mt-2">-10% pour les membres Lectis+</button>
-                        <p class="text-3xl font-black text-white">
-                            {{ (livre.prixFidelite) | number_format(2, ',', ' ') }} €
-                        </p>
+{# CAS 2 : L'utilisateur est connecté MAIS pas adhérent #}
+{% elseif app.user %}
+    <p class="text-3xl font-black text-white">
+        {{ livre.prix|number_format(2, ',', ' ') }} €
+    </p>
+    <p class="text-[10px] text-[--bluegray-medium] mt-1 italic">
+        Devenez adhérent pour économiser 1€
+    </p>
 
-                        {% endif %}
-
+{# CAS 3 : L'utilisateur n'est pas connecté (Visiteur) #}
+{% else %}
+    <p class="text-3xl font-black text-white">
+        {{ livre.prix|number_format(2, ',', ' ') }} €
+    </p>
+{% endif %}
                     </div>
                     {% if livre.disponibilite %}
         

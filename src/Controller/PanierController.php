@@ -14,58 +14,41 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class PanierController extends AbstractController
 {
-    #[Route('/panier', name: 'app_panier')]
-    public function index(PanierRepository $panierRepo): Response
-    {
-        $user = $this->getUser();
+   #[Route('/panier', name: 'app_panier')]
+public function index(PanierRepository $panierRepo): Response
+{
+    $user = $this->getUser();
 
-        if (!$user) {
-            // Pas connecté → panier vide
-            return $this->render('panier/index.html.twig', [
-                'panier' => null,
-                'lignes' => [],
-                'total' => 0,
-            ]);
-        }
+    // On initialise les variables par défaut pour éviter l'erreur Twig
+    $panier = null;
+    $lignes = [];
+    $total = 0;
 
+    if ($user) {
         $panier = $panierRepo->findOneBy(['utilisateur' => $user]);
 
-        if (!$panier) {
-            return $this->render('panier/index.html.twig', [
-                'panier' => null,
-                'lignes' => [],
-                'total' => 0,
-            ]);
+        if ($panier) {
+            $lignes = $panier->getLignePaniers();
+            
+            foreach ($lignes as $ligne) {
+                $livre = $ligne->getLivre();
+                
+                // Calcul avec -10% pour les adhérents
+                $prixApplique = ($user->isAdherent()) 
+                    ? $livre->getPrixFidelite() 
+                    : $livre->getPrix();
+
+                $total += (float) $prixApplique * $ligne->getQuantite();
+            }
         }
-/* 
-        $lignes = $panier->getLignePaniers();
-        $total = 0;
-
-        foreach ($lignes as $ligne) {
-            $total += (float) $ligne->getLivre()->getPrix() * $ligne->getQuantite();
-        } */
-
-        // ... dans index()
-$lignes = $panier->getLignePaniers();
-$total = 0;
-
-foreach ($lignes as $ligne) {
-    // LOGIQUE RÉDUITE : 
-    // Si l'utilisateur est adhérent, on utilise getPrixFidelite(), sinon getPrix()
-    $livre = $ligne->getLivre();
-    $prixUnitaire = ($user && $user->isAdherent()) 
-        ? $livre->getPrixFidelite() 
-        : $livre->getPrix();
-
-    $total += (float) $prixUnitaire * $ligne->getQuantite();
-}
-        
-        return $this->render('panier/index.html.twig', [
-            'panier' => $panier,
-            'lignes' => $lignes,
-            'total' => $total,
-        ]);
     }
+
+    return $this->render('panier/index.html.twig', [
+        'panier' => $panier,
+        'lignes' => $lignes, // On envoie toujours $lignes (même vide [])
+        'total'  => $total,
+    ]);
+}
 
     #[Route('/api/panier/add/{id}', methods: ['POST'], name: 'api_panier_add')]
     public function add(

@@ -18,9 +18,9 @@
                 <h1 class="text-3xl md:text-4xl font-black text-[--bluegray-dark] leading-tight">
                     Commande <span class="text-[--bluegray-deep]">#{{ commande.numeroCommande }}</span>
                 </h1>
-                <p class="text-[--bluegray-deep] font-medium mt-1">
-                    Passée le {{ commande.createdAt|date('d F Y') }}
-                </p>
+               <p class="text-[--bluegray-deep] font-medium mt-1">
+    Passée le {{ commande.createdAt|date('d/m/Y') }} à {{ commande.createdAt|date('H:i') }}
+</p>
             </div>
             <div class="bg-white px-6 py-3 rounded-2xl shadow-sm border border-[--bluegray-medium]/30">
                 <p class="text-[10px] text-[--bluegray-deep] uppercase font-bold tracking-widest mb-1">Montant Total</p>
@@ -47,7 +47,6 @@
                 <h2 class="text-xs font-black uppercase tracking-[0.2em] text-[--bluegray-deep] mb-8 text-center md:text-left">Suivi de votre colis</h2>
                 
                 <div class="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-0">
-                    {# LIGNE DE FOND (Desktop) #}
                     <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-[--bluegray-light] -translate-y-1/2 z-0"></div>
                     
                     {% set steps = [
@@ -72,31 +71,31 @@
             </div>
         {% endif %}
 
-        {# ACTIONS & ARTICLES #}
+        {# ARTICLES #}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            {# LISTE ARTICLES (2/3) #}
             <div class="lg:col-span-2 space-y-4">
                 <h3 class="text-xl font-black text-[--bluegray-dark] mb-4">Articles commandés</h3>
                 <div class="bg-white rounded-3xl shadow-sm border border-[--bluegray-medium]/20 overflow-hidden">
                     {% for ligne in commande.ligneCommandes %}
                         <div class="flex items-center gap-4 p-4 border-b border-[--bluegray-light] last:border-none">
-                            <div class="w-16 h-20 bg-[--bluegray-light] rounded-xl shrink overflow-hidden">
+                            <div class="w-16 h-20 bg-[--bluegray-light] rounded-xl shrink-0 overflow-hidden">
                                 <img src="/assets/img/{{ ligne.livre.photo }}" alt="{{ ligne.livre.titre }}" class="w-full h-full object-cover">
                             </div>
                             <div class="flex-1 min-w-0">
                                 <p class="font-bold text-[--bluegray-dark] truncate">{{ ligne.livre.titre }}</p>
-                                <p class="text-xs text-[--bluegray-deep]">Quantité : {{ ligne.quantite }}</p>
+                                <p class="text-xs text-[--bluegray-deep]">PU : {{ ligne.prixUnitaire|number_format(2, ',', ' ') }} € | Qté : {{ ligne.quantite }}</p>
                             </div>
                             <div class="text-right">
-                                <p class="font-black text-[--bluegray-dark]">{{ (ligne.livre.prix * ligne.quantite) | number_format(2, ',', ' ') }} €</p>
+                                {# MODIFICATION : On multiplie par le prixUnitaire enregistré en base #}
+                                <p class="font-black text-[--bluegray-dark]">{{ (ligne.prixUnitaire * ligne.quantite) | number_format(2, ',', ' ') }} €</p>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
             </div>
 
-            {# SIDEBAR ACTIONS (1/3) #}
+            {# SIDEBAR ACTIONS #}
             <div class="space-y-6">
                 <h3 class="text-xl font-black text-[--bluegray-dark] mb-4">Gestion</h3>
                 
@@ -114,13 +113,13 @@
                         <div class="flex items-start gap-3 opacity-60">
                             <i class="fa-solid fa-lock text-sm mt-0.5"></i>
                             <p class="text-[11px] font-bold leading-relaxed">
-                                L'annulation n'est plus possible. Contactez le support pour un retour après réception.
+                                L'annulation n'est plus possible. Contactez le support pour un retour.
                             </p>
                         </div>
                     {% endif %}
                 </div>
 
-                <button class="w-full py-4 border-2 border-[--bluegray-medium] text-xs font-black uppercase tracking-widest rounded-2xl text-white hover:bg-white hover:text-[--bluegray-dark] transition-all flex items-center justify-center gap-2">
+                <button class="w-full py-4 border-2 border-[--bluegray-medium] text-xs font-black uppercase tracking-widest rounded-2xl text-[--bluegray-dark] hover:bg-white transition-all flex items-center justify-center gap-2">
                     <i class="fa-solid fa-file-invoice"></i> Télécharger la facture
                 </button>
             </div>
