@@ -27,9 +27,6 @@ class Commandes
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-private ?\DateTimeImmutable $deletedAt = null;
-
     #[ORM\Column]
     private ?float $total = null;
 

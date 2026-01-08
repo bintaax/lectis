@@ -35,7 +35,7 @@
         {% endfor %}
 
         {# RÉSUMÉ PROFIL #}
-        <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-[--bluegray-medium]/20 mb-10 flex flex-col md:flex-row gap-8 items-center">
+        <div class="bg-white rounded-4xl p-8 shadow-sm border border-[--bluegray-medium]/20 mb-10 flex flex-col md:flex-row gap-8 items-center">
             <div class="w-20 h-20 bg-[--bluegray-light] rounded-full flex items-center justify-center text-[--bluegray-dark] text-3xl font-black">
                 {{ app.user.prenom|first|upper }}{{ app.user.nom|first|upper }}
             </div>
@@ -82,11 +82,11 @@
                     <h3 class="text-xl font-black text-[--bluegray-dark] mb-6">Informations personnelles</h3>
                     <div class="grid md:grid-cols-2 gap-6 mb-8">
                         <div>
-                            <label class="text-[10px] uppercase font-black text-[--bluegray-deep] tracking-widest">Prénom</label>
+                            <label class="text-2xs uppercase font-black text-[--bluegray-deep] tracking-widest">Prénom</label>
                             <p class="text-[--bluegray-dark] font-bold p-3 bg-[--bluegray-light]/30 rounded-lg mt-1">{{ app.user.prenom }}</p>
                         </div>
                         <div>
-                            <label class="text-[10px] uppercase font-black text-[--bluegray-deep] tracking-widest">Nom</label>
+                            <label class="text-2xs uppercase font-black text-[--bluegray-deep] tracking-widest">Nom</label>
                             <p class="text-[--bluegray-dark] font-bold p-3 bg-[--bluegray-light]/30 rounded-lg mt-1">{{ app.user.nom }}</p>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
 
                     <form method="post" action="{{ path('app_compte_supprimer') }}" class="mt-12 pt-6 border-t border-red-50" onsubmit="return confirm('Cette action est irréversible. Confirmer ?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete-account') }}">
-                        <button type="submit" class="text-xs font-bold bg-red-500 text-white hover:bg-red-600 transition-colors uppercase tracking-widest">
+                        <button type="submit" class="text-xs font-bold bg-red-500 text-white hover:bg-red-600 p-2 rounded-4xl transition-colors uppercase tracking-widest">
                             <i class="fa-solid fa-trash-can mr-2 text-white"></i> Supprimer mon compte
                         </button>
                     </form>
@@ -162,27 +162,4 @@
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const buttons = document.querySelectorAll('.tab-button');
-    const panels = document.querySelectorAll('.tab-panel');
-
-    buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const target = btn.getAttribute('data-tab');
-
-            // Update Buttons
-            buttons.forEach(b => {
-                b.classList.remove('active', 'text-[--bluegray-dark]');
-                b.classList.add('text-[--bluegray-deep]');
-            });
-            btn.classList.add('active', 'text-[--bluegray-dark]');
-
-            // Update Panels
-            panels.forEach(p => p.classList.add('hidden'));
-            document.getElementById('tab-' + target).classList.remove('hidden');
-        });
-    });
-});
-</script>
 {% endblock %}

@@ -35,7 +35,7 @@
     <nav aria-label="Global" class="hidden md:block">
       <ul class="flex items-center gap-12 text-sm font-black uppercase tracking-widest text-[--bluegray-dark]">
         <li><a href="{{ path('app_home') }}" class="hover:text-white transition-colors">Accueil</a></li>
-        <li><a href="{{ path('app_livres') }}" class="hover:text-white transition-colors">Catalogue</a></li>
+        <li><a href="{{ path('app_livres') }}" class="hover:text-white transition-colors">Nos livres</a></li>
         <li><a href="{{ path('app_contact') }}" class="hover:text-white transition-colors">Contact</a></li>
       </ul>
     </nav>
@@ -94,7 +94,7 @@
 <nav id="mobile-menu" class="hidden md:hidden bg-[--bluegray-medium] border-t border-black/10 w-full">
   <ul class="flex flex-col items-center gap-6 py-8 text-sm font-black text-[--bluegray-dark] uppercase tracking-widest">
     <li><a class="hover:text-white" href="{{ path('app_home') }}">Accueil</a></li>
-    <li><a class="hover:text-white" href="{{ path('app_livres') }}">Catalogue</a></li>
+    <li><a class="hover:text-white" href="{{ path('app_livres') }}">Nos livres</a></li>
     <li><a class="hover:text-white" href="{{ path('app_contact') }}">Contact</a></li>
 
     {% if app.user %}

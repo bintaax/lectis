@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Commandes;
 use App\Repository\CommandesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

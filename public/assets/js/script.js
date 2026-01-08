@@ -1,5 +1,4 @@
  
-
 // Menu burger
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -139,63 +138,7 @@ function deleteLine(ligneId) {
     })
     .catch(err => console.error("Erreur deleteLine :", err));
 }
-/* function refreshPanier() {
-    const container = document.querySelector("#panier-container");
-    if (!container) return; // Évite les erreurs sur les pages sans panier
 
-    fetch('/panier')
-        .then(r => r.text())
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, "text/html");
-
-            const newContent = doc.querySelector("#panier-container");
-            if (newContent) {
-                container.innerHTML = newContent.innerHTML;
-            }
-        })
-        .catch(err => console.error("Erreur refreshPanier :", err));
-}
-
-function addToCart(id) {
-    fetch(`/api/panier/add/${id}`, { method: "POST" })
-        .then(r => r.json())
-        .then(data => {
-
-            // 1️⃣ Mise à jour badge header
-            const badge = document.querySelector("#panier-count");
-            if (badge && data.count !== undefined) {
-                badge.textContent = data.count;
-            }
-
-            // 2️⃣ Redirection vers panier
-            window.location.href = "/panier";
-        })
-        .catch(err => {
-            console.error("Erreur addToCart :", err);
-            alert("Impossible d’ajouter au panier.");
-        });
-}
-
-function updateQtt(ligneId, quantite) {
-    if (quantite <= 0) return deleteLine(ligneId);
-
-    fetch(`/api/panier/update/${ligneId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ quantite })
-    })
-        .then(r => r.json())
-        .then(() => refreshPanier())
-        .catch(err => console.error("Erreur updateQtt :", err));
-}
-
-function deleteLine(ligneId) {
-    fetch(`/api/panier/delete/${ligneId}`, { method: "POST" })
-        .then(r => r.json())
-        .then(() => refreshPanier())
-        .catch(err => console.error("Erreur deleteLine :", err));
-} */
 
 // Onglets de l'espace personnel
 
@@ -217,3 +160,21 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => showTab(btn.getAttribute('data-tab')))
     );
 });
+
+// GESTION MOT DE PASSE (Version améliorée)
+function togglePassword(button) {
+    // On cherche l'input qui se trouve dans le même bloc que le bouton
+    const container = button.parentElement;
+    const input = container.querySelector('input');
+    const icon = button.querySelector('i');
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = "password";
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
