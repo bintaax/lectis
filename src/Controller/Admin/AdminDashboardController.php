@@ -2,9 +2,8 @@
 
 namespace App\Controller\Admin;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-
 use App\Entity\Livres;
+use App\Entity\Commandes;
 use App\Controller\Admin\LivresCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -16,9 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class AdminDashboardController extends AbstractDashboardController
 {
-      public function __construct(private AdminUrlGenerator $adminUrlGenerator)
+    public function __construct(private AdminUrlGenerator $adminUrlGenerator)
     {
     }
+
     public function index(): Response
     {
         // Redirection propre vers le CRUD Livres
@@ -27,7 +27,6 @@ class AdminDashboardController extends AbstractDashboardController
             ->generateUrl();
 
         return $this->redirect($url);
-      
     }
 
     public function configureDashboard(): Dashboard
@@ -40,8 +39,6 @@ class AdminDashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToCrud('Livres', 'fas fa-book', Livres::class);
-       
-
-
+        yield MenuItem::linkToCrud('Commandes', 'fas fa-receipt', Commandes::class);
     }
 }

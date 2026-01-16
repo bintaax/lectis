@@ -16,12 +16,12 @@ class LigneCommande
     private ?int $id = null;
 
     // Relation ManyToOne -> Commande
-    #[ORM\ManyToOne(inversedBy: 'lignesCommande')]
+    #[ORM\ManyToOne(inversedBy: 'ligneCommande')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Commandes $commande = null;
 
     // Relation ManyToOne -> Livre
-    #[ORM\ManyToOne(inversedBy: 'lignesCommande')]
+    #[ORM\ManyToOne(inversedBy: 'ligneCommande')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Livres $livre = null;
 

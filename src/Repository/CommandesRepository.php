@@ -15,6 +15,26 @@ class CommandesRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Commandes::class);
     }
+public function searchAdmin(?string $statut, ?string $q): array
+{
+    $qb = $this->createQueryBuilder('c')
+        ->leftJoin('c.utilisateurs', 'u')
+        ->addSelect('u')
+        ->orderBy('c.createdAt', 'DESC');
+
+    if ($statut) {
+        $qb->andWhere('c.statut = :statut')
+           ->setParameter('statut', $statut); // Doctrine gère enumType
+    }
+
+    if ($q) {
+        $qb->andWhere('c.numeroCommande LIKE :q OR u.email LIKE :q')
+           ->setParameter('q', '%'.$q.'%');
+    }
+
+    return $qb->getQuery()->getResult();
+}
+
 
 //    /**
 //     * @return Commandes[] Returns an array of Commandes objects

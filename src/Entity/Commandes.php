@@ -167,5 +167,24 @@ class Commandes
         return $this;
     }
 
+    public function getStatutSimule(): Statut
+{
+    // Si annulée, on ne touche pas
+    if ($this->statut === Statut::ANNULEE) {
+        return Statut::ANNULEE;
+    }
+
+    $createdAt = $this->createdAt ?? new \DateTimeImmutable();
+    $minutes = ((new \DateTimeImmutable())->getTimestamp() - $createdAt->getTimestamp()) / 60;
+
+    return match (true) {
+        $minutes < 2  => Statut::PASSEE,
+        $minutes < 5  => Statut::PREPARATION,
+        $minutes < 15 => Statut::EXPEDIEE,
+        $minutes < 30 => Statut::LIVRAISON,
+        default       => Statut::LIVREE,
+    };
+}
+
     
 }
