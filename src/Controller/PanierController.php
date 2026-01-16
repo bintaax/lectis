@@ -9,46 +9,55 @@ use App\Repository\PanierRepository;
 use App\Repository\LignePanierRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class PanierController extends AbstractController
 {
-   #[Route('/panier', name: 'app_panier')]
-public function index(PanierRepository $panierRepo): Response
-{
-    $user = $this->getUser();
+    #[Route('/panier', name: 'app_panier', methods: ['GET'])]
+    public function index(PanierRepository $panierRepo, Request $request): Response
+    {
+        $user = $this->getUser();
 
-    // On initialise les variables par défaut pour éviter l'erreur Twig
-    $panier = null;
-    $lignes = [];
-    $total = 0;
+        // Variables par défaut pour Twig
+        $panier = null;
+        $lignes = [];
+        $total = 0;
 
-    if ($user) {
-        $panier = $panierRepo->findOneBy(['utilisateur' => $user]);
+        if ($user) {
+            $panier = $panierRepo->findOneBy(['utilisateur' => $user]);
 
-        if ($panier) {
-            $lignes = $panier->getLignePaniers();
-            
-            foreach ($lignes as $ligne) {
-                $livre = $ligne->getLivre();
-                
-                // Calcul avec -10% pour les adhérents
-                $prixApplique = ($user->isAdherent()) 
-                    ? $livre->getPrixFidelite() 
-                    : $livre->getPrix();
+            if ($panier) {
+                $lignes = $panier->getLignePaniers();
 
-                $total += (float) $prixApplique * $ligne->getQuantite();
+                foreach ($lignes as $ligne) {
+                    $livre = $ligne->getLivre();
+
+                    // -10% pour adhérents (selon ton code)
+                    $prixApplique = ($user->isAdherent())
+                        ? $livre->getPrixFidelite()
+                        : $livre->getPrix();
+
+                    $total += (float) $prixApplique * $ligne->getQuantite();
+                }
             }
         }
-    }
 
-    return $this->render('panier/index.html.twig', [
-        'panier' => $panier,
-        'lignes' => $lignes, // On envoie toujours $lignes (même vide [])
-        'total'  => $total,
-    ]);
-}
+        $vars = [
+            'panier' => $panier,
+            'lignes' => $lignes,
+            'total'  => $total,
+        ];
+
+        // ✅ Si requête AJAX => on renvoie uniquement le fragment
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('panier/_panier_container.html.twig', $vars);
+        }
+
+        // ✅ Sinon page complète
+        return $this->render('panier/index.html.twig', $vars);
+    }
 
     #[Route('/api/panier/add/{id}', methods: ['POST'], name: 'api_panier_add')]
     public function add(
@@ -61,14 +70,13 @@ public function index(PanierRepository $panierRepo): Response
         $user = $this->getUser();
 
         if (!$user) {
-            // Pas connecté → on renvoie une erreur claire
             return $this->json([
                 'success' => false,
                 'message' => 'Vous devez être connecté pour ajouter au panier.'
             ], 401);
         }
 
-        // On récupère ou crée le panier de l'utilisateur
+        // Récupérer ou créer le panier
         $panier = $panierRepo->findOneBy(['utilisateur' => $user]);
 
         if (!$panier) {
@@ -78,7 +86,7 @@ public function index(PanierRepository $panierRepo): Response
             $em->flush();
         }
 
-        // On récupère le livre
+        // Récupérer le livre
         $livre = $livresRepo->find($id);
         if (!$livre) {
             return $this->json([
@@ -87,10 +95,10 @@ public function index(PanierRepository $panierRepo): Response
             ], 404);
         }
 
-        // On cherche une ligne existante
+        // Chercher la ligne existante
         $ligne = $ligneRepo->findOneBy([
             'panier' => $panier,
-            'livre' => $livre,
+            'livre'  => $livre,
         ]);
 
         if (!$ligne) {
@@ -105,7 +113,7 @@ public function index(PanierRepository $panierRepo): Response
 
         $em->flush();
 
-        // On recalcule le nombre total d'articles dans le panier
+        // Recalcul du count total (quantités)
         $count = 0;
         foreach ($panier->getLignePaniers() as $l) {
             $count += $l->getQuantite();
@@ -120,13 +128,23 @@ public function index(PanierRepository $panierRepo): Response
     #[Route('/api/panier/update/{id}', methods: ['POST'], name: 'api_panier_update')]
     public function update(
         int $id,
-        \Symfony\Component\HttpFoundation\Request $request,
+        Request $request,
         LignePanierRepository $repo,
         EntityManagerInterface $em
     ): Response {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json(['success' => false, 'message' => 'Non connecté'], 401);
+        }
+
         $ligne = $repo->find($id);
         if (!$ligne) {
             return $this->json(['success' => false, 'message' => 'Ligne introuvable'], 404);
+        }
+
+        // ✅ Sécurité : la ligne doit appartenir au panier du user
+        if ($ligne->getPanier()?->getUtilisateur()?->getId() !== $user->getId()) {
+            return $this->json(['success' => false, 'message' => 'Accès refusé'], 403);
         }
 
         $data = json_decode($request->getContent(), true);
@@ -140,7 +158,19 @@ public function index(PanierRepository $panierRepo): Response
 
         $em->flush();
 
-        return $this->json(['success' => true]);
+        // Recalcul du count total (quantités)
+        $panier = $ligne->getPanier();
+        $count = 0;
+        if ($panier) {
+            foreach ($panier->getLignePaniers() as $l) {
+                $count += $l->getQuantite();
+            }
+        }
+
+        return $this->json([
+            'success' => true,
+            'count'   => $count,
+        ]);
     }
 
     #[Route('/api/panier/delete/{id}', methods: ['POST'], name: 'api_panier_delete')]
@@ -149,14 +179,37 @@ public function index(PanierRepository $panierRepo): Response
         LignePanierRepository $repo,
         EntityManagerInterface $em
     ): Response {
-        $ligne = $repo->find($id);
-        if ($ligne) {
-            $em->remove($ligne);
-            $em->flush();
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json(['success' => false, 'message' => 'Non connecté'], 401);
         }
 
-        return $this->json(['success' => true]);
-    }
+        $ligne = $repo->find($id);
+        if (!$ligne) {
+            return $this->json(['success' => true, 'count' => 0]); // ligne déjà absente
+        }
 
-    
+        // ✅ Sécurité : la ligne doit appartenir au panier du user
+        if ($ligne->getPanier()?->getUtilisateur()?->getId() !== $user->getId()) {
+            return $this->json(['success' => false, 'message' => 'Accès refusé'], 403);
+        }
+
+        $panier = $ligne->getPanier();
+
+        $em->remove($ligne);
+        $em->flush();
+
+        // Recalcul du count total (quantités)
+        $count = 0;
+        if ($panier) {
+            foreach ($panier->getLignePaniers() as $l) {
+                $count += $l->getQuantite();
+            }
+        }
+
+        return $this->json([
+            'success' => true,
+            'count'   => $count,
+        ]);
+    }
 }

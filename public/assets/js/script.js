@@ -82,23 +82,25 @@ document.addEventListener("DOMContentLoaded", () => {
  * Met à jour le contenu du panier sans recharger la page
  */
 function refreshPanier() {
-    const container = document.querySelector("#panier-container");
-    if (!container) return;
+  const container = document.querySelector("#panier-container");
+  if (!container) return;
 
-    fetch('/panier')
-        .then(r => r.text())
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, "text/html");
-            const newContent = doc.querySelector("#panier-container");
-            
-            if (newContent) {
-                container.innerHTML = newContent.innerHTML;
-                // Optionnel : mettre à jour le total si tu as un élément dédié hors du container
-            }
-        })
-        .catch(err => console.error("Erreur refreshPanier :", err));
+  fetch(`/panier?t=${Date.now()}`, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+    .then(r => r.text())
+    .then(html => {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      const newContent = doc.querySelector("#panier-container");
+
+      if (!newContent) {
+        console.warn("refreshPanier: #panier-container introuvable dans la réponse.");
+        return;
+      }
+
+      container.replaceWith(newContent); // 🔥 remplace le noeud entier (plus fiable que innerHTML)
+    })
+    .catch(err => console.error("Erreur refreshPanier :", err));
 }
+
 
 /**
  * Ajoute un livre au panier via l'API
@@ -170,43 +172,90 @@ function updateQtt(ligneId, quantite) {
     .catch(err => console.error("Erreur updateQtt :", err));
 }
 
-/**
- * Supprime une ligne du panier
- */
-function deleteLine(ligneId) {
-    if (!confirm("Supprimer cet article ?")) return;
+// Suppression d'une ligne du panier
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".btn-delete-line");
+  if (!btn) return;
 
-    fetch(`/api/panier/delete/${ligneId}`, { method: "POST" })
+  const ligneId = btn.dataset.ligneId;
+  if (!ligneId) return;
+
+  // Optionnel: feedback visuel
+  btn.disabled = true;
+  btn.classList.add("opacity-50", "cursor-not-allowed");
+
+  fetch(`/api/panier/delete/${ligneId}`, {
+    method: "POST",
+    headers: { "X-Requested-With": "XMLHttpRequest" }
+  })
     .then(r => r.json())
     .then(data => {
-        if (data.success) {
-            refreshPanier();
+      if (data.success) {
+        // badge header si ton API renvoie count
+        if (data.count !== undefined) {
+          const badge = document.querySelector("#panier-count");
+          if (badge) {
+            badge.textContent = data.count;
+            badge.classList.toggle("hidden", data.count <= 0);
+          }
         }
+
+        refreshPanier();
+        return;
+      }
+
+      // si success=false
+      btn.disabled = false;
+      btn.classList.remove("opacity-50", "cursor-not-allowed");
+      refreshPanier();
     })
-    .catch(err => console.error("Erreur deleteLine :", err));
-}
+    .catch(err => {
+      console.error("Erreur deleteLine :", err);
+      btn.disabled = false;
+      btn.classList.remove("opacity-50", "cursor-not-allowed");
+    });
+});
 
 
 // Onglets de l'espace personnel
 
+// Onglets de l'espace personnel (SAFE)
 document.addEventListener('DOMContentLoaded', () => {
-    const buttons = document.querySelectorAll('.tab-button');
-    const panels = document.querySelectorAll('.tab-panel');
+  const buttons = document.querySelectorAll('.tab-button');
+  const panels = document.querySelectorAll('.tab-panel');
 
-    function showTab(name) {
-        panels.forEach(panel => panel.classList.add('hidden'));
-        document.getElementById('tab-' + name).classList.remove('hidden');
+  // ✅ Si la page n'a pas d'onglets, on ne fait rien
+  if (!buttons.length || !panels.length) return;
 
-        buttons.forEach(btn => btn.classList.remove('bg-white', 'border', 'border-b-0'));
-        const activeBtn = document.querySelector('[data-tab="' + name + '"]');
-        activeBtn.classList.add('bg-white', 'border', 'border-b-0');
+  function showTab(name) {
+    // cacher tous les panels
+    panels.forEach(panel => panel.classList.add('hidden'));
+
+    // ✅ panel cible
+    const targetPanel = document.getElementById('tab-' + name);
+    if (!targetPanel) return; // évite crash si tab inexistante
+    targetPanel.classList.remove('hidden');
+
+    // gérer boutons
+    buttons.forEach(btn => btn.classList.remove('bg-white', 'border', 'border-b-0'));
+    const activeBtn = document.querySelector('[data-tab="' + name + '"]');
+    if (activeBtn) {
+      activeBtn.classList.add('bg-white', 'border', 'border-b-0');
     }
+  }
 
-    showTab('profil');
-    buttons.forEach(btn =>
-        btn.addEventListener('click', () => showTab(btn.getAttribute('data-tab')))
-    );
+  // ✅ Choix d'onglet par défaut : le 1er bouton si "profil" n'existe pas
+  const defaultName = document.getElementById('tab-profil')
+    ? 'profil'
+    : (buttons[0].getAttribute('data-tab') || 'profil');
+
+  showTab(defaultName);
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => showTab(btn.getAttribute('data-tab')));
+  });
 });
+
 
 // GESTION MOT DE PASSE (Version améliorée)
 function togglePassword(button) {

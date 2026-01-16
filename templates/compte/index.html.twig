@@ -109,24 +109,6 @@
                 </div>
             </section>
 
-            {# 2. ADRESSE #}
-  {#           <section id="tab-adresse" class="tab-panel hidden animate-fadeIn">
-                <div class="bg-white rounded-3xl p-8 shadow-sm border border-[--bluegray-medium]/20">
-                    <h3 class="text-xl font-black text-[--bluegray-dark] mb-6">Adresse de livraison par défaut</h3>
-                    {% if adresseForm is defined and adresseForm %}
-                        {{ form_start(adresseForm, {'attr': {'class': 'space-y-6'}}) }}
-                            {{ form_row(adresseForm.adresse) }}
-                            <div class="grid md:grid-cols-2 gap-6">
-                                {{ form_row(adresseForm.codePostal) }}
-                                {{ form_row(adresseForm.ville) }}
-                            </div>
-                            <button class="px-8 py-3 bg-[--bluegray-dark] text-white rounded-xl font-bold shadow-lg hover:bg-[--bluegray-accent] transition-all">
-                                Mettre à jour l'adresse
-                            </button>
-                        {{ form_end(adresseForm) }}
-                    {% endif %}
-                </div>
-            </section> #}
 
             {# 3. COMMANDES #}
             <section id="tab-commandes" class="tab-panel hidden animate-fadeIn">
