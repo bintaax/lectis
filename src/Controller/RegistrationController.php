@@ -41,7 +41,7 @@ class RegistrationController extends AbstractController
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
             // Donner le rôle ADMIN uniquement à ton email
-if ($user->getEmail() === "bintou@lectis.org") {
+if ($user->getEmail() === "admin@lectis.org") {
     $user->setRoles(['ROLE_ADMIN']);
 } else {
     $user->setRoles(['ROLE_USER']);
@@ -53,7 +53,7 @@ if ($user->getEmail() === "bintou@lectis.org") {
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('bintou@lectis.org', 'Bintou'))
+                    ->from(new Address('admin@lectis.org', 'Administration Lectis'))
                     ->to((string) $user->getEmail())
                     ->subject('Veuillez confirmer votre email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')

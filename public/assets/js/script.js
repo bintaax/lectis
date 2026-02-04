@@ -48,24 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-/* document.addEventListener("DOMContentLoaded", () => {
-    const menuToggle = document.getElementById("menu-toggle");
-    const mobileMenu = document.getElementById("mobile-menu");
-
-    if (!menuToggle) {
-        console.error("menu-toggle introuvable");
-        return;
-    }
-
-    if (!mobileMenu) {
-        console.error("mobile-menu introuvable");
-        return;
-    }
-
-    menuToggle.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
-    });
-}); */
 
 // Flèches du catalogue
     function scrollLeft(id) {
@@ -78,9 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // Panier 
-/**
- * Met à jour le contenu du panier sans recharger la page
- */
+// Rafraîchit le contenu du panier (utilisé après modif)
 function refreshPanier() {
   const container = document.querySelector("#panier-container");
   if (!container) return;
@@ -96,15 +76,13 @@ function refreshPanier() {
         return;
       }
 
-      container.replaceWith(newContent); // 🔥 remplace le noeud entier (plus fiable que innerHTML)
+      container.replaceWith(newContent);
     })
     .catch(err => console.error("Erreur refreshPanier :", err));
 }
 
 
-/**
- * Ajoute un livre au panier via l'API
- */
+// Ajout au panier
 function addToCart(id) {
     fetch(`/api/panier/add/${id}`, { 
         method: "POST",

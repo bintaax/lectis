@@ -45,14 +45,28 @@ final class CommandesCrudController extends AbstractCrudController
         yield TextField::new('numeroCommande', 'N°')->onlyOnIndex();
         yield DateTimeField::new('createdAt', 'Date');
 
-        yield AssociationField::new('utilisateurs', 'Client')->onlyOnIndex();
+        yield TextField::new('numeroCommande', 'N°')->onlyOnIndex();
+yield DateTimeField::new('createdAt', 'Date');
+
+// ✅ Client en clair
+yield TextField::new('utilisateurs.nom', 'Nom')->onlyOnIndex();
+yield TextField::new('utilisateurs.prenom', 'Prénom')->onlyOnIndex();
+yield TextField::new('utilisateurs.email', 'Email')->onlyOnIndex();
+
 
         yield MoneyField::new('total', 'Total')
             ->setCurrency('EUR')
             ->setStoredAsCents(false); // ✅ IMPORTANT
 
 
-        
+        yield ChoiceField::new('statut', 'Statut')
+    ->setChoices(array_combine(
+        array_map(fn($s) => $s->label(), \App\Enum\Statut::cases()),
+        \App\Enum\Statut::cases()
+    ))
+    ->formatValue(fn ($value, $entity) => $value?->label() ?? '')
+    ->renderExpanded(false);
+
 
 
         yield TextField::new('paiement', 'Paiement')->onlyOnIndex();
@@ -71,16 +85,5 @@ final class CommandesCrudController extends AbstractCrudController
             ->disable(Action::DELETE);
     }
 
-    public function configureFilters(Filters $filters): Filters
-    {
-        $choices = [];
-        foreach (Statut::cases() as $case) {
-            $choices[$case->value] = $case->value;
-        }
-
-        return $filters
-            ->add(ChoiceFilter::new('statut')->setChoices($choices))
-            ->add('createdAt')
-            ->add('utilisateurs');
-    }
+   
 }

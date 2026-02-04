@@ -37,5 +37,17 @@ public function findByGenre($genreId): array
         ->getResult();
 }
 
+/* Fonction pour rechercher dans le catalogue */
+
+public function searchCatalogue(string $q): array
+{
+    return $this->createQueryBuilder('l')
+        ->andWhere('l.titre LIKE :q OR l.auteur LIKE :q OR l.editeur LIKE :q')
+        ->setParameter('q', '%'.$q.'%')
+        ->orderBy('l.titre', 'ASC')
+        ->getQuery()
+        ->getResult();
+}
+
 }
 

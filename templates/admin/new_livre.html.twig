@@ -1,87 +1,104 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter un livre{% endblock %}
+{% block title %}Ajouter un livre | Lectis{% endblock %}
 
 {% block body %}
+<div class="bg-[--bluegray-light] min-h-screen pt-24 pb-20">
+    <div class="max-w-5xl mx-auto px-6">
 
-<div class="mt-24 px-10 max-w-5xl mx-auto">
+        {# Retour à l'administration #}
+        <a href="{{ path('app_livres') }}" class="inline-flex items-center gap-2 text-[--bluegray-deep] text-sm font-bold hover:text-[--bluegray-dark] mb-8 transition-colors">
+            <i class="fa-solid fa-chevron-left"></i> 
+            Retour au catalogue
+        </a>
 
-    <!-- Titre -->
-    <h1 class="text-4xl font-bold text-bluegray-dark mb-8 flex items-center gap-3">
-        <span class="text-lectis-primary text-5xl">+</span>
-        Ajouter un nouveau livre
-    </h1>
+        <h1 class="text-3xl md:text-4xl font-black text-[--bluegray-dark] mb-10 flex items-center gap-4">
+            <div class="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center text-[--bluegray-dark]">
+                <i class="fa-solid fa-plus text-xl"></i>
+            </div>
+            Ajouter un nouveau livre
+        </h1>
 
-    <!-- Carte du formulaire -->
-    <div class="bg-white shadow-xl rounded-2xl p-10 border border-gray-200">
+        <div class="bg-white shadow-xl rounded-[2.5rem] p-8 md:p-12 border border-[--bluegray-medium]/20">
 
-        {{ form_start(form, { 'attr': { 'enctype': 'multipart/form-data', 'class': 'space-y-8' } }) }}
+            {{ form_start(form, { 'attr': { 'enctype': 'multipart/form-data', 'class': 'space-y-8' } }) }}
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
 
-            <div>
-                {{ form_label(form.titre, null, {'label_attr': {'class': 'font-semibold text-gray-800'}}) }}
-                {{ form_widget(form.titre, {'attr': {'class': 'w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-lectis-primary'}}) }}
+                {# Titre #}
+                <div class="space-y-2">
+                    {{ form_label(form.titre, 'Titre de l\'ouvrage', {'label_attr': {'class': 'text-xs font-black uppercase tracking-widest text-[--bluegray-deep] ml-1'}}) }}
+                    {{ form_widget(form.titre, {'attr': {'class': 'w-full px-6 py-4 bg-[--bluegray-light]/30 border-2 border-transparent rounded-2xl focus:bg-white focus:border-[--bluegray-dark] transition-all outline-none text-[--bluegray-dark] font-bold', 'placeholder': 'Ex: Le Petit Prince'}}) }}
+                </div>
+
+                {# Auteur #}
+                <div class="space-y-2">
+                    {{ form_label(form.auteur, 'Auteur', {'label_attr': {'class': 'text-xs font-black uppercase tracking-widest text-[--bluegray-deep] ml-1'}}) }}
+                    {{ form_widget(form.auteur, {'attr': {'class': 'w-full px-6 py-4 bg-[--bluegray-light]/30 border-2 border-transparent rounded-2xl focus:bg-white focus:border-[--bluegray-dark] transition-all outline-none text-[--bluegray-dark] font-bold', 'placeholder': 'Ex: Antoine de Saint-Exupéry'}}) }}
+                </div>
+
+                {# Genre #}
+                <div class="space-y-2">
+                    {{ form_label(form.genre, 'Genre littéraire', {'label_attr': {'class': 'text-xs font-black uppercase tracking-widest text-[--bluegray-deep] ml-1'}}) }}
+                    {{ form_widget(form.genre, {'attr': {'class': 'w-full px-6 py-4 bg-[--bluegray-light]/30 border-2 border-transparent rounded-2xl focus:bg-white focus:border-[--bluegray-dark] transition-all outline-none text-[--bluegray-dark] font-bold'}}) }}
+                </div>
+
+                {# Slug #}
+                <div class="space-y-2">
+                    {{ form_label(form.slug, 'URL simplifiée (Slug)', {'label_attr': {'class': 'text-xs font-black uppercase tracking-widest text-[--bluegray-deep] ml-1'}}) }}
+                    {{ form_widget(form.slug, {'attr': {'class': 'w-full px-6 py-4 bg-[--bluegray-light]/30 border-2 border-transparent rounded-2xl focus:bg-white focus:border-[--bluegray-dark] transition-all outline-none text-[--bluegray-dark] font-medium text-sm'}}) }}
+                </div>
+
+                {# Editeur #}
+                <div class="space-y-2">
+                    {{ form_label(form.editeur, 'Éditeur', {'label_attr': {'class': 'text-xs font-black uppercase tracking-widest text-[--bluegray-deep] ml-1'}}) }}
+                    {{ form_widget(form.editeur, {'attr': {'class': 'w-full px-6 py-4 bg-[--bluegray-light]/30 border-2 border-transparent rounded-2xl focus:bg-white focus:border-[--bluegray-dark] transition-all outline-none text-[--bluegray-dark] font-bold'}}) }}
+                </div>
+
+                {# Langue #}
+                <div class="space-y-2">
+                    {{ form_label(form.langue, 'Langue', {'label_attr': {'class': 'text-xs font-black uppercase tracking-widest text-[--bluegray-deep] ml-1'}}) }}
+                    {{ form_widget(form.langue, {'attr': {'class': 'w-full px-6 py-4 bg-[--bluegray-light]/30 border-2 border-transparent rounded-2xl focus:bg-white focus:border-[--bluegray-dark] transition-all outline-none text-[--bluegray-dark] font-bold'}}) }}
+                </div>
+
+                {# Pages #}
+                <div class="space-y-2">
+                    {{ form_label(form.nbPages, 'Nombre de pages', {'label_attr': {'class': 'text-xs font-black uppercase tracking-widest text-[--bluegray-deep] ml-1'}}) }}
+                    {{ form_widget(form.nbPages, {'attr': {'class': 'w-full px-6 py-4 bg-[--bluegray-light]/30 border-2 border-transparent rounded-2xl focus:bg-white focus:border-[--bluegray-dark] transition-all outline-none text-[--bluegray-dark] font-bold'}}) }}
+                </div>
+
+                {# Âge #}
+                <div class="space-y-2">
+                    {{ form_label(form.ageAutorise, 'Âge conseillé', {'label_attr': {'class': 'text-xs font-black uppercase tracking-widest text-[--bluegray-deep] ml-1'}}) }}
+                    {{ form_widget(form.ageAutorise, {'attr': {'class': 'w-full px-6 py-4 bg-[--bluegray-light]/30 border-2 border-transparent rounded-2xl focus:bg-white focus:border-[--bluegray-dark] transition-all outline-none text-[--bluegray-dark] font-bold'}}) }}
+                </div>
+
+                {# Description #}
+                <div class="md:col-span-2 space-y-2">
+                    {{ form_label(form.description, 'Résumé / Description', {'label_attr': {'class': 'text-xs font-black uppercase tracking-widest text-[--bluegray-deep] ml-1'}}) }}
+                    {{ form_widget(form.description, {'attr': {'class': 'w-full px-6 py-4 bg-[--bluegray-light]/30 border-2 border-transparent rounded-[1.5rem] focus:bg-white focus:border-[--bluegray-dark] transition-all outline-none text-[--bluegray-dark] h-40 resize-none'}}) }}
+                </div>
+
+                {# Photo #}
+                <div class="md:col-span-2 space-y-2">
+                    {{ form_label(form.photo, 'Couverture du livre', {'label_attr': {'class': 'text-xs font-black uppercase tracking-widest text-[--bluegray-deep] ml-1'}}) }}
+                    <div class="relative">
+                        {{ form_widget(form.photo, {'attr': {'class': 'w-full px-6 py-4 bg-[--bluegray-light]/30 border-2 border-dashed border-[--bluegray-medium]/30 rounded-2xl cursor-pointer hover:bg-[--bluegray-light]/50 transition-all text-[--bluegray-deep] text-sm'}}) }}
+                    </div>
+                </div>
+
             </div>
 
-            <div>
-                {{ form_label(form.auteur, null, {'label_attr': {'class': 'font-semibold text-gray-800'}}) }}
-                {{ form_widget(form.auteur, {'attr': {'class': 'w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-lectis-primary'}}) }}
+            <div class="pt-10 flex justify-end">
+                <button class="w-full md:w-auto px-12 py-5 bg-[--bluegray-dark] text-white font-black rounded-2xl hover:scale-105 transition-all shadow-xl uppercase tracking-widest text-sm">
+                    <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Enregistrer le livre
+                </button>
             </div>
 
-            <div>
-                {{ form_label(form.genre, null, {'label_attr': {'class': 'font-semibold text-gray-800'}}) }}
-                {{ form_widget(form.genre, {'attr': {'class': 'w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-lectis-primary'}}) }}
-            </div>
-
-            <div>
-                {{ form_label(form.slug, null, {'label_attr': {'class': 'font-semibold text-gray-800'}}) }}
-                {{ form_widget(form.slug, {'attr': {'class': 'w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-lectis-primary'}}) }}
-            </div>
-
-            <div>
-                {{ form_label(form.editeur, null, {'label_attr': {'class': 'font-semibold text-gray-800'}}) }}
-                {{ form_widget(form.editeur, {'attr': {'class': 'w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-lectis-primary'}}) }}
-            </div>
-
-            <div>
-                {{ form_label(form.langue, null, {'label_attr': {'class': 'font-semibold text-gray-800'}}) }}
-                {{ form_widget(form.langue, {'attr': {'class': 'w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-lectis-primary'}}) }}
-            </div>
-
-            <div>
-                {{ form_label(form.nbPages, null, {'label_attr': {'class': 'font-semibold text-gray-800'}}) }}
-                {{ form_widget(form.nbPages, {'attr': {'class': 'w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-lectis-primary'}}) }}
-            </div>
-
-            <div>
-                {{ form_label(form.ageAutorise, null, {'label_attr': {'class': 'font-semibold text-gray-800'}}) }}
-                {{ form_widget(form.ageAutorise, {'attr': {'class': 'w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-lectis-primary'}}) }}
-            </div>
-
-            <div class="md:col-span-2">
-                {{ form_label(form.description, null, {'label_attr': {'class': 'font-semibold text-gray-800'}}) }}
-                {{ form_widget(form.description, {'attr': {'class': 'w-full mt-1 p-3 border rounded-lg h-32 focus:ring-2 focus:ring-lectis-primary'}}) }}
-            </div>
-
-            <div class="md:col-span-2">
-                {{ form_label(form.photo, null, {'label_attr': {'class': 'font-semibold text-gray-800'}}) }}
-                {{ form_widget(form.photo, {'attr': {'class': 'w-full mt-1 p-3 border rounded-lg bg-gray-50 cursor-pointer focus:ring-2 focus:ring-lectis-primary'}}) }}
-            </div>
+            {{ form_end(form) }}
 
         </div>
-
-        <!-- Bouton -->
-        <div class="pt-6">
-            <button class="bg-lectis-primary hover:bg-lectis-primary-dark text-white px-8 py-3 rounded-xl font-semibold text-lg shadow-md transition">
-                Ajouter le livre
-            </button>
-        </div>
-
-        {{ form_end(form) }}
 
     </div>
-
 </div>
-
 {% endblock %}

@@ -175,16 +175,19 @@ class Commandes
     }
 
     $createdAt = $this->createdAt ?? new \DateTimeImmutable();
-    $minutes = ((new \DateTimeImmutable())->getTimestamp() - $createdAt->getTimestamp()) / 60;
+    $now = new \DateTimeImmutable();
+
+    $diffSeconds = $now->getTimestamp() - $createdAt->getTimestamp();
+    $diffDays = (int) floor($diffSeconds / 86400); // ✅ même calcul que Twig
 
     return match (true) {
-        $minutes < 2  => Statut::PASSEE,
-        $minutes < 5  => Statut::PREPARATION,
-        $minutes < 15 => Statut::EXPEDIEE,
-        $minutes < 30 => Statut::LIVRAISON,
-        default       => Statut::LIVREE,
+        $diffDays >= 7 => Statut::LIVREE,
+        $diffDays >= 3 => Statut::LIVRAISON,
+        $diffDays >= 1 => Statut::PREPARATION,
+        default        => Statut::PASSEE,
     };
 }
+
 
     
 }

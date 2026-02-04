@@ -21,7 +21,7 @@ class AdminDashboardController extends AbstractDashboardController
 
     public function index(): Response
     {
-        // Redirection propre vers le CRUD Livres
+        // Redirection vers le CRUD Livres
         $url = $this->adminUrlGenerator
             ->setController(LivresCrudController::class)
             ->generateUrl();
