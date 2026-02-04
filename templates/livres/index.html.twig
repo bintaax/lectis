@@ -7,173 +7,162 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     
-    .book-card img { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-    .book-card:hover img { transform: scale(1.08); }
+    .book-card img { transition: transform 0.5s ease; }
+    .book-card:hover img { transform: scale(1.05); }
+
+    /* Fix pour éviter que les cartes ne soient trop larges quand elles sont peu nombreuses */
+    .search-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 2rem;
+    }
 </style>
 
-<div class="bg-[--bluegray-light] min-h-screen pb-20 pt-10">
+<div class="bg-[--bluegray-light] min-h-screen pb-20">
 
-    {# MESSAGE DE BIENVENUE #}
-    {% if app.user %}
-        <div class="pt-12 pb-6 px-6 text-center">
-            <h1 class="text-3xl md:text-4xl font-black text-[--bluegray-dark]">
-                Ravi de vous revoir, <span class="text-[--bluegray-deep]">{{ app.user.prenom ?? 'Lecteur' }}</span> !
-            </h1>
-            <p class="text-[--bluegray-deep] mt-2 font-medium">Quelles aventures allez-vous rejoindre aujourd'hui ?</p>
-        </div>
-    {% endif %}
+    {# 1. HEADER (Plus compact) #}
+    <div class="pt-24 pb-4 px-6 text-center">
+        <h1 class="text-2xl md:text-3xl font-black text-[--bluegray-dark] tracking-tight">
+            {% if app.user %}
+                Ravi de vous revoir, <span class="text-[--bluegray-deep]">{{ app.user.prenom }}</span>
+            {% else %}
+                Explorez le catalogue <span class="text-[--bluegray-deep]">Lectis</span>
+            {% endif %}
+        </h1>
+    </div>
 
-    {# BARRE DE RECHERCHE #}
-    <div class="max-w-4xl mx-auto px-6 mb-12">
-        <form method="get" action="{{ path('app_livres') }}" class="relative group">
-            <div class="flex flex-col sm:flex-row gap-3">
-                <div class="relative flex-1">
-                    <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-[--bluegray-medium] group-focus-within:text-[--bluegray-dark] transition-colors"></i>
-                    <input
-                        type="text"
-                        name="q"
-                        value="{{ q }}"
-                        placeholder="Titre, auteur, genre..."
-                        class="w-full pl-14 pr-4 py-5 rounded-[1.5rem] border-2 border-transparent bg-white shadow-xl shadow-[--bluegray-medium]/5 focus:outline-none focus:border-[--bluegray-dark]/20 transition-all font-medium text-[--bluegray-dark]"
-                    >
+    {# 2. BARRE DE RECHERCHE STICKY (Plus fine) #}
+    <div class="sticky top-0 z-40 bg-[--bluegray-light]/80 backdrop-blur-xl py-3 mb-4">
+        <div class="max-w-4xl mx-auto px-6">
+            <form method="get" action="{{ path('app_livres') }}" class="relative">
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-[--bluegray-medium]"></i>
+                        <input
+                            type="text"
+                            name="q"
+                            value="{{ q }}"
+                            placeholder="Titre, auteur..."
+                            class="w-full pl-12 pr-4 py-3 rounded-xl border border-[--bluegray-medium]/20 bg-white shadow-sm focus:outline-none focus:border-[--bluegray-dark] transition-all font-medium text-[--bluegray-dark]"
+                        >
+                    </div>
+                    <button type="submit" class="px-6 py-3 rounded-xl bg-[--bluegray-dark] text-white font-bold hover:bg-[--bluegray-deep] transition-all shadow-md uppercase tracking-widest text-[10px]">
+                        Rechercher
+                    </button>
+                    {% if q %}
+                        <a href="{{ path('app_livres') }}" class="px-4 py-3 rounded-xl bg-white text-red-500 border border-red-100 flex items-center justify-center">
+                            <i class="fa-solid fa-xmark"></i>
+                        </a>
+                    {% endif %}
                 </div>
+            </form>
+        </div>
+    </div>
 
-                <button class="px-8 py-5 rounded-[1.5rem] bg-[--bluegray-dark] text-white font-black hover:scale-[1.02] active:scale-95 transition-all shadow-lg uppercase tracking-widest text-xs">
-                    Rechercher
-                </button>
-
-                {% if q %}
-                    <a href="{{ path('app_livres') }}"
-                       class="px-8 py-5 rounded-[1.5rem] bg-white text-[--bluegray-dark] font-black border border-[--bluegray-medium]/20 hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all shadow-sm uppercase tracking-widest text-xs text-center flex items-center justify-center">
-                        Effacer
-                    </a>
-                {% endif %}
-            </div>
-        </form>
-
-        {# RÉSULTATS DE RECHERCHE #}
+    <div class="max-w-[1400px] mx-auto px-6">
+        
+        {# 3. ZONE DE RÉSULTATS #}
         {% if q %}
-            <div class="mt-8">
-                <h2 class="text-xl font-black text-[--bluegray-dark] mb-6 flex items-center gap-2">
-                    <i class="fa-solid fa-quote-left text-[--bluegray-medium] text-xs"></i>
-                    Résultats pour "{{ q }}"
-                </h2>
-
+            <div class="mt-6">
+                <h2 class="text-lg font-black text-[--bluegray-dark] mb-6">Résultats pour "{{ q }}"</h2>
+                
                 {% if resultats is empty %}
-                    <div class="bg-white rounded-[2rem] p-12 border border-[--bluegray-medium]/20 text-center shadow-sm">
-                        <i class="fa-solid fa-book-open text-4xl text-[--bluegray-light] mb-4"></i>
-                        <p class="font-black text-[--bluegray-dark] text-xl mb-1">Aucun trésor trouvé</p>
-                        <p class="text-[--bluegray-deep]">Essayez avec un autre mot-clé ou parcourez nos genres.</p>
+                    <div class="bg-white rounded-2xl p-10 border border-[--bluegray-medium]/20 text-center max-w-md mx-auto">
+                        <p class="font-bold text-[--bluegray-dark]">Aucun ouvrage trouvé.</p>
                     </div>
                 {% else %}
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    {# Utilisation de la grid auto-fill pour éviter l'effet "collé" #}
+                    <div class="search-grid">
                         {% for livre in resultats %}
-                            <a href="{{ path('app_detail', { slug: livre.slug }) }}"
-                               class="book-card bg-white rounded-2xl p-4 shadow-sm border border-[--bluegray-medium]/10 hover:shadow-2xl hover:-translate-y-2 transition-all group">
-                                <div class="relative overflow-hidden rounded-xl aspect-[2/3] mb-4">
-                                    <img src="{{ asset('assets/img/' ~ livre.photo) }}"
-                                         class="w-full h-full object-cover"
-                                         alt="{{ livre.titre }}">
-                                </div>
-                                <p class="font-black text-[--bluegray-dark] text-sm line-clamp-2 leading-tight group-hover:text-[--bluegray-deep] transition-colors">{{ livre.titre }}</p>
-                                <p class="text-2xs text-[--bluegray-medium] uppercase font-bold mt-1 tracking-wider">{{ livre.auteur }}</p>
-                                <p class="mt-3 font-black text-[--bluegray-dark]">{{ livre.prix|number_format(2, ',', ' ') }} €</p>
-                            </a>
+                            {{ _self.render_book_card(livre) }}
                         {% endfor %}
                     </div>
                 {% endif %}
             </div>
         {% endif %}
-    </div>
 
-    {# 👉 MODIFICATION ICI : On n'affiche les genres QUE s'il n'y a pas de recherche en cours #}
-    {% if not q %}
-        {% for genre, livres in livresParGenre %}
-            {% set genreId = genre|lower|replace({' ':'-'}) %}
+        {# 4. CARROUSELS PAR GENRE #}
+        {% if not q %}
+            <div class="space-y-2">
+                {% for genre, livres in livresParGenre %}
+                    {% set genreId = genre|lower|replace({' ':'-'}) %}
 
-            <section class="px-6 md:px-12 py-10 max-w-[1600px] mx-auto">
-                <div class="flex items-center justify-between mb-8">
-                    <div class="flex items-center gap-4">
-                        <div class="w-1.5 h-8 bg-[--bluegray-dark] rounded-full"></div>
-                        <h2 class="text-2xl md:text-3xl font-black text-[--bluegray-dark] tracking-tight">
-                            {{ genre }}
-                        </h2>
-                    </div>
-                    
-                    {# BOUTONS DE NAVIGATION SCROLL #}
-                    <div class="hidden sm:flex gap-3">
-                        <button onclick="document.getElementById('{{ genreId }}').scrollBy({left: -400, behavior: 'smooth'})" 
-                                class="w-12 h-12 flex items-center justify-center rounded-2xl bg-white border border-[--bluegray-medium]/20 text-[--bluegray-dark] hover:bg-[--bluegray-dark] hover:text-white transition-all shadow-sm">
-                            <i class="fa-solid fa-chevron-left"></i>
-                        </button>
-                        <button onclick="document.getElementById('{{ genreId }}').scrollBy({left: 400, behavior: 'smooth'})" 
-                                class="w-12 h-12 flex items-center justify-center rounded-2xl bg-white border border-[--bluegray-medium]/20 text-[--bluegray-dark] hover:bg-[--bluegray-dark] hover:text-white transition-all shadow-sm">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                {# CONTENEUR DES LIVRES #}
-                <div id="{{ genreId }}" class="flex gap-8 overflow-x-auto scroll-smooth py-6 no-scrollbar">
-                    {% for livre in livres %}
-                        <div class="book-card bg-white p-5 rounded-[2rem] shadow-sm border border-[--bluegray-medium]/20 min-w-[200px] sm:min-w-[260px] max-w-72 flex flex-col transition-all hover:shadow-2xl hover:shadow-[--bluegray-medium]/20 hover:-translate-y-2">
+                    <section class="py-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-xl font-black text-[--bluegray-dark] uppercase tracking-wide">
+                                {{ genre }}
+                            </h2>
                             
-                            {# IMAGE COUVERTURE #}
-                            <a href="{{ path('app_detail', { slug: livre.slug }) }}" class="relative block overflow-hidden rounded-[1.5rem] bg-[--bluegray-light] aspect-[2/3] shadow-inner">
-                                <img class="w-full h-full object-cover" 
-                                     src="/assets/img/{{ livre.photo }}" 
-                                     alt="{{ livre.titre }}" />
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                            </a>
-
-                            {# DÉTAILS DU LIVRE #}
-                            <div class="mt-5 flex flex-col grow">
-                                <a href="{{ path('app_detail', { slug: livre.slug }) }}">
-                                    <h3 class="text-base font-black text-[--bluegray-dark] line-clamp-2 hover:text-[--bluegray-deep] transition-colors leading-tight min-h-[2.5rem]">
-                                        {{ livre.titre }}
-                                    </h3>
-                                </a>
-                                <p class="text-[--bluegray-deep] text-xs font-bold uppercase tracking-widest mt-2 opacity-70">{{ livre.auteur }}</p>
-                                
-                                <div class="mt-4">
-                                    {% if app.user and app.user.isAdherent %}
-                                        <div class="flex flex-col gap-1">
-                                            <div class="flex items-center gap-2">
-                                                <span class="text-2xl font-black text-[--bluegray-dark]">
-                                                    {{ livre.prixFidelite|number_format(2, ',', ' ') }} €
-                                                </span>
-                                                <span class="bg-green-100 text-green-700 text-2xs uppercase font-black px-2 py-0.5 rounded-lg">
-                                                    -10% 
-                                                </span>
-                                            </div>
-                                            <span class="text-xs text-[--bluegray-medium] line-through font-bold opacity-60">
-                                                {{ livre.prix|number_format(2, ',', ' ') }} €
-                                            </span>
-                                        </div>
-                                    {% else %}
-                                        <span class="text-xl font-black text-[--bluegray-dark]">
-                                            {{ livre.prix|number_format(2, ',', ' ') }} €
-                                        </span>
-                                    {% endif %}
-                                </div>
-
-                                <div class="mt-3">
-                                    {{ livre.getDisponibiliteBadge()|raw }}
-                                </div>
-
-                                {# BOUTON D'ACTION #}
-                                <a href="{{ path('app_detail', { slug: livre.slug }) }}" 
-                                   class="mt-6 w-full py-4 bg-[--bluegray-dark] text-white text-2xs font-black uppercase tracking-[0.2em] rounded-2xl text-center hover:bg-[--bluegray-deep] transition-all flex items-center justify-center gap-2 shadow-md">
-                                    Explorer
-                                    <i class="fa-solid fa-arrow-right text-2xs"></i>
-                                </a>
+                            <div class="hidden sm:flex gap-2">
+                                <button onclick="document.getElementById('{{ genreId }}').scrollBy({left: -300, behavior: 'smooth'})" 
+                                        class="w-8 h-8 flex items-center justify-center rounded-lg bg-white border border-[--bluegray-medium]/20 text-[--bluegray-dark] hover:bg-[--bluegray-dark] hover:text-white transition-all">
+                                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                                </button>
+                                <button onclick="document.getElementById('{{ genreId }}').scrollBy({left: 300, behavior: 'smooth'})" 
+                                        class="w-8 h-8 flex items-center justify-center rounded-lg bg-white border border-[--bluegray-medium]/20 text-[--bluegray-dark] hover:bg-[--bluegray-dark] hover:text-white transition-all">
+                                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                                </button>
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
-            </section>
-        {% endfor %}
-    {% endif %}
 
+                        <div id="{{ genreId }}" class="flex gap-6 overflow-x-auto scroll-smooth pb-4 no-scrollbar">
+                            {% for livre in livres %}
+                                {{ _self.render_book_card(livre) }}
+                            {% endfor %}
+                        </div>
+                    </section>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 </div>
+
+{# MACRO CARTE (Plus équilibrée) #}
+{% macro render_book_card(livre) %}
+    <div class="book-card group bg-white p-3 rounded-2xl shadow-sm border border-[--bluegray-medium]/10 min-w-[180px] max-w-[220px] flex flex-col transition-all hover:shadow-lg">
+        
+        {# COUVERTURE #}
+        <a href="{{ path('app_detail', { slug: livre.slug }) }}" class="relative block overflow-hidden rounded-xl aspect-[2/3] bg-[--bluegray-light]">
+            <img class="w-full h-full object-cover" 
+                 src="/assets/img/{{ livre.photo }}" 
+                 alt="{{ livre.titre }}" />
+        </a>
+
+        {# INFOS #}
+        <div class="mt-3 flex flex-col grow">
+            <a href="{{ path('app_detail', { slug: livre.slug }) }}">
+                <h3 class="text-sm font-bold text-[--bluegray-dark] line-clamp-2 leading-snug min-h-[2.5rem] group-hover:text-[--bluegray-deep]">
+                    {{ livre.titre }}
+                </h3>
+            </a>
+            <p class="text-[--bluegray-deep] text-[10px] font-bold uppercase tracking-wider mt-1 opacity-60">{{ livre.auteur }}</p>
+            
+            <div class="mt-3 mb-3">
+                {% if app.user and app.user.isAdherent %}
+                    <div class="flex flex-col">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg font-black text-[--bluegray-dark]">
+                                {{ livre.prixFidelite|number_format(2, ',', ' ') }} €
+                            </span>
+                            <span class="text-[9px] font-bold text-green-600 bg-green-50 px-1 rounded">-10%</span>
+                        </div>
+                        <span class="text-[10px] text-[--bluegray-medium] line-through opacity-50">
+                            {{ livre.prix|number_format(2, ',', ' ') }} €
+                        </span>
+                    </div>
+                {% else %}
+                    <span class="text-base font-black text-[--bluegray-dark]">
+                        {{ livre.prix|number_format(2, ',', ' ') }} €
+                    </span>
+                {% endif %}
+            </div>
+
+            <a href="{{ path('app_detail', { slug: livre.slug }) }}" 
+               class="mt-auto w-full py-2.5 bg-[--bluegray-dark] text-white text-[9px] font-black uppercase tracking-widest rounded-xl text-center hover:bg-[--bluegray-deep] transition-all">
+                Explorer
+            </a>
+        </div>
+    </div>
+{% endmacro %}
+
 {% endblock %}
