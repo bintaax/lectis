@@ -7,98 +7,92 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://kit.fontawesome.com/783766bfd8.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
-  <style>
-    :root {
-        --bluegray-medium:  #CDD6E2;
-        --bluegray-dark:    #2E3A45;
-        --bluegray-accent:  #3F5366;
-    }
-  </style>
 </head>
 
 <body class="bg-gray-50">
 
-{# Header en "relative" (non-sticky) et "w-full" (pleine largeur) #}
-<header class="relative bg-[--bluegray-medium] shadow-sm w-full border-b border-black/5">
+{# HEADER : Même couleur que le footer (--bluegray-dark) #}
+<header class="relative bg-[--bluegray-dark] shadow-xl w-full border-b border-white/5">
   
-  {# Conteneur sans "max-w" pour occuper tout l'écran, avec des paddings larges #}
   <div class="w-full flex h-20 items-center justify-between px-4 sm:px-10 lg:px-16">
 
-    {# 1. LOGO #}
+    {# 1. LOGO (On ajoute un filtre blanc pour qu'il ressorte sur le sombre) #}
     <div class="shrink-0">
         <a class="block transition hover:opacity-80" href="{{ path('app_home') }}">
-          <img src="{{ asset('assets/img/logo-nonebackground.png') }}" alt="Lectis Logo" style="width: 180px;">
+          <img src="{{ asset('assets/img/logo-nonebackground.png') }}" 
+               alt="Lectis Logo" 
+               class="brightness-0 invert" 
+               style="width: 180px;">
         </a>
     </div>
 
-    {# 2. MENU DESKTOP (Centralisé pour équilibrer l'espace) #}
-    <nav aria-label="Global" class="hidden md:block">
-      <ul class="flex items-center gap-12 text-sm font-black uppercase tracking-widest text-[--bluegray-dark]">
+    {# 2. MENU DESKTOP #}
+    <nav class="hidden md:block">
+      <ul class="flex items-center gap-12 text-sm font-black uppercase tracking-widest text-white/70">
         <li><a href="{{ path('app_home') }}" class="hover:text-white transition-colors">Accueil</a></li>
         <li><a href="{{ path('app_livres') }}" class="hover:text-white transition-colors">Nos livres</a></li>
         <li><a href="{{ path('app_contact') }}" class="hover:text-white transition-colors">Contact</a></li>
       </ul>
     </nav>
 
-    {# 3. ACTIONS (Compte, Panier, Connexion) #}
+    {# 3. ACTIONS #}
     <div class="flex items-center gap-4">
       <div class="flex items-center gap-4 md:gap-8">
 
         {% if app.user %}
-          {# GROUPE ICONES #}
           <div class="hidden md:flex items-center gap-6">
             
             {# 👤 MON COMPTE #}
-            <a href="{{ path('app_compte') }}" class="text-[--bluegray-dark] hover:text-white transition-all hover:scale-110">
-              <i class="fa-solid fa-user text-3xl"></i>
+            <a href="{{ path('app_compte') }}" class="text-white/80 hover:text-white transition-all hover:scale-110">
+              <i class="fa-solid fa-user text-2xl"></i>
             </a>
 
             {# 🛒 PANIER #}
-            <a href="{{ path('app_panier') }}" class="relative text-[--bluegray-dark] hover:text-white transition-all hover:scale-110">
-              <i class="fa-solid fa-cart-shopping text-3xl"></i>
+            <a href="{{ path('app_panier') }}" class="relative text-white/80 hover:text-white transition-all hover:scale-110">
+              <i class="fa-solid fa-cart-shopping text-2xl"></i>
               
               {% set panier = app.user.paniers|last %}
               {% if panier and panier.lignePaniers|length > 0 %}
-                <span id="panier-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-2xs font-bold 
-                             w-5 h-5 flex items-center justify-center rounded-full border-2 border-[--bluegray-medium]">
+                <span class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold 
+                             w-5 h-5 flex items-center justify-center rounded-full ring-2 ring-[--bluegray-dark]">
                     {{ panier.lignePaniers|length }}
                 </span>
               {% endif %}
             </a>
           </div>
 
-          {# 🔓 BOUTON DÉCONNEXION #}
+          {# 🔓 DÉCONNEXION #}
           <a href="{{ path('app_logout') }}" 
-             class="px-5 py-2 bg-red-600 text-white text-xs font-black uppercase tracking-widest rounded shadow-md hover:bg-red-700 transition-all">
-            Déconnexion
+             class="px-5 py-2 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded shadow-md hover:bg-red-700 transition-all">
+            Quitter
           </a>
 
         {% else %}
-          {# 🔐 SE CONNECTER #}
+          {# 🔐 CONNEXION (Bouton clair pour trancher) #}
           <a href="{{ path('app_login') }}" 
-             class="px-8 py-3 bg-[--bluegray-dark] text-white text-xs font-black uppercase tracking-widest rounded shadow-lg hover:bg-[--bluegray-accent] transition-all">
+             class="px-8 py-3 bg-white text-[--bluegray-dark] text-[10px] font-black uppercase tracking-widest rounded shadow-lg hover:bg-gray-200 transition-all">
             Se connecter
           </a>
         {% endif %}
       </div>
 
       {# BURGER MOBILE #}
-      <button id="menu-toggle" class="p-2 text-[--bluegray-dark] md:hidden hover:bg-white/20 rounded-lg transition-colors">
+      <button id="menu-toggle" class="p-2 text-white md:hidden hover:bg-white/10 rounded-lg transition-colors">
           <i class="fa-solid fa-bars text-2xl"></i>
       </button>
     </div>
   </div>
 </header>
 
-{# 4. MENU MOBILE (Style Drawer / Plein écran) #}
-<nav id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-white shadow-xl z-50 border-t border-gray-100 lg:hidden">
-  <ul class="flex flex-col items-center gap-6 py-8 text-sm font-black text-[--bluegray-dark] uppercase tracking-widest">
+{# 4. MENU MOBILE (S'adapte aussi au thème sombre) #}
+<nav id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-[--bluegray-dark] shadow-2xl z-50 border-t border-white/5 lg:hidden">
+  <ul class="flex flex-col items-center gap-6 py-10 text-sm font-black text-white/70 uppercase tracking-widest">
     <li><a class="hover:text-white" href="{{ path('app_home') }}">Accueil</a></li>
     <li><a class="hover:text-white" href="{{ path('app_livres') }}">Nos livres</a></li>
     <li><a class="hover:text-white" href="{{ path('app_contact') }}">Contact</a></li>
 
     {% if app.user %}
-      <li class="h-px w-12 bg-[--bluegray-dark]/20 my-2"></li>
+      <li class="h-px w-12 bg-white/10 my-2"></li>
       <li><a class="hover:text-white" href="{{path('app_compte')}}">Mon compte</a></li>
       <li><a class="hover:text-white" href="{{ path('app_panier') }}">Mon panier</a></li>
     {% endif %}

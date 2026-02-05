@@ -3,17 +3,24 @@
 @plugin "flowbite/plugin";
 @source "../../node_modules/flowbite";
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
 :root {
-  --bluegray-light:   #EEF3F8; /* Fond général */
-  --bluegray-medium:  #CDD6E2; /* Sections secondaires */
-  --bluegray-deep:    #7B8A9A; /* Icônes, contours, bordures */
-  --bluegray-dark:    #2E3A45; /* Texte */
-  --bluegray-accent:  #3F5366; /* Boutons */
-  --bluegray-hover : #293a49;  /* Hover */
+  /* Nuances Sombres (Header, Footer, Titres forts) */
+  --bluegray-dark:    #1A2229; /* Presque noir, ultra-premium pour le fond */
+  --bluegray-deep:    #2E3A45; /* Ton principal pour les sections sombres */
+  --bluegray-accent:  #3F5366; /* Pour les éléments d'interaction */
+  --bluegray-hover:   #4B6277; /* Un peu plus clair pour le hover sur fond sombre */
+
+  /* Nuances de Surface (Fonds, Sections, Inputs) */
+  --bluegray-light:   #F1F5F9; /* Gris très clair bleuté pour le fond du body */
+  --bluegray-medium:  #E2E8F0; /* Pour les bordures fines et séparateurs */
   
+  /* Couleurs de Status */
+  --accent-gold:      #C5A059; /* Optionnel : une couleur "or" pour le prix ou la fidélité */
+  
+  /* Neutres */
   --neutral-white:    #FFFFFF;
-  --neutral-light:    #F7F9FC;
-  --neutral-soft:     #E1E5EB;
+  --neutral-soft:     #F8FAFC;
 }
 body {
   font-family: 'Nunito', sans-serif;
