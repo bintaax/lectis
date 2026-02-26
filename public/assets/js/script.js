@@ -144,7 +144,7 @@ function updateQtt(ligneId, quantite) {
     .then(data => {
         if (data.success) {
             refreshPanier();
-            // On peut aussi mettre à jour le badge ici si ton API renvoie le nouveau count
+            
         }
     })
     .catch(err => console.error("Erreur updateQtt :", err));
@@ -195,9 +195,9 @@ document.addEventListener("click", (e) => {
 });
 
 
-// Onglets de l'espace personnel
 
-// Onglets de l'espace personnel (SAFE)
+
+// Onglets de l'espace personnel
 document.addEventListener('DOMContentLoaded', () => {
   const buttons = document.querySelectorAll('.tab-button');
   const panels = document.querySelectorAll('.tab-panel');
