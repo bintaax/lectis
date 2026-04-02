@@ -17,6 +17,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 
+// Contrôleur pour commandes crud.
 final class CommandesCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -24,6 +25,7 @@ final class CommandesCrudController extends AbstractCrudController
         return Commandes::class;
     }
 
+    // Charge les données nécessaires et rend la vue.
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -34,6 +36,7 @@ final class CommandesCrudController extends AbstractCrudController
             ->setPaginatorPageSize(20);
     }
 
+    // Charge les données nécessaires et rend la vue.
     public function configureFields(string $pageName): iterable
     {
         $statutChoices = [];
@@ -77,6 +80,7 @@ yield TextField::new('utilisateurs.email', 'Email')->onlyOnIndex();
             ->onlyOnDetail();
     }
 
+    // Charge les données nécessaires et rend la vue.
     public function configureActions(Actions $actions): Actions
     {
         return $actions

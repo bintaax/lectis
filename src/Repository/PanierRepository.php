@@ -13,11 +13,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PanierRepository extends ServiceEntityRepository
 {
+    // Initialise le repository avec le registre Doctrine.
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Panier::class);
     }
 
+    // Construit une requête pour find or create by user.
     public function findOrCreateByUser($user, \Doctrine\ORM\EntityManagerInterface $em): Panier
 {
     // Chercher le panier de l'utilisateur

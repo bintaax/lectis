@@ -13,8 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+// Contrôleur pour commandes.
 class CommandesController extends AbstractController
 {
+    // Charge les données nécessaires et rend la vue.
     #[Route('/commande', name: 'app_commandes')]
     public function commande(
         PanierRepository $panierRepository,
@@ -54,13 +56,14 @@ class CommandesController extends AbstractController
             ]);
         }
 
-        return $this->render('commandes/index.html.twig', [
+        return $this->render('commande/index.html.twig', [
             'lignes' => $panier->getLignePaniers(),
             'total' => $total, // Ce total est maintenant le bon !
             'form' => $form->createView()
         ]);
     }
 
+    // Charge les données nécessaires et rend la vue.
     #[Route('/commande/valider/{data}', name: 'app_commande_valider')]
     public function valider(
         string $data,

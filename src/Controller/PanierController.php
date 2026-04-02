@@ -13,8 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+// Contrôleur pour panier.
 final class PanierController extends AbstractController
 {
+    // Charge les données nécessaires et rend la vue.
     #[Route('/panier', name: 'app_panier', methods: ['GET'])]
     public function index(PanierRepository $panierRepo, Request $request): Response
     {
@@ -59,6 +61,7 @@ final class PanierController extends AbstractController
         return $this->render('panier/index.html.twig', $vars);
     }
 
+    // Charge les données nécessaires et rend la vue.
     #[Route('/api/panier/add/{id}', methods: ['POST'], name: 'api_panier_add')]
     public function add(
         int $id,
@@ -125,6 +128,7 @@ final class PanierController extends AbstractController
         ]);
     }
 
+    // Charge les données nécessaires et rend la vue.
     #[Route('/api/panier/update/{id}', methods: ['POST'], name: 'api_panier_update')]
     public function update(
         int $id,
@@ -173,6 +177,7 @@ final class PanierController extends AbstractController
         ]);
     }
 
+    // Charge les données nécessaires et rend la vue.
     #[Route('/api/panier/delete/{id}', methods: ['POST'], name: 'api_panier_delete')]
     public function delete(
         int $id,

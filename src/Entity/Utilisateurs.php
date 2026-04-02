@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\Panier;
 use App\Entity\Commandes;
 
+// Entité Doctrine pour utilisateurs.
 #[ORM\Entity(repositoryClass: UtilisateursRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cet email')]
@@ -70,6 +71,7 @@ private ?\DateTimeImmutable $adherentAt = null;
 
 
 
+    // Logique métier spécifique de l'entité.
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
@@ -82,6 +84,7 @@ public function getPaniers(): Collection
 {
     return $this->paniers;
 }
+// Logique métier spécifique de l'entité.
 public function addPanier(Panier $panier): static
 {
     if (!$this->paniers->contains($panier)) {
@@ -91,6 +94,7 @@ public function addPanier(Panier $panier): static
 
     return $this;
 }
+// Logique métier spécifique de l'entité.
 public function removePanier(Panier $panier): static
 {
     if ($this->paniers->removeElement($panier)) {
@@ -102,16 +106,19 @@ public function removePanier(Panier $panier): static
     return $this;
 }
 
+    // Retourne la valeur de id.
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    // Retourne la valeur de email.
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    // Met à jour la valeur de email.
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -159,6 +166,7 @@ public function removePanier(Panier $panier): static
         return $this->password;
     }
 
+    // Met à jour la valeur de password.
     public function setPassword(string $password): static
     {
         $this->password = $password;
@@ -177,17 +185,20 @@ public function removePanier(Panier $panier): static
         return $data;
     }
 
+    // Logique métier spécifique de l'entité.
     #[\Deprecated]
     public function eraseCredentials(): void
     {
         // @deprecated, to be removed when upgrading to Symfony 8
     }
 
+    // Retourne la valeur de nom.
     public function getNom(): ?string
     {
         return $this->nom;
     }
 
+    // Met à jour la valeur de nom.
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
@@ -195,11 +206,13 @@ public function removePanier(Panier $panier): static
         return $this;
     }
 
+    // Retourne la valeur de prenom.
     public function getPrenom(): ?string
     {
         return $this->prenom;
     }
 
+    // Met à jour la valeur de prenom.
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
@@ -215,6 +228,7 @@ public function removePanier(Panier $panier): static
         return $this->commandes;
     }
 
+    // Logique métier spécifique de l'entité.
     public function addCommande(Commandes $commande): static
     {
         if (!$this->commandes->contains($commande)) {
@@ -225,6 +239,7 @@ public function removePanier(Panier $panier): static
         return $this;
     }
 
+    // Logique métier spécifique de l'entité.
     public function removeCommande(Commandes $commande): static
     {
         if ($this->commandes->removeElement($commande)) {
@@ -237,11 +252,13 @@ public function removePanier(Panier $panier): static
         return $this;
     }
 
+    // Indique si verified.
     public function isVerified(): bool
     {
         return $this->isVerified;
     }
 
+    // Met à jour la valeur de is verified.
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
@@ -249,15 +266,18 @@ public function removePanier(Panier $panier): static
         return $this;
     }
 
+    // Retourne la valeur de deleted at.
     public function getDeletedAt(): ?\DateTimeImmutable
 {
     return $this->deletedAt;
 }
 
+// Indique si deleted.
 public function isDeleted(): bool
 {
     return $this->deletedAt !== null;
 }
+// Logique métier spécifique de l'entité.
 public function anonymizeAndDeactivate(): void
 {
     $this->deletedAt = new \DateTimeImmutable();
@@ -282,16 +302,19 @@ public function anonymizeAndDeactivate(): void
 }
 
 
+// Indique si adherent.
 public function isAdherent(): bool
 {
     return $this->isAdherent;
 }
 
+// Retourne la valeur de adherent at.
 public function getAdherentAt(): ?\DateTimeImmutable
 {
     return $this->adherentAt;
 }
 
+// Logique métier spécifique de l'entité.
 public function becomeAdherent(): void
 {
     $this->isAdherent = true;

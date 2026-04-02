@@ -9,8 +9,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+// Définition du formulaire contact.
 class ContactType extends AbstractType
 {
+    // Déclare les champs et contraintes du formulaire.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         // On définit une classe commune pour les inputs
@@ -42,6 +44,7 @@ class ContactType extends AbstractType
             ]);
     }
 
+    // Configure les options du formulaire.
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([]);

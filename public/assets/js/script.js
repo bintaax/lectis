@@ -1,10 +1,11 @@
  
-// Menu burger
+// Menu burger: ouverture/fermeture du menu mobile et bascule d'icône
 document.addEventListener("DOMContentLoaded", () => {
     const menuToggle = document.getElementById("menu-toggle");
     const mobileMenu = document.getElementById("mobile-menu");
 
     if (menuToggle && mobileMenu) {
+        // Gère l'affichage du menu mobile + changement d'icône
         menuToggle.addEventListener("click", (e) => {
             e.stopPropagation(); // Empêche la fermeture immédiate
             mobileMenu.classList.toggle("hidden");
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
+        // Variante avec display forcé (fallback si besoin)
         menuToggle.addEventListener("click", (e) => {
     e.stopPropagation();
     
@@ -33,9 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
         icon.classList.toggle('fa-bars');
         icon.classList.toggle('fa-xmark');
     }
-});
+        });
 
-        // Fermer le menu si on clique n'importe où ailleurs sur la page
+        // Fermer le menu si on clique ailleurs sur la page
         document.addEventListener("click", (e) => {
             if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
                 mobileMenu.classList.add("hidden");
@@ -49,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Flèches du catalogue
+// Flèches du catalogue: scroll horizontal dans les carrousels
     function scrollLeft(id) {
         document.getElementById(id).scrollBy({left: -300, behavior: 'smooth'});
     }
@@ -59,8 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// Panier 
-// Rafraîchit le contenu du panier (utilisé après modif)
+// Panier: rafraîchit le contenu du panier (utilisé après modif)
 function refreshPanier() {
   const container = document.querySelector("#panier-container");
   if (!container) return;
@@ -82,7 +83,7 @@ function refreshPanier() {
 }
 
 
-// Ajout au panier
+// Ajout au panier: appelle l'API et met à jour l'UI
 function addToCart(id) {
     fetch(`/api/panier/add/${id}`, { 
         method: "POST",
@@ -129,9 +130,7 @@ function addToCart(id) {
     });
 }
 
-/**
- * Modifie la quantité d'une ligne
- */
+// Modifie la quantité d'une ligne via l'API
 function updateQtt(ligneId, quantite) {
     if (quantite <= 0) return deleteLine(ligneId);
 
@@ -150,7 +149,7 @@ function updateQtt(ligneId, quantite) {
     .catch(err => console.error("Erreur updateQtt :", err));
 }
 
-// Suppression d'une ligne du panier
+// Suppression d'une ligne du panier: délégation de clic
 document.addEventListener("click", (e) => {
   const btn = e.target.closest(".btn-delete-line");
   if (!btn) return;
@@ -197,7 +196,7 @@ document.addEventListener("click", (e) => {
 
 
 
-// Onglets de l'espace personnel
+// Onglets de l'espace personnel: navigation et affichage conditionnel
 document.addEventListener('DOMContentLoaded', () => {
   const buttons = document.querySelectorAll('.tab-button');
   const panels = document.querySelectorAll('.tab-panel');
@@ -235,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// GESTION MOT DE PASSE (Version améliorée)
+// Gestion mot de passe: affiche/masque la saisie
 function togglePassword(button) {
     // On cherche l'input qui se trouve dans le même bloc que le bouton
     const container = button.parentElement;

@@ -8,8 +8,10 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+// Définition du formulaire commande.
 class CommandeType extends AbstractType
 {
+    // Déclare les champs et contraintes du formulaire.
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder

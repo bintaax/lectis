@@ -10,8 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 
+// Contrôleur pour contact.
 final class ContactController extends AbstractController
 {
+    // Charge les données nécessaires et rend la vue.
     #[Route('/contact', name: 'app_contact')]
     public function index(Request $request): Response
     {
@@ -28,7 +30,7 @@ final class ContactController extends AbstractController
             return $this->redirectToRoute('app_contact');
         }
 
-        return $this->render('contact/index.html.twig', [
+        return $this->render('pages/contact.html.twig', [
             'form' => $form->createView(),
         ]);
     }

@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 
+// Entité Doctrine pour livres.
 #[ORM\Entity(repositoryClass: LivresRepository::class)]
 class Livres
 {
@@ -54,17 +55,20 @@ class Livres
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    // Retourne la valeur de id.
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    // Retourne la valeur de titre.
     public function getTitre(): ?string
     {
         return $this->titre;
     }
 
    
+    // Met à jour la valeur de titre.
     public function setTitre(?string $titre): static
 {
     $this->titre = $titre;
@@ -76,11 +80,13 @@ class Livres
     return $this;
 }
 
+    // Retourne la valeur de auteur.
     public function getAuteur(): ?string
     {
         return $this->auteur;
     }
 
+    // Met à jour la valeur de auteur.
     public function setAuteur(string $auteur): static
     {
         $this->auteur = $auteur;
@@ -88,11 +94,13 @@ class Livres
         return $this;
     }
 
+    // Retourne la valeur de editeur.
     public function getEditeur(): ?string
     {
         return $this->editeur;
     }
 
+    // Met à jour la valeur de editeur.
     public function setEditeur(string $editeur): static
     {
         $this->editeur = $editeur;
@@ -100,11 +108,13 @@ class Livres
         return $this;
     }
 
+    // Retourne la valeur de resume.
     public function getResume(): ?string
     {
         return $this->resume;
     }
 
+    // Met à jour la valeur de resume.
     public function setResume(string $resume): static
     {
         $this->resume = $resume;
@@ -112,11 +122,13 @@ class Livres
         return $this;
     }
 
+    // Retourne la valeur de date publication.
     public function getDatePublication(): ?string
     {
         return $this->datePublication;
     }
 
+    // Met à jour la valeur de date publication.
     public function setDatePublication( $datePublication): static
     {
         $this->datePublication = $datePublication;
@@ -124,11 +136,13 @@ class Livres
         return $this;
     }
 
+    // Retourne la valeur de nb pages.
     public function getNbPages(): ?int
     {
         return $this->nbPages;
     }
 
+    // Met à jour la valeur de nb pages.
     public function setNbPages(int $nbPages): static
     {
         $this->nbPages = $nbPages;
@@ -136,11 +150,13 @@ class Livres
         return $this;
     }
 
+    // Retourne la valeur de prix.
     public function getPrix(): ?string
     {
         return $this->prix;
     }
 
+    // Met à jour la valeur de prix.
     public function setPrix(string $prix): static
     {
         $this->prix = $prix;
@@ -148,11 +164,13 @@ class Livres
         return $this;
     }
 
+    // Retourne la valeur de photo.
     public function getPhoto(): ?string
     {
         return $this->photo;
     }
 
+    // Met à jour la valeur de photo.
     public function setPhoto(string $photo): static
     {
         $this->photo = $photo;
@@ -160,11 +178,13 @@ class Livres
         return $this;
     }
 
+    // Indique si disponibilite.
     public function isDisponibilite(): ?bool
     {
         return $this->disponibilite;
     }
 
+    // Retourne la valeur de disponibilite badge.
     public function getDisponibiliteBadge(): string
 {
     if ($this->disponibilite) {
@@ -179,6 +199,7 @@ class Livres
 }
 
 
+    // Met à jour la valeur de disponibilite.
     public function setDisponibilite(bool $disponibilite): static
     {
         $this->disponibilite = $disponibilite;
@@ -186,11 +207,13 @@ class Livres
         return $this;
     }
 
+    // Retourne la valeur de age autorise.
     public function getAgeAutorise(): ?int
     {
         return $this->ageAutorise;
     }
 
+    // Met à jour la valeur de age autorise.
     public function setAgeAutorise(int $ageAutorise): static
     {
         $this->ageAutorise = $ageAutorise;
@@ -198,11 +221,13 @@ class Livres
         return $this;
     }
 
+    // Retourne la valeur de genre.
     public function getGenre(): ?Genres
     {
         return $this->genre;
     }
 
+    // Met à jour la valeur de genre.
     public function setGenre(?Genres $genre): static
     {
         $this->genre = $genre;
@@ -210,11 +235,13 @@ class Livres
         return $this;
     }
 
+    // Indique si best seller.
     public function isBestSeller(): ?bool
     {
         return $this->isBestSeller;
     }
 
+    // Met à jour la valeur de is best seller.
     public function setIsBestSeller(?bool $isBestSeller): static
     {
         $this->isBestSeller = $isBestSeller;
@@ -222,11 +249,13 @@ class Livres
         return $this;
     }
 
+    // Retourne la valeur de slug.
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    // Met à jour la valeur de slug.
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
@@ -234,6 +263,7 @@ class Livres
         return $this;
     }
 
+    // Retourne la valeur de prix fidelite.
     public function getPrixFidelite(): float
 {
     // On retourne le prix actuel moins 1 euro

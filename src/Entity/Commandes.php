@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+// Entité Doctrine pour commandes.
 #[ORM\Entity(repositoryClass: CommandesRepository::class)]
 class Commandes
 {
@@ -45,6 +46,7 @@ class Commandes
     #[ORM\OneToMany(mappedBy: 'commande', targetEntity: LigneCommande::class, cascade: ['persist', 'remove'])]
     private Collection $ligneCommandes;
 
+    // Logique métier spécifique de l'entité.
     public function __construct()
     {
         $this->ligneCommandes = new ArrayCollection();
@@ -54,17 +56,19 @@ class Commandes
         $this->numeroCommande = 'CMD-' . strtoupper(bin2hex(random_bytes(4)));
     }
 
+    // Retourne la valeur de id.
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    // Retourne la valeur de utilisateurs.
     public function getUtilisateurs(): ?Utilisateurs
     {
         return $this->utilisateurs;
     }
 
-    // Je laisse la signature nullable comme tu l’avais (API inchangée),
+
     // mais en pratique, vu nullable:false, évite de passer null.
     public function setUtilisateurs(?Utilisateurs $utilisateurs): static
     {
@@ -72,66 +76,78 @@ class Commandes
         return $this;
     }
 
+    // Retourne la valeur de numero commande.
     public function getNumeroCommande(): ?string
     {
         return $this->numeroCommande;
     }
 
+    // Met à jour la valeur de numero commande.
     public function setNumeroCommande(string $numeroCommande): static
     {
         $this->numeroCommande = $numeroCommande;
         return $this;
     }
 
+    // Retourne la valeur de created at.
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
+    // Met à jour la valeur de created at.
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
+    // Retourne la valeur de total.
     public function getTotal(): ?float
     {
         return $this->total;
     }
 
+    // Met à jour la valeur de total.
     public function setTotal(float $total): static
     {
         $this->total = $total;
         return $this;
     }
 
+    // Retourne la valeur de statut.
     public function getStatut(): ?Statut
     {
         return $this->statut;
     }
 
+    // Met à jour la valeur de statut.
     public function setStatut(Statut $statut): static
     {
         $this->statut = $statut;
         return $this;
     }
 
+    // Retourne la valeur de adresse livraison.
     public function getAdresseLivraison(): ?string
     {
         return $this->adresseLivraison;
     }
 
+    // Met à jour la valeur de adresse livraison.
     public function setAdresseLivraison(string $adresseLivraison): static
     {
         $this->adresseLivraison = $adresseLivraison;
         return $this;
     }
 
+    // Retourne la valeur de paiement.
     public function getPaiement(): ?string
     {
         return $this->paiement;
     }
 
+    // Met à jour la valeur de paiement.
     public function setPaiement(string $paiement): static
     {
         $this->paiement = $paiement;
@@ -146,6 +162,7 @@ class Commandes
         return $this->ligneCommandes;
     }
 
+    // Logique métier spécifique de l'entité.
     public function addLigneCommande(LigneCommande $ligneCommande): static
     {
         if (!$this->ligneCommandes->contains($ligneCommande)) {
@@ -156,6 +173,7 @@ class Commandes
         return $this;
     }
 
+    // Logique métier spécifique de l'entité.
     public function removeLigneCommande(LigneCommande $ligneCommande): static
     {
         if ($this->ligneCommandes->removeElement($ligneCommande)) {
@@ -167,6 +185,7 @@ class Commandes
         return $this;
     }
 
+    // Retourne la valeur de statut simule.
     public function getStatutSimule(): Statut
 {
     // Si annulée, on ne touche pas

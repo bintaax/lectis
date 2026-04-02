@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UtilisateursRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+    // Initialise le repository avec le registre Doctrine.
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Utilisateurs::class);

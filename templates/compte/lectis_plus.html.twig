@@ -3,21 +3,6 @@
 {% block title %}Lectis+ | Votre univers lecture{% endblock %}
 
 {% block body %}
-{# On définit les variables pour s'assurer qu'elles sont accessibles si elles ne sont pas dans le CSS global #}
-<style>
-    :root {
-        --bluegray-light:   #EEF3F8;
-        --bluegray-medium:  #CDD6E2;
-        --bluegray-deep:    #7B8A9A;
-        --bluegray-dark:    #2E3A45;
-        --bluegray-accent:  #3F5366;
-        --bluegray-hover :  #293a49;
-        --neutral-white:    #FFFFFF;
-        --neutral-light:    #F7F9FC;
-        --neutral-soft:     #E1E5EB;
-    }
-</style>
-
 <div class="min-h-screen bg-[--bluegray-light] py-12 px-4 sm:px-6 lg:px-8 text-[--bluegray-dark]">
     <div class="max-w-6xl mx-auto">
         
@@ -41,11 +26,11 @@
                         </p>
                         
                         <div class="flex flex-wrap gap-6">
-                            <div class="flex items-center gap-2 text-[--neutral-light] text-sm">
+                            <div class="flex items-center gap-2 text-[--neutral-soft] text-sm">
                                 <div class="w-1.5 h-1.5 rounded-full bg-[--bluegray-deep]"></div>
                                 1€ = 1 point lecture
                             </div>
-                            <div class="flex items-center gap-2 text-[--neutral-light] text-sm">
+                            <div class="flex items-center gap-2 text-[--neutral-soft] text-sm">
                                 <div class="w-1.5 h-1.5 rounded-full bg-[--bluegray-deep]"></div>
                                 Statuts & badges
                             </div>
@@ -64,15 +49,15 @@
             {# Footer du Hero - Medium #}
             <div class="bg-[--bluegray-accent] border-t border-[--bluegray-deep]/30 p-6 md:px-16">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="flex items-center gap-4 text-[--neutral-light]">
+                    <div class="flex items-center gap-4 text-[--neutral-soft]">
                         <span class="text-xl">📚</span>
                         <span class="text-sm font-medium">Bibliothèque récompensée</span>
                     </div>
-                    <div class="flex items-center gap-4 text-[--neutral-light] md:border-l md:border-[--bluegray-deep]/30 md:pl-8">
+                    <div class="flex items-center gap-4 text-[--neutral-soft] md:border-l md:border-[--bluegray-deep]/30 md:pl-8">
                         <span class="text-xl">✨</span>
                         <span class="text-sm font-medium">Récompenses exclusives</span>
                     </div>
-                    <div class="flex items-center gap-4 text-[--neutral-light] md:border-l md:border-[--bluegray-deep]/30 md:pl-8">
+                    <div class="flex items-center gap-4 text-[--neutral-soft] md:border-l md:border-[--bluegray-deep]/30 md:pl-8">
                         <span class="text-xl">📅</span>
                         <span class="text-sm font-medium">Accès anticipés</span>
                     </div>
@@ -89,7 +74,7 @@
                 </div>
                 <h3 class="text-xl font-bold text-[--bluegray-dark] mb-3">Points Lecture</h3>
                 <p class="text-[--bluegray-deep] text-sm leading-relaxed mb-6">Chaque livre acheté alimente votre compteur. Transformez vos achats en avantages concrets.</p>
-                <div class="p-3 bg-[--neutral-light] rounded border border-[--neutral-soft] text-xs font-bold text-[--bluegray-accent]">
+                <div class="p-3 bg-[--neutral-soft] rounded border border-[--neutral-soft] text-xs font-bold text-[--bluegray-accent]">
                     SENSATIONNEL : 1€ = 1 POINT
                 </div>
             </div>

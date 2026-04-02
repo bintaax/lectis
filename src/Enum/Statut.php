@@ -1,6 +1,7 @@
 <?php
 namespace App\Enum;
 
+// Énumération des statuts.
 enum Statut: string
 {
     case EN_ATTENTE = 'en_attente';
@@ -12,6 +13,7 @@ enum Statut: string
     case ANNULEE = 'annulee';
 
 
+    // Retourne le libellé lisible du statut.
     public function label(): string
     {
         return match($this) {
@@ -25,6 +27,7 @@ enum Statut: string
         };
     }
 
+    // Retourne la classe CSS associée au statut.
     public function badgeClass(): string
 {
     return match($this) {

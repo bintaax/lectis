@@ -18,14 +18,17 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
+// Contrôleur pour registration.
 class RegistrationController extends AbstractController
 {
+    // Charge les données nécessaires et rend la vue.
     public function __construct(private EmailVerifier $emailVerifier)
     {
     }
 
     
 
+    // Charge les données nécessaires et rend la vue.
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
     {
@@ -69,6 +72,7 @@ if ($user->getEmail() === "admin@lectis.org") {
         ]);
     }
 
+    // Charge les données nécessaires et rend la vue.
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
     {

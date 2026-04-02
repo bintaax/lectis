@@ -9,8 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+// Contrôleur pour livres.
 final class LivresController extends AbstractController
 {
+    // Charge les données nécessaires et rend la vue.
     #[Route('/livres', name: 'app_livres')]
     public function index(
         Request $request,

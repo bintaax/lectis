@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LivresRepository extends ServiceEntityRepository
 {
+    // Initialise le repository avec le registre Doctrine.
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Livres::class);

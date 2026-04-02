@@ -8,8 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+// Contrôleur pour commande annulation.
 class CommandeAnnulationController extends AbstractController
 {
+    // Charge les données nécessaires et rend la vue.
     #[Route('/commande/annuler/{id}', name: 'app_commande_annuler')]
     public function annuler(Commandes $commande, EntityManagerInterface $em): Response
     {

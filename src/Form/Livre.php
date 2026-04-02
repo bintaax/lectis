@@ -11,8 +11,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+// Définition du formulaire livre.
 class Livre extends AbstractType
 {
+    // Déclare les champs et contraintes du formulaire.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -32,6 +34,7 @@ class Livre extends AbstractType
         ;
     }
 
+    // Configure les options du formulaire.
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

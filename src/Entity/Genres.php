@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+// Entité Doctrine pour genres.
 #[ORM\Entity(repositoryClass: GenresRepository::class)]
 class Genres
 {
@@ -24,27 +25,32 @@ class Genres
     #[ORM\OneToMany(targetEntity: Livres::class, mappedBy: 'genre')]
     private Collection $livres;
 
+    // Logique métier spécifique de l'entité.
     public function __construct()
     {
         $this->livres = new ArrayCollection();
     }
 
+    // Retourne la valeur de id.
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    // Retourne la valeur de nom.
     public function getNom(): ?string
     {
         return $this->nom;
     }
 
+    // Met à jour la valeur de nom.
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
 
         return $this;
     }
+    // Logique métier spécifique de l'entité.
     public function __toString(): string
 {
     return $this->nom;  
@@ -59,6 +65,7 @@ class Genres
         return $this->livres;
     }
 
+    // Logique métier spécifique de l'entité.
     public function addLivre(Livres $livre): static
     {
         if (!$this->livres->contains($livre)) {
@@ -69,6 +76,7 @@ class Genres
         return $this;
     }
 
+    // Logique métier spécifique de l'entité.
     public function removeLivre(Livres $livre): static
     {
         if ($this->livres->removeElement($livre)) {

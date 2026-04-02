@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
+// Contrôleur pour livres crud.
 class LivresCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -20,6 +21,7 @@ class LivresCrudController extends AbstractCrudController
         return Livres::class;
     }
 
+    // Charge les données nécessaires et rend la vue.
     public function configureFields(string $pageName): iterable
 {
     return [

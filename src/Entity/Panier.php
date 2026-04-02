@@ -10,6 +10,7 @@ use App\Entity\Utilisateurs;
 use App\Entity\LignePanier;
 
 
+// Entité Doctrine pour panier.
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
 class Panier
 {
@@ -18,7 +19,7 @@ class Panier
     #[ORM\Column]
     private ?int $id = null;
 
-        // 🔥 Le propriétaire du panier
+    // 🔥 Le propriétaire du panier
     #[ORM\ManyToOne(inversedBy: 'paniers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateurs $utilisateur = null;
@@ -32,6 +33,7 @@ class Panier
     #[ORM\OneToMany(mappedBy: 'panier', targetEntity: LignePanier::class, cascade: ['persist', 'remove'])]  
     private Collection $lignePaniers;
 
+    // Logique métier spécifique de l'entité.
     public function __construct()
     {
         $this->lignePaniers = new ArrayCollection();
@@ -40,16 +42,19 @@ class Panier
 
 
 
+    // Retourne la valeur de id.
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    // Retourne la valeur de utilisateur.
     public function getUtilisateur(): ?Utilisateurs
     {
         return $this->utilisateur;
     }
 
+    // Met à jour la valeur de utilisateur.
     public function setUtilisateur(?Utilisateurs $utilisateur): static
     {
         $this->utilisateur = $utilisateur;
@@ -57,11 +62,13 @@ class Panier
         return $this;
     }
 
+    // Retourne la valeur de created at.
     public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
+    // Met à jour la valeur de created at.
     public function setCreatedAt(\DateTime $createdAt): static
     {
         $this->createdAt = $createdAt;
@@ -77,6 +84,7 @@ class Panier
         return $this->lignePaniers;
     }
 
+    // Logique métier spécifique de l'entité.
     public function addLignePanier(LignePanier $lignePanier): static
     {
         if (!$this->lignePaniers->contains($lignePanier)) {
@@ -86,6 +94,7 @@ class Panier
         return $this;
     }
 
+    // Logique métier spécifique de l'entité.
     public function removeLignePanier(LignePanier $lignePanier): static
     {
         if ($this->lignePaniers->removeElement($lignePanier)) {

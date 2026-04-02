@@ -11,10 +11,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CommandesRepository extends ServiceEntityRepository
 {
+    // Initialise le repository avec le registre Doctrine.
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Commandes::class);
     }
+// Construit une requête pour search admin.
 public function searchAdmin(?string $statut, ?string $q): array
 {
     $qb = $this->createQueryBuilder('c')

@@ -9,8 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 
+// Contrôleur pour detail.
 final class DetailController extends AbstractController
 {
+    // Charge les données nécessaires et rend la vue.
     #[Route('/livre/{slug}', name: 'app_detail')]
     public function index(string $slug, LivresRepository $livresRepo): Response
     {
@@ -25,7 +27,7 @@ final class DetailController extends AbstractController
         }
 
         // On envoie le livre à la vue
-        return $this->render('detail/index.html.twig', [
+        return $this->render('livres/detail.html.twig', [
             'livre' => $livre,
         ]);
     }

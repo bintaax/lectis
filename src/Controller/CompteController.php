@@ -15,11 +15,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 
-
-
-
+// Contrôleur pour compte.
 final class CompteController extends AbstractController
 {
+    // Charge les données nécessaires et rend la vue.
     #[Route('/compte', name: 'app_compte')]
 public function index(
     CommandesRepository $commandeRepository
@@ -43,6 +42,7 @@ public function index(
     ]);
 }
 
+// Charge les données nécessaires et rend la vue.
 #[Route('/compte/modifier', name: 'app_compte_modifier')]
 public function modifier(Request $request, EntityManagerInterface $em): Response
 {
@@ -64,6 +64,7 @@ public function modifier(Request $request, EntityManagerInterface $em): Response
     ]);
 }
 
+// Charge les données nécessaires et rend la vue.
 #[Route('/compte/password', name: 'app_compte_password')]
 public function password(
     Request $request, 
@@ -103,6 +104,7 @@ public function password(
 
 
 
+// Charge les données nécessaires et rend la vue.
 #[Route('/compte/supprimer', name: 'app_compte_supprimer', methods: ['POST'])]
 public function supprimer(
     EntityManagerInterface $em,
@@ -147,6 +149,7 @@ public function supprimer(
     return $this->redirectToRoute('app_logout');
 }
 
+// Charge les données nécessaires et rend la vue.
 #[Route('/compte/lectis-plus', name: 'app_compte_lectis_plus')]
 public function lectisPlus(): Response
 {
@@ -155,6 +158,7 @@ public function lectisPlus(): Response
     return $this->render('compte/lectis_plus.html.twig');
 }
 
+// Charge les données nécessaires et rend la vue.
 #[Route('/compte/lectis-plus/adherer', name: 'app_compte_lectis_plus_adherer', methods: ['POST'])]
 public function lectisPlusAdherer(EntityManagerInterface $em, Request $request): Response
 {

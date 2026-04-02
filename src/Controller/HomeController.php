@@ -7,8 +7,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+// Contrôleur pour home.
 final class HomeController extends AbstractController
 {
+    // Charge les données nécessaires et rend la vue.
     #[Route('/accueil', name: 'app_home')]
     public function index(LivresRepository $repo): Response
 {
