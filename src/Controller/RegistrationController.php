@@ -15,12 +15,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 // Contrôleur pour registration.
 class RegistrationController extends AbstractController
 {
+    use TargetPathTrait;
+
     // Charge les données nécessaires et rend la vue.
     public function __construct(private EmailVerifier $emailVerifier)
     {
@@ -32,6 +35,11 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
     {
+        $redirectPath = (string) $request->query->get('redirect', '');
+        if ($redirectPath !== '' && str_starts_with($redirectPath, '/')) {
+            $this->saveTargetPath($request->getSession(), 'main', $redirectPath);
+        }
+
         $user = new Utilisateurs();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);

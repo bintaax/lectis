@@ -181,4 +181,27 @@ public function lectisPlusAdherer(EntityManagerInterface $em, Request $request):
     return $this->redirectToRoute('app_compte');
 }
 
+// Charge les données nécessaires et rend la vue.
+#[Route('/compte/lectis-plus/quitter', name: 'app_compte_lectis_plus_quitter', methods: ['POST'])]
+public function lectisPlusQuitter(EntityManagerInterface $em, Request $request): Response
+{
+    /** @var \App\Entity\Utilisateurs $user */
+    $user = $this->getUser();
+    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+    if (!$this->isCsrfTokenValid('lectis_plus_leave', $request->request->get('_token'))) {
+        throw $this->createAccessDeniedException('Token CSRF invalide.');
+    }
+
+    if ($user->isAdherent()) {
+        $user->leaveAdherent();
+        $em->flush();
+        $this->addFlash('success', 'Votre abonnement Lectis+ a bien été retiré.');
+    } else {
+        $this->addFlash('info', 'Vous n’êtes pas adhérent Lectis+.');
+    }
+
+    return $this->redirectToRoute('app_compte');
+}
+
 }

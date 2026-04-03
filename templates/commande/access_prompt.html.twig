@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connectez-vous pour finaliser votre commande | Lectis{% endblock %}
+
+{% block body %}
+<section class="relative overflow-hidden bg-[--bluegray-light] min-h-screen">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.16),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(15,23,42,0.10),_transparent_40%)]"></div>
+
+    <div class="relative max-w-5xl mx-auto px-6 py-16 md:py-24">
+        <div class="bg-white/90 backdrop-blur-sm border border-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 text-center">
+            <p class="text-xs font-black uppercase tracking-[0.35em] text-[--bluegray-deep] mb-4">Dernière etape</p>
+            <h1 class="text-4xl md:text-5xl font-black text-[--bluegray-dark] leading-tight mb-4">
+                Votre panier est prêt.
+            </h1>
+            <p class="text-[--bluegray-accent] text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+                Vous pouvez remplir votre panier librement. Pour passer au paiement et enregistrer votre commande, il faut maintenant vous connecter ou creer votre compte Lectis.
+            </p>
+
+            <div class="grid sm:grid-cols-3 gap-4 my-10 text-left">
+                <div class="rounded-2xl bg-[--bluegray-light]/70 border border-white p-5">
+                    <p class="text-sm font-black text-[--bluegray-dark] mb-1">Panier conservé</p>
+                    <p class="text-sm text-[--bluegray-deep]">Vos livres sont conserves pendant la connexion.</p>
+                </div>
+                <div class="rounded-2xl bg-[--bluegray-light]/70 border border-white p-5">
+                    <p class="text-sm font-black text-[--bluegray-dark] mb-1">Paiement securisé</p>
+                    <p class="text-sm text-[--bluegray-deep]">Finalisez votre commande dans votre espace personnel.</p>
+                </div>
+                <div class="rounded-2xl bg-[--bluegray-light]/70 border border-white p-5">
+                    <p class="text-sm font-black text-[--bluegray-dark] mb-1">Suivi simplifié</p>
+                    <p class="text-sm text-[--bluegray-deep]">Retrouvez ensuite vos commandes depuis votre compte.</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a
+                    href="{{ path('app_register', { redirect: redirect_path }) }}"
+                    class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-[--bluegray-dark] text-white font-black uppercase tracking-widest shadow-lg hover:scale-[1.02] transition-all"
+                >
+                    Creer un compte
+                    <i class="fa-solid fa-user-plus"></i>
+                </a>
+                <a
+                    href="{{ path('app_login', { redirect: redirect_path }) }}"
+                    class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-white text-[--bluegray-dark] border border-[--bluegray-medium]/40 font-black uppercase tracking-widest shadow-md hover:scale-[1.02] transition-all"
+                >
+                    Se connecter
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                </a>
+                <a
+                    href="{{ path('app_panier') }}"
+                    class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-[--bluegray-deep] font-bold hover:text-[--bluegray-dark] transition-colors"
+                >
+                    Retour au panier
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

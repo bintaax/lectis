@@ -120,11 +120,19 @@
                 {% if app.user and app.user.isAdherent %}
                     <div class="text-center lg:text-left">
                         <h3 class="text-2xl font-bold text-[--bluegray-dark] mb-2">Votre espace est prêt ✅</h3>
-                        <p class="text-[--bluegray-accent] opacity-80">Retrouvez votre progression et vos badges dans votre compte.</p>
+                        <p class="text-[--bluegray-accent] opacity-80">Vous pouvez continuer à profiter du statut Lectis+ ou revenir à une formule standard quand vous le souhaitez.</p>
                     </div>
-                    <a href="{{ path('app_compte') }}" class="w-full lg:w-auto px-10 py-4 bg-[--bluegray-accent] hover:bg-[--bluegray-hover] text-[--neutral-white] font-bold rounded shadow-lg transition-colors text-center">
-                        Accéder à mon espace
-                    </a>
+                    <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                        <a href="{{ path('app_compte') }}" class="w-full lg:w-auto px-10 py-4 bg-[--bluegray-accent] hover:bg-[--bluegray-hover] text-[--neutral-white] font-bold rounded shadow-lg transition-colors text-center">
+                            Accéder à mon espace
+                        </a>
+                        <form method="post" action="{{ path('app_compte_lectis_plus_quitter') }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('lectis_plus_leave') }}">
+                            <button type="submit" class="w-full lg:w-auto px-10 py-4 bg-transparent border border-[--bluegray-deep] text-[--bluegray-dark] font-bold rounded hover:bg-[--bluegray-light] transition-colors text-center">
+                                Quitter Lectis+
+                            </button>
+                        </form>
+                    </div>
                 {% else %}
                     <div class="text-center lg:text-left max-w-xl">
                         <h3 class="text-2xl font-bold text-[--bluegray-dark] mb-4">Rejoindre Lectis+ gratuitement</h3>

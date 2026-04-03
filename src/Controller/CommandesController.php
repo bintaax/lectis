@@ -6,24 +6,50 @@ use App\Entity\Commandes;
 use App\Entity\LigneCommande;
 use App\Enum\Statut;
 use App\Form\CommandeType;
+use App\Repository\LignePanierRepository;
+use App\Repository\LivresRepository;
 use App\Repository\PanierRepository;
+use App\Service\CartManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 // Contrôleur pour commandes.
 class CommandesController extends AbstractController
 {
+    use TargetPathTrait;
+
     // Charge les données nécessaires et rend la vue.
     #[Route('/commande', name: 'app_commandes')]
     public function commande(
         PanierRepository $panierRepository,
+        LignePanierRepository $lignePanierRepository,
+        LivresRepository $livresRepository,
+        EntityManagerInterface $em,
+        CartManager $cartManager,
         Request $request
     ): Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
+        $session = $request->getSession();
+
+        if (!$user) {
+            if ($cartManager->getGuestCount($session) <= 0) {
+                $this->addFlash('error', 'Votre panier est vide.');
+                return $this->redirectToRoute('app_panier');
+            }
+
+            $redirectPath = $this->generateUrl('app_commandes');
+            $this->saveTargetPath($session, 'main', $redirectPath);
+
+            return $this->render('commande/access_prompt.html.twig', [
+                'redirect_path' => $redirectPath,
+            ]);
+        }
+
+        $cartManager->mergeGuestCartIntoUser($session, $user, $panierRepository, $lignePanierRepository, $livresRepository, $em);
 
         $panier = $panierRepository->findOneBy(['utilisateur' => $user]);
 
@@ -68,10 +94,16 @@ class CommandesController extends AbstractController
     public function valider(
         string $data,
         PanierRepository $panierRepository,
-        EntityManagerInterface $em
+        LignePanierRepository $lignePanierRepository,
+        LivresRepository $livresRepository,
+        CartManager $cartManager,
+        EntityManagerInterface $em,
+        Request $request
     ): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
+
+        $cartManager->mergeGuestCartIntoUser($request->getSession(), $user, $panierRepository, $lignePanierRepository, $livresRepository, $em);
 
         $panier = $panierRepository->findOneBy(['utilisateur' => $user]);
         if (!$panier) return $this->redirectToRoute('app_panier');

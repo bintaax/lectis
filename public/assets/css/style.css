@@ -34,7 +34,7 @@ body {
 
 /* Icônes */
 i {
-  color: var(--bluegray-deep);
+  color: currentColor;
 }
 
 /* Titres */

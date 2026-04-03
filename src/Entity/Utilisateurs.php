@@ -321,4 +321,11 @@ public function becomeAdherent(): void
     $this->adherentAt = new \DateTimeImmutable();
 }
 
+// Logique métier spécifique de l'entité.
+public function leaveAdherent(): void
+{
+    $this->isAdherent = false;
+    $this->adherentAt = null;
+}
+
 }

@@ -85,49 +85,50 @@ function refreshPanier() {
 
 // Ajout au panier: appelle l'API et met à jour l'UI
 function addToCart(id) {
+    const btn = document.querySelector('#add-to-cart-btn');
+    if (!btn) return;
+
+    const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.classList.add('opacity-70', 'cursor-not-allowed');
+    btn.innerHTML = "Ajout en cours...";
+
     fetch(`/api/panier/add/${id}`, { 
         method: "POST",
         headers: { 'X-Requested-With': 'XMLHttpRequest' }
     })
     .then(r => {
-        if (r.status === 401) {
-            window.location.href = "/login"; // Redirection si session expirée
-            return;
-        }
         return r.json();
     })
     .then(data => {
-        if (data.success) {
-            // 1️⃣ Mise à jour du badge dans le header
-            const badge = document.querySelector("#panier-count");
-            if (badge) {
-                badge.textContent = data.count;
-                badge.classList.remove('hidden'); // Au cas où il était caché
-            }
-
-            // 2️⃣ Feedback visuel sur le bouton (si on est sur la fiche produit)
-            const btn = document.querySelector('#add-to-cart-btn');
-            if (btn) {
-                const originalText = btn.innerHTML;
-                btn.innerHTML = "Ajouté ! ✓";
-                btn.classList.replace('bg-white', 'bg-green-500');
-                btn.classList.add('text-white');
-                
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.classList.replace('bg-green-500', 'bg-white');
-                    btn.classList.remove('text-white');
-                }, 2000);
-            }
-
-            // 3️⃣ Redirection (optionnelle)
-            // window.location.href = "/panier"; 
+        if (!data || !data.success) {
+            throw new Error((data && data.message) || "Erreur lors de l'ajout au panier.");
         }
+
+        updateCartBadge(data.count);
+
+        btn.innerHTML = "Livre ajoute";
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            btn.classList.remove('opacity-70', 'cursor-not-allowed');
+        }, 1200);
     })
     .catch(err => {
         console.error("Erreur addToCart :", err);
-        alert("Impossible d’ajouter au panier.");
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        btn.classList.remove('opacity-70', 'cursor-not-allowed');
     });
+}
+
+function updateCartBadge(count) {
+    const badge = document.querySelector("[data-cart-count-badge]");
+    if (!badge) return;
+
+    badge.textContent = String(count);
+    badge.classList.toggle("hidden", count <= 0);
+    badge.classList.toggle("flex", count > 0);
 }
 
 // Modifie la quantité d'une ligne via l'API
@@ -142,6 +143,7 @@ function updateQtt(ligneId, quantite) {
     .then(r => r.json())
     .then(data => {
         if (data.success) {
+            updateCartBadge(data.count);
             refreshPanier();
             
         }
@@ -168,13 +170,8 @@ document.addEventListener("click", (e) => {
     .then(r => r.json())
     .then(data => {
       if (data.success) {
-        // badge header si ton API renvoie count
         if (data.count !== undefined) {
-          const badge = document.querySelector("#panier-count");
-          if (badge) {
-            badge.textContent = data.count;
-            badge.classList.toggle("hidden", data.count <= 0);
-          }
+          updateCartBadge(data.count);
         }
 
         refreshPanier();
@@ -214,11 +211,16 @@ document.addEventListener('DOMContentLoaded', () => {
     targetPanel.classList.remove('hidden');
 
     // gérer boutons
-    buttons.forEach(btn => btn.classList.remove('bg-white', 'border', 'border-b-0'));
-    const activeBtn = document.querySelector('[data-tab="' + name + '"]');
-    if (activeBtn) {
-      activeBtn.classList.add('bg-white', 'border', 'border-b-0');
-    }
+    buttons.forEach((btn) => {
+      btn.classList.remove('bg-[--bluegray-dark]', 'text-white', 'shadow-lg', 'border-transparent');
+      btn.classList.add('bg-white', 'text-[--bluegray-deep]', 'border', 'border-[--bluegray-medium]/20');
+    });
+
+    const activeButtons = document.querySelectorAll('[data-tab="' + name + '"]');
+    activeButtons.forEach((activeBtn) => {
+      activeBtn.classList.remove('bg-white', 'text-[--bluegray-deep]', 'border', 'border-[--bluegray-medium]/20');
+      activeBtn.classList.add('bg-[--bluegray-dark]', 'text-white', 'shadow-lg', 'border-transparent');
+    });
   }
 
   // ✅ Choix d'onglet par défaut : le 1er bouton si "profil" n'existe pas
@@ -230,6 +232,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
   buttons.forEach(btn => {
     btn.addEventListener('click', () => showTab(btn.getAttribute('data-tab')));
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const openButtons = document.querySelectorAll('[data-modal-open]');
+  const closeButtons = document.querySelectorAll('[data-modal-close]');
+
+  function toggleModal(modalId, shouldOpen) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+
+    modal.classList.toggle('hidden', !shouldOpen);
+    modal.classList.toggle('flex', shouldOpen);
+    modal.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
+
+    if (shouldOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else if (!document.querySelector('[data-modal].flex')) {
+      document.body.classList.remove('overflow-hidden');
+    }
+  }
+
+  openButtons.forEach((button) => {
+    button.addEventListener('click', () => toggleModal(button.dataset.modalOpen, true));
+  });
+
+  closeButtons.forEach((button) => {
+    button.addEventListener('click', () => toggleModal(button.dataset.modalClose, false));
+  });
+
+  document.querySelectorAll('[data-modal]').forEach((modal) => {
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        toggleModal(modal.id, false);
+      }
+    });
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+
+    document.querySelectorAll('[data-modal].flex').forEach((modal) => {
+      toggleModal(modal.id, false);
+    });
   });
 });
 
@@ -251,3 +297,9 @@ function togglePassword(button) {
         icon.classList.add('fa-eye');
     }
 }
+
+window.addToCart = addToCart;
+window.updateQtt = updateQtt;
+window.scrollLeft = scrollLeft;
+window.scrollRight = scrollRight;
+window.togglePassword = togglePassword;

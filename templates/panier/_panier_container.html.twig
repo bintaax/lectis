@@ -9,7 +9,7 @@
 </div>
 
 
-    {% if panier is null or lignes is empty %}
+    {% if lignes is empty %}
       {# État Vide #}
       <div class="bg-white rounded-[3rem] p-16 text-center shadow-xl border border-[--bluegray-medium]/20">
         <div class="w-24 h-24 bg-[--bluegray-light] rounded-full flex items-center justify-center mx-auto mb-6">
@@ -134,7 +134,7 @@
 
             <a href="{{ path('app_commandes') }}"
                class="block w-full py-5 bg-white text-[--bluegray-dark] text-center font-black rounded-2xl hover:bg-[--bluegray-light] hover:scale-[1.02] transition-all shadow-lg uppercase tracking-widest text-sm">
-              Valider ma commande
+              {{ app.user ? 'Valider ma commande' : 'Valider ma commande' }}
             </a>
 
             <div class="flex items-center justify-center gap-4 mt-6 opacity-40">

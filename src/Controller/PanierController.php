@@ -7,6 +7,7 @@ use App\Entity\LignePanier;
 use App\Repository\LivresRepository;
 use App\Repository\PanierRepository;
 use App\Repository\LignePanierRepository;
+use App\Service\CartManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,9 +19,17 @@ final class PanierController extends AbstractController
 {
     // Charge les données nécessaires et rend la vue.
     #[Route('/panier', name: 'app_panier', methods: ['GET'])]
-    public function index(PanierRepository $panierRepo, Request $request): Response
+    public function index(
+        PanierRepository $panierRepo,
+        LivresRepository $livresRepo,
+        LignePanierRepository $ligneRepo,
+        EntityManagerInterface $em,
+        CartManager $cartManager,
+        Request $request
+    ): Response
     {
         $user = $this->getUser();
+        $session = $request->getSession();
 
         // Variables par défaut pour Twig
         $panier = null;
@@ -28,6 +37,7 @@ final class PanierController extends AbstractController
         $total = 0;
 
         if ($user) {
+            $cartManager->mergeGuestCartIntoUser($session, $user, $panierRepo, $ligneRepo, $livresRepo, $em);
             $panier = $panierRepo->findOneBy(['utilisateur' => $user]);
 
             if ($panier) {
@@ -44,6 +54,10 @@ final class PanierController extends AbstractController
                     $total += (float) $prixApplique * $ligne->getQuantite();
                 }
             }
+        } else {
+            $guestCart = $cartManager->getGuestCartViewData($session, $livresRepo);
+            $lignes = $guestCart['lignes'];
+            $total = $guestCart['total'];
         }
 
         $vars = [
@@ -68,15 +82,27 @@ final class PanierController extends AbstractController
         LivresRepository $livresRepo,
         PanierRepository $panierRepo,
         LignePanierRepository $ligneRepo,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        Request $request,
+        CartManager $cartManager
     ): Response {
         $user = $this->getUser();
+        $livre = $livresRepo->find($id);
 
-        if (!$user) {
+        if (!$livre) {
             return $this->json([
                 'success' => false,
-                'message' => 'Vous devez être connecté pour ajouter au panier.'
-            ], 401);
+                'message' => 'Livre introuvable.'
+            ], 404);
+        }
+
+        if (!$user) {
+            $count = $cartManager->addGuestItem($request->getSession(), $id);
+
+            return $this->json([
+                'success' => true,
+                'count'   => $count,
+            ]);
         }
 
         // Récupérer ou créer le panier
@@ -87,15 +113,6 @@ final class PanierController extends AbstractController
             $panier->setUtilisateur($user);
             $em->persist($panier);
             $em->flush();
-        }
-
-        // Récupérer le livre
-        $livre = $livresRepo->find($id);
-        if (!$livre) {
-            return $this->json([
-                'success' => false,
-                'message' => 'Livre introuvable.'
-            ], 404);
         }
 
         // Chercher la ligne existante
@@ -134,11 +151,20 @@ final class PanierController extends AbstractController
         int $id,
         Request $request,
         LignePanierRepository $repo,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        CartManager $cartManager
     ): Response {
         $user = $this->getUser();
+        $data = json_decode($request->getContent(), true);
+        $qtt = (int)($data['quantite'] ?? 1);
+
         if (!$user) {
-            return $this->json(['success' => false, 'message' => 'Non connecté'], 401);
+            $count = $cartManager->updateGuestItem($request->getSession(), $id, $qtt);
+
+            return $this->json([
+                'success' => true,
+                'count' => $count,
+            ]);
         }
 
         $ligne = $repo->find($id);
@@ -150,9 +176,6 @@ final class PanierController extends AbstractController
         if ($ligne->getPanier()?->getUtilisateur()?->getId() !== $user->getId()) {
             return $this->json(['success' => false, 'message' => 'Accès refusé'], 403);
         }
-
-        $data = json_decode($request->getContent(), true);
-        $qtt = (int)($data['quantite'] ?? 1);
 
         if ($qtt <= 0) {
             $em->remove($ligne);
@@ -182,11 +205,18 @@ final class PanierController extends AbstractController
     public function delete(
         int $id,
         LignePanierRepository $repo,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        Request $request,
+        CartManager $cartManager
     ): Response {
         $user = $this->getUser();
         if (!$user) {
-            return $this->json(['success' => false, 'message' => 'Non connecté'], 401);
+            $count = $cartManager->deleteGuestItem($request->getSession(), $id);
+
+            return $this->json([
+                'success' => true,
+                'count' => $count,
+            ]);
         }
 
         $ligne = $repo->find($id);
