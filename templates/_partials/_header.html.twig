@@ -8,8 +8,7 @@
         <a class="block transition hover:opacity-80" href="{{ path('app_home') }}">
           <img src="{{ asset('assets/img/logo-nonebackground.png') }}" 
                alt="Lectis Logo" 
-               class="brightness-0 invert" 
-               style="width: 180px;">
+               class="brightness-0 invert w-[120px] sm:w-[150px] lg:w-[180px]">
         </a>
     </div>
 
@@ -24,17 +23,17 @@
 
     {# 3. ACTIONS #}
     <div class="flex items-center gap-4">
-      <div class="flex items-center gap-4 md:gap-8">
+      <div class="flex items-center gap-3 md:gap-8">
         {% if app.user %}
           {# 👤 MON COMPTE #}
-          <a href="{{ path('app_compte') }}" class="hidden md:inline-flex text-white/80 hover:text-white transition-all hover:scale-110">
-            <i class="fa-solid fa-user text-2xl !text-white/80"></i>
+          <a href="{{ path('app_compte') }}" class="inline-flex text-white/80 hover:text-white transition-all hover:scale-110">
+            <i class="fa-solid fa-user text-xl md:text-2xl !text-white/80"></i>
           </a>
         {% endif %}
 
         {# 🛒 PANIER #}
         <a id="cart-link" href="{{ path('app_panier') }}" class="relative inline-flex text-white/80 hover:text-white transition-all hover:scale-110">
-          <i class="fa-solid fa-cart-shopping text-2xl !text-white/80"></i>
+          <i class="fa-solid fa-cart-shopping text-xl md:text-2xl !text-white/80"></i>
           
           {% if app.user %}
             {% set panier = app.user.paniers|last %}
@@ -60,14 +59,14 @@
         {% if app.user %}
           {# 🔓 DÉCONNEXION #}
           <a href="{{ path('app_logout') }}" 
-             class="px-5 py-2 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded shadow-md hover:bg-red-700 transition-all">
+             class="hidden md:inline-flex px-5 py-2 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded shadow-md hover:bg-red-700 transition-all">
             Quitter
           </a>
 
         {% else %}
           {# 🔐 CONNEXION (Bouton clair pour trancher) #}
           <a href="{{ path('app_login') }}" 
-             class="px-8 py-3 bg-white text-[--bluegray-dark] text-[10px] font-black uppercase tracking-widest rounded shadow-lg hover:bg-gray-200 transition-all">
+             class="px-4 md:px-8 py-2.5 md:py-3 bg-white text-[--bluegray-dark] text-[10px] font-black uppercase tracking-widest rounded shadow-lg hover:bg-gray-200 transition-all">
             Se connecter
           </a>
         {% endif %}
@@ -87,11 +86,5 @@
     <li><a class="hover:text-white" href="{{ path('app_home') }}">Accueil</a></li>
     <li><a class="hover:text-white" href="{{ path('app_livres') }}">Nos livres</a></li>
     <li><a class="hover:text-white" href="{{ path('app_contact') }}">Contact</a></li>
-
-    {% if app.user %}
-      <li class="h-px w-12 bg-white/10 my-2"></li>
-      <li><a class="hover:text-white" href="{{path('app_compte')}}">Mon compte</a></li>
-    {% endif %}
-    <li><a class="hover:text-white" href="{{ path('app_panier') }}">Mon panier</a></li>
   </ul>
 </nav>

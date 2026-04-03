@@ -5,47 +5,30 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobileMenu = document.getElementById("mobile-menu");
 
     if (menuToggle && mobileMenu) {
-        // Gère l'affichage du menu mobile + changement d'icône
-        menuToggle.addEventListener("click", (e) => {
-            e.stopPropagation(); // Empêche la fermeture immédiate
-            mobileMenu.classList.toggle("hidden");
-            
-            // Bonus : Change l'icône de burger à "X" si tu veux
-            const icon = menuToggle.querySelector('i');
+        const icon = menuToggle.querySelector('i');
+
+        function setMobileMenuOpen(isOpen) {
+            mobileMenu.classList.toggle("hidden", !isOpen);
+            mobileMenu.style.display = isOpen ? "block" : "none";
+
             if (icon) {
-                icon.classList.toggle('fa-bars');
-                icon.classList.toggle('fa-xmark');
+                icon.classList.toggle('fa-bars', !isOpen);
+                icon.classList.toggle('fa-xmark', isOpen);
             }
-        });
+        }
 
-        // Variante avec display forcé (fallback si besoin)
+        setMobileMenuOpen(false);
+
         menuToggle.addEventListener("click", (e) => {
-    e.stopPropagation();
-    
-    if (mobileMenu.classList.contains('hidden')) {
-        mobileMenu.classList.remove('hidden');
-        mobileMenu.style.display = 'block'; // On force l'affichage
-    } else {
-        mobileMenu.classList.add('hidden');
-        mobileMenu.style.display = 'none'; // On force la disparition
-    }
-
-    const icon = menuToggle.querySelector('i');
-    if (icon) {
-        icon.classList.toggle('fa-bars');
-        icon.classList.toggle('fa-xmark');
-    }
+            e.stopPropagation();
+            const isOpen = mobileMenu.classList.contains("hidden");
+            setMobileMenuOpen(isOpen);
         });
 
         // Fermer le menu si on clique ailleurs sur la page
         document.addEventListener("click", (e) => {
             if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-                mobileMenu.classList.add("hidden");
-                const icon = menuToggle.querySelector('i');
-                if (icon) {
-                    icon.classList.add('fa-bars');
-                    icon.classList.remove('fa-xmark');
-                }
+                setMobileMenuOpen(false);
             }
         });
     }
