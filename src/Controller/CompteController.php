@@ -129,7 +129,12 @@ public function supprimer(
         $em->remove($panier);
     }
 
-    // ✅ anonymiser/désactiver au lieu de supprimer en base (car commandes liées)
+    // ✅ supprimer aussi toutes les commandes de l'utilisateur
+    foreach ($user->getCommandes() as $commande) {
+        $em->remove($commande);
+    }
+
+    // ✅ anonymiser/désactiver le compte
     $user->anonymizeAndDeactivate();
     $em->flush();
 

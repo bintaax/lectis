@@ -23,18 +23,12 @@ class CommandeAnnulationController extends AbstractController
         }
 
         // Vérifier si la commande est encore annulable
-        $today = time();
-        $created = $commande->getCreatedAt()->getTimestamp();
-        $diffDays = floor(($today - $created) / 86400);
-
-        if ($diffDays >= 3) {
+        if (!$commande->isAnnulable()) {
             $this->addFlash('error', "Vous ne pouvez plus annuler cette commande.");
-            return $this->redirectToRoute('app_commande_detail', ['id' => $commande->getId()]);
+            return $this->redirectToRoute('app_commande_detail', ['numeroCommande' => $commande->getNumeroCommande()]);
         }
 
-        // Annuler la commande (choisis le statut que tu veux)
-        $commande->setStatut(\App\Enum\Statut::ANNULEE ?? null); // si tu veux garder un enum
-        // ou : $commande->setStatut(null);
+        $commande->setStatut(\App\Enum\Statut::ANNULEE);
 
         $em->flush();
 

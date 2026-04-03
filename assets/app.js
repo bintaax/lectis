@@ -14,6 +14,43 @@ import './styles/app.css';
 // enable the interactive UI components from Flowbite with Turbo
 import 'flowbite/dist/flowbite.turbo.js';
 
+document.addEventListener('DOMContentLoaded', initPasswordToggles);
+document.addEventListener('turbo:load', initPasswordToggles);
+
+function initPasswordToggles() {
+    document.querySelectorAll('[data-password-toggle]').forEach((wrapper) => {
+        const input = wrapper.querySelector('input');
+        const button = wrapper.querySelector('[data-password-toggle-button]');
+        const showIcon = wrapper.querySelector('[data-password-icon-show]');
+        const hideIcon = wrapper.querySelector('[data-password-icon-hide]');
+
+        if (!input || !button) {
+            return;
+        }
+
+        const syncState = () => {
+            const isHidden = input.type === 'password';
+            button.setAttribute('aria-label', isHidden ? 'Afficher le mot de passe' : 'Masquer le mot de passe');
+            button.setAttribute('title', isHidden ? 'Afficher le mot de passe' : 'Masquer le mot de passe');
+
+            if (showIcon) {
+                showIcon.classList.toggle('hidden', !isHidden);
+            }
+
+            if (hideIcon) {
+                hideIcon.classList.toggle('hidden', isHidden);
+            }
+        };
+
+        button.addEventListener('click', () => {
+            input.type = input.type === 'password' ? 'text' : 'password';
+            syncState();
+        });
+
+        syncState();
+    });
+}
+
 window.addToCart = async function addToCart(livreId) {
     const button = document.getElementById('add-to-cart-btn');
     if (!button) {

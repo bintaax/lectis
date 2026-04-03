@@ -54,7 +54,7 @@ private Collection $paniers;
     /**
      * @var Collection<int, Commandes>
      */
-    #[ORM\OneToMany(targetEntity: Commandes::class, mappedBy: 'utilisateurs')]
+    #[ORM\OneToMany(targetEntity: Commandes::class, mappedBy: 'utilisateurs', cascade: ['remove'])]
     private Collection $commandes;
 
     #[ORM\Column]

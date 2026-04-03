@@ -34,6 +34,34 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+// Champs mot de passe: affiche/masque la valeur via l'icône oeil
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("[data-password-toggle]").forEach((wrapper) => {
+        const input = wrapper.querySelector("input");
+        const button = wrapper.querySelector("[data-password-toggle-button]");
+        const showIcon = wrapper.querySelector("[data-password-icon-show]");
+        const hideIcon = wrapper.querySelector("[data-password-icon-hide]");
+
+        if (!input || !button) return;
+
+        const syncState = () => {
+            const isHidden = input.type === "password";
+            button.setAttribute("aria-label", isHidden ? "Afficher le mot de passe" : "Masquer le mot de passe");
+            button.setAttribute("title", isHidden ? "Afficher le mot de passe" : "Masquer le mot de passe");
+
+            if (showIcon) showIcon.classList.toggle("hidden", !isHidden);
+            if (hideIcon) hideIcon.classList.toggle("hidden", isHidden);
+        };
+
+        button.addEventListener("click", () => {
+            input.type = input.type === "password" ? "text" : "password";
+            syncState();
+        });
+
+        syncState();
+    });
+});
+
 // Flèches du catalogue: scroll horizontal dans les carrousels
     function scrollLeft(id) {
         document.getElementById(id).scrollBy({left: -300, behavior: 'smooth'});

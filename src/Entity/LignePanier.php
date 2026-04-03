@@ -23,7 +23,7 @@ class LignePanier
 
     // Relation : ManyToOne → Livres
     
-    #[ORM\ManyToOne(inversedBy: 'lignePaniers')]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Livres $livre = null;
 

@@ -6,6 +6,7 @@ use App\Entity\Livres;
 use App\Entity\Commandes;
 use App\Controller\Admin\LivresCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
@@ -38,6 +39,12 @@ class AdminDashboardController extends AbstractDashboardController
         return Dashboard::new()
             ->setTitle('Lectis')
             ->setLocales(['fr']);
+    }
+
+    public function configureAssets(): Assets
+    {
+        return Assets::new()
+            ->addCssFile('assets/css/admin-responsive.css');
     }
 
     // Charge les données nécessaires et rend la vue.

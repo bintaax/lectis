@@ -19,7 +19,7 @@ class Commandes
 
     // FK existante dans ta DB : commandes.utilisateurs_id -> utilisateurs.id
     #[ORM\ManyToOne(inversedBy: 'commandes')]
-    #[ORM\JoinColumn(name: 'utilisateurs_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'utilisateurs_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Utilisateurs $utilisateurs = null;
 
     #[ORM\Column(length: 20, unique: true)]
@@ -185,27 +185,40 @@ class Commandes
         return $this;
     }
 
-    // Retourne la valeur de statut simule.
-    public function getStatutSimule(): Statut
-{
-    // Si annulée, on ne touche pas
-    if ($this->statut === Statut::ANNULEE) {
-        return Statut::ANNULEE;
+    public function isAnnulee(): bool
+    {
+        return $this->statut === Statut::ANNULEE;
     }
 
-    $createdAt = $this->createdAt ?? new \DateTimeImmutable();
-    $now = new \DateTimeImmutable();
+    public function getElapsedDays(): int
+    {
+        $createdAt = $this->createdAt ?? new \DateTimeImmutable();
+        $now = new \DateTimeImmutable();
 
-    $diffSeconds = $now->getTimestamp() - $createdAt->getTimestamp();
-    $diffDays = (int) floor($diffSeconds / 86400); // ✅ même calcul que Twig
+        return (int) floor(($now->getTimestamp() - $createdAt->getTimestamp()) / 86400);
+    }
 
-    return match (true) {
-        $diffDays >= 7 => Statut::LIVREE,
-        $diffDays >= 3 => Statut::LIVRAISON,
-        $diffDays >= 1 => Statut::PREPARATION,
-        default        => Statut::PASSEE,
-    };
-}
+    public function isAnnulable(): bool
+    {
+        return !$this->isAnnulee() && $this->getElapsedDays() < 3;
+    }
+
+    // Retourne la valeur de statut simule.
+    public function getStatutSimule(): Statut
+    {
+        if ($this->isAnnulee()) {
+            return Statut::ANNULEE;
+        }
+
+        $diffDays = $this->getElapsedDays();
+
+        return match (true) {
+            $diffDays >= 7 => Statut::LIVREE,
+            $diffDays >= 3 => Statut::LIVRAISON,
+            $diffDays >= 1 => Statut::PREPARATION,
+            default => Statut::PASSEE,
+        };
+    }
 
 
     
