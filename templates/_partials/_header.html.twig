@@ -1,5 +1,5 @@
 {# HEADER : Teinte adoucie pour éviter un rendu trop noir #}
-<header class="relative bg-[--bluegray-deep] shadow-xl w-full border-b border-white/10">
+<header class="sticky top-0 z-50 relative bg-[--bluegray-deep] shadow-xl w-full border-b border-white/10">
   
   <div class="w-full flex h-20 items-center justify-between px-4 sm:px-10 lg:px-16">
 
@@ -60,7 +60,7 @@
           {# 🔓 DÉCONNEXION #}
           <a href="{{ path('app_logout') }}" 
              class="hidden md:inline-flex px-5 py-2 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded shadow-md hover:bg-red-700 transition-all">
-            Quitter
+            Se déconnecter
           </a>
 
         {% else %}
@@ -81,10 +81,23 @@
 </header>
 
 {# 4. MENU MOBILE (S'adapte aussi au thème sombre) #}
-<nav id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-[--bluegray-deep] shadow-2xl z-50 border-t border-white/10 lg:hidden">
+<nav id="mobile-menu" class="hidden fixed top-20 left-0 w-full bg-[--bluegray-deep] shadow-2xl z-40 border-t border-white/10 lg:hidden">
   <ul class="flex flex-col items-center gap-6 py-10 text-sm font-black text-white/70 uppercase tracking-widest">
     <li><a class="hover:text-white" href="{{ path('app_home') }}">Accueil</a></li>
     <li><a class="hover:text-white" href="{{ path('app_livres') }}">Nos livres</a></li>
     <li><a class="hover:text-white" href="{{ path('app_contact') }}">Contact</a></li>
+    {% if app.user %}
+      <li>
+        <a href="{{ path('app_logout') }}" class="inline-flex items-center justify-center px-5 py-2 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded shadow-md hover:bg-red-700 transition-all">
+          Se déconnecter
+        </a>
+      </li>
+    {% else %}
+      <li>
+        <a href="{{ path('app_login') }}" class="inline-flex items-center justify-center px-5 py-2 bg-white text-[--bluegray-dark] text-[10px] font-black uppercase tracking-widest rounded shadow-md hover:bg-gray-200 transition-all">
+          Se connecter
+        </a>
+      </li>
+    {% endif %}
   </ul>
 </nav>

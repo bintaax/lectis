@@ -33,12 +33,18 @@ public function index(
        
     );
 
+    $pointsLecture = 0;
+    foreach ($commandes as $commande) {
+        $pointsLecture += (int) floor((float) $commande->getTotal());
+    }
+
     // On envoie des valeurs "vides" pour les formulaires si tu ne les utilises pas encore
     return $this->render('compte/index.html.twig', [
         'profilForm' => null,
         'adresseForm' => null,
         'passwordForm' => null,
-        'commandes' => $commandes
+        'commandes' => $commandes,
+        'pointsLecture' => $pointsLecture,
     ]);
 }
 

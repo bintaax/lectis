@@ -29,9 +29,6 @@
                 <a href="{{path('app_livres')}}" class="px-8 py-3.5 bg-[--bluegray-accent] hover:bg-[--bluegray-hover] text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-1 text-center">
                     Explorer le catalogue
                 </a>
-                <a href="#genres" class="px-8 py-3.5 bg-white/50 border border-[--bluegray-medium] text-[--bluegray-dark] font-bold rounded-xl hover:bg-white transition-all text-center">
-                    Parcourir les thèmes
-                </a>
             </div>
         </div>
 
@@ -95,7 +92,7 @@
                 ] %}
 
                 {% for genre in genres %}
-                    <a href="#" class="flex items-center gap-3 px-6 py-3 bg-[--bluegray-light] hover:bg-[--bluegray-dark] hover:text-white rounded-full shadow-sm transition-all duration-300 group">
+                    <a class="flex items-center gap-3 px-6 py-3 bg-[--bluegray-light] hover:bg-[--bluegray-dark] hover:text-white rounded-full shadow-sm transition-all duration-300 group">
                         <span>{{ genre.i }}</span>
                         <span class="font-semibold">{{ genre.n }}</span>
                     </a>
@@ -155,27 +152,17 @@
             <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Ne manquez aucun chapitre.</h2>
             <p class="text-[--bluegray-medium] mb-10 opacity-80">Recevez nos sélections mensuelles et des offres exclusives Lectis+.</p>
             
-            <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                <input type="email" placeholder="Votre email" class="flex-1 px-6 py-4 rounded-xl outline-none focus:ring-2 focus:ring-[--bluegray-deep]">
-                <button class="px-8 py-4 bg-[--bluegray-accent] hover:bg-[--bluegray-hover] text-white font-bold rounded-xl transition-all">
+            <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" data-newsletter-form>
+                <input type="email" placeholder="Votre email" class="flex-1 px-6 py-4 rounded-xl outline-none focus:ring-2 focus:ring-[--bluegray-deep]" data-newsletter-input required>
+                <button class="px-8 py-4 bg-[--bluegray-accent] hover:bg-[--bluegray-hover] text-white font-bold rounded-xl transition-all" type="submit">
                     S'inscrire
                 </button>
             </form>
+            <p class="mt-4 hidden text-sm font-medium text-emerald-200" data-newsletter-success role="status" aria-live="polite">
+                Merci, votre inscription a bien été prise en compte.
+            </p>
         </div>
     </section>
 
 </div>
-
-{# Animation d'entrée #}
-<script>
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('opacity-100', 'translate-y-0');
-                entry.target.classList.remove('opacity-0', 'translate-y-10');
-            }
-        });
-    });
-    // On pourrait ajouter des classes d'animation ici
-</script>
 {% endblock %}

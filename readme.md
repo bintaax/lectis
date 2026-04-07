@@ -8,6 +8,6 @@ Lectis est une librairie en ligne (e-commerce) permettant aux utilisateurs de po
 
 Technologies utilisées : 
 
-Front-end : HTML5, CSS3, TailwindCSS, Flowbite
-Back-end : PHP +8, Symfony
-Base de données : MySQL
+- Partie frontend : HTML5, CSS3, JavaScript, Twig
+- Partie backend : PHP +8, Symfony
+- Base de données : MySQL

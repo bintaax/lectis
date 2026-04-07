@@ -62,6 +62,47 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// Newsletter: affiche une confirmation visuelle sans backend
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("[data-newsletter-form]").forEach((form) => {
+        if (form.dataset.newsletterBound === "true") return;
+
+        const input = form.querySelector("[data-newsletter-input]");
+        const successMessage = form.parentElement?.querySelector("[data-newsletter-success]");
+
+        if (!input || !successMessage) return;
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            if (!input.reportValidity()) return;
+
+            form.reset();
+            successMessage.classList.remove("hidden");
+        });
+
+        form.dataset.newsletterBound = "true";
+    });
+});
+
+// Home: prépare les animations si des blocs déclarent data-reveal
+document.addEventListener("DOMContentLoaded", () => {
+    const revealTargets = document.querySelectorAll("[data-reveal]");
+    if (!revealTargets.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+
+            entry.target.classList.add("opacity-100", "translate-y-0");
+            entry.target.classList.remove("opacity-0", "translate-y-10");
+            observer.unobserve(entry.target);
+        });
+    });
+
+    revealTargets.forEach((target) => observer.observe(target));
+});
+
 // Flèches du catalogue: scroll horizontal dans les carrousels
     function scrollLeft(id) {
         document.getElementById(id).scrollBy({left: -300, behavior: 'smooth'});
@@ -100,6 +141,13 @@ function addToCart(id) {
     if (!btn) return;
 
     const originalText = btn.innerHTML;
+    const resetButtonState = () => {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        btn.classList.remove('opacity-70', 'cursor-not-allowed', 'bg-emerald-500', 'hover:bg-emerald-600', 'text-white', 'scale-105');
+        btn.classList.add('bg-white', 'text-[--bluegray-dark]');
+    };
+
     btn.disabled = true;
     btn.classList.add('opacity-70', 'cursor-not-allowed');
     btn.innerHTML = "Ajout en cours...";
@@ -118,18 +166,16 @@ function addToCart(id) {
 
         updateCartBadge(data.count);
 
-        btn.innerHTML = "Livre ajoute";
+        btn.classList.remove('bg-white', 'text-[--bluegray-dark]', 'opacity-70');
+        btn.classList.add('bg-emerald-500', 'hover:bg-emerald-600', 'text-white', 'scale-105');
+        btn.innerHTML = 'Livre ajouté ! <i class="fa-solid fa-check"></i>';
         setTimeout(() => {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-            btn.classList.remove('opacity-70', 'cursor-not-allowed');
+            resetButtonState();
         }, 1200);
     })
     .catch(err => {
         console.error("Erreur addToCart :", err);
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-        btn.classList.remove('opacity-70', 'cursor-not-allowed');
+        resetButtonState();
     });
 }
 
@@ -141,6 +187,12 @@ function updateCartBadge(count) {
     badge.classList.toggle("hidden", count <= 0);
     badge.classList.toggle("flex", count > 0);
 }
+
+window.addToCart = addToCart;
+window.updateCartBadge = updateCartBadge;
+window.updateQtt = updateQtt;
+window.scrollLeft = scrollLeft;
+window.scrollRight = scrollRight;
 
 // Modifie la quantité d'une ligne via l'API
 function updateQtt(ligneId, quantite) {
