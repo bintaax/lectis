@@ -26,6 +26,23 @@
         color: var(--bluegray-accent);
         line-height: 1.7;
     }
+    .privacy-content .rgpd-card h2 {
+        color: var(--neutral-white);
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        border: none;
+    }
+    .privacy-content .rgpd-card p {
+        color: var(--bluegray-medium);
+    }
+    .privacy-content .rgpd-card .rgpd-list,
+    .privacy-content .rgpd-card .rgpd-list div,
+    .privacy-content .rgpd-card .rgpd-list li {
+        color: var(--neutral-white);
+    }
+    .privacy-content .rgpd-card a {
+        color: var(--neutral-white);
+    }
 </style>
 
 <div class="privacy-page min-h-screen bg-[--bluegray-light] py-16 px-4">
@@ -82,17 +99,17 @@
                 </p>
 
                 {# 5. Vos Droits (Mise en valeur) #}
-                <div class="bg-[--bluegray-dark] text-white p-8 rounded-2xl shadow-lg my-12">
-                    <h2 class="text-white! mt-0! mb-6! border-none!">⚖️ Vos Droits (RGPD)</h2>
-                    <p class="text-[--bluegray-medium] mb-6">Conformément au RGPD, vous disposez d'un contrôle total sur vos informations :</p>
-                    <div class="grid grid-cols-2 gap-4 text-sm">
+                <div class="rgpd-card bg-[--bluegray-dark] text-white p-8 rounded-2xl shadow-lg my-12">
+                    <h2 class="text-xl md:text-2xl font-bold">⚖️ Vos Droits (RGPD)</h2>
+                    <p class="mb-6">Conformément au RGPD, vous disposez d'un contrôle total sur vos informations :</p>
+                    <div class="rgpd-list grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                         <div class="flex items-center gap-2">✔ Accès & Rectification</div>
                         <div class="flex items-center gap-2">✔ Suppression (Droit à l'oubli)</div>
                         <div class="flex items-center gap-2">✔ Opposition au traitement</div>
                         <div class="flex items-center gap-2">✔ Portabilité des données</div>
                     </div>
                     <p class="mt-8 pt-6 border-t border-white/10 text-xs italic">
-                        Exercez ces droits par email à <a href="mailto:support@lectis.org" class="underline font-bold">support@lectis.org</a>.
+                        Exercez ces droits par email à <a href="mailto:support@lectis.org" class="font-bold underline">support@lectis.org</a>.
                     </p>
                 </div>
 

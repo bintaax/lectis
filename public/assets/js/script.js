@@ -115,17 +115,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Panier: rafraîchit le contenu du panier (utilisé après modif)
 function refreshPanier() {
-  const container = document.querySelector("#panier-container");
-  if (!container) return;
+  const container = document.querySelector("[data-panier-root]");
+  if (!container) {
+    window.location.reload();
+    return;
+  }
 
   fetch(`/panier?t=${Date.now()}`, { headers: { "X-Requested-With": "XMLHttpRequest" } })
     .then(r => r.text())
     .then(html => {
       const doc = new DOMParser().parseFromString(html, "text/html");
-      const newContent = doc.querySelector("#panier-container");
+      const newContent = doc.querySelector("[data-panier-root]");
 
       if (!newContent) {
-        console.warn("refreshPanier: #panier-container introuvable dans la réponse.");
+        console.warn("refreshPanier: [data-panier-root] introuvable dans la réponse.");
+        window.location.reload();
         return;
       }
 

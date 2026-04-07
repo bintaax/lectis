@@ -161,12 +161,16 @@ public function supprimer(
 }
 
 // Charge les données nécessaires et rend la vue.
-#[Route('/compte/lectis-plus', name: 'app_compte_lectis_plus')]
+#[Route('/lectis-plus', name: 'app_compte_lectis_plus')]
 public function lectisPlus(): Response
 {
-    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
     return $this->render('compte/lectis_plus.html.twig');
+}
+
+#[Route('/compte/lectis-plus', name: 'app_compte_lectis_plus_legacy')]
+public function lectisPlusLegacy(): Response
+{
+    return $this->redirectToRoute('app_compte_lectis_plus', [], Response::HTTP_MOVED_PERMANENTLY);
 }
 
 // Charge les données nécessaires et rend la vue.
@@ -175,7 +179,14 @@ public function lectisPlusAdherer(EntityManagerInterface $em, Request $request):
 {
     /** @var \App\Entity\Utilisateurs $user */
     $user = $this->getUser();
-    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+    if (!$user) {
+        $this->addFlash('info', 'Connectez-vous ou créez un compte pour adhérer à Lectis+.');
+
+        return $this->redirectToRoute('app_login', [
+            'redirect' => $this->generateUrl('app_compte_lectis_plus'),
+        ]);
+    }
 
     if (!$this->isCsrfTokenValid('lectis_plus_join', $request->request->get('_token'))) {
         throw $this->createAccessDeniedException('Token CSRF invalide.');

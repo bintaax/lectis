@@ -133,7 +133,7 @@
                             </button>
                         </form>
                     </div>
-                {% else %}
+                {% elseif app.user %}
                     <div class="text-center lg:text-left max-w-xl">
                         <h3 class="text-2xl font-bold text-[--bluegray-dark] mb-4">Rejoindre Lectis+ gratuitement</h3>
                         <p class="text-[--bluegray-accent] opacity-80">L'adhésion est immédiate. Commencez à cumuler vos points lecture dès votre prochaine commande.</p>
@@ -148,6 +148,20 @@
                         </form>
                         <a href="{{ path('app_compte') }}" class="px-10 py-4 bg-transparent border border-[--bluegray-deep] text-[--bluegray-dark] font-bold rounded hover:bg-[--bluegray-light] transition-colors text-center">
                             Plus tard
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="text-center lg:text-left max-w-xl">
+                        <h3 class="text-2xl font-bold text-[--bluegray-dark] mb-4">Lectis+ est ouvert à tous</h3>
+                        <p class="text-[--bluegray-accent] opacity-80">Découvrez le programme librement. Pour adhérer et commencer à cumuler vos points lecture, créez un compte ou connectez-vous.</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                        <a href="{{ path('app_register') }}" class="px-10 py-4 bg-[--bluegray-accent] hover:bg-[--bluegray-hover] text-[--neutral-white] font-bold rounded shadow-lg transition-all active:scale-95 text-center">
+                            Créer un compte
+                        </a>
+                        <a href="{{ path('app_login', { redirect: path('app_compte_lectis_plus') }) }}" class="px-10 py-4 bg-transparent border border-[--bluegray-deep] text-[--bluegray-dark] font-bold rounded hover:bg-[--bluegray-light] transition-colors text-center">
+                            Se connecter
                         </a>
                     </div>
                 {% endif %}
