@@ -7,7 +7,7 @@
     <div class="max-w-6xl mx-auto">
         
         {# Hero Section - Utilisation du Dark & Accent #}
-        <div class="relative overflow-hidden rounded-[2rem] bg-[--bluegray-dark] shadow-xl mb-10">
+        <div class="relative overflow-hidden rounded-4xl bg-[--bluegray-dark] shadow-xl mb-10">
             {# Texture subtile #}
             <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"%23CDD6E2\" fill-opacity=\"0.4\" fill-rule=\"evenodd\"%3E%3Ccircle cx=\"3\" cy=\"3\" r=\"3\"/%3E%3C/g%3E%3C/svg%3E');"></div>
 
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     
-                    <div class="flex flex-shrink-0">
+                    <div class="flex shrink-0">
                         <a href="{{ path('app_compte') }}" class="group flex items-center gap-2 bg-transparent hover:bg-[--bluegray-accent] border border-[--bluegray-deep] text-[--neutral-white] px-6 py-3 rounded-lg transition-all duration-300">
                             <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                             Retour au compte
@@ -115,7 +115,7 @@
         </div>
 
         {# Action Block - Utilisation des variables de boutons #}
-        <div class="bg-[--bluegray-medium] rounded-[2rem] p-8 md:p-12 border border-[--bluegray-deep]/20 shadow-inner">
+        <div class="bg-[--bluegray-medium] rounded-4xl p-8 md:p-12 border border-[--bluegray-deep]/20 shadow-inner">
             <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
                 {% if app.user and app.user.isAdherent %}
                     <div class="text-center lg:text-left">

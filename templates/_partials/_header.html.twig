@@ -27,13 +27,13 @@
         {% if app.user %}
           {# 👤 MON COMPTE #}
           <a href="{{ path('app_compte') }}" class="inline-flex text-white/80 hover:text-white transition-all hover:scale-110">
-            <i class="fa-solid fa-user text-xl md:text-2xl !text-white/80"></i>
+            <i class="fa-solid fa-user text-xl md:text-2xl text-white/80!"></i>
           </a>
         {% endif %}
 
         {# 🛒 PANIER #}
         <a id="cart-link" href="{{ path('app_panier') }}" class="relative inline-flex text-white/80 hover:text-white transition-all hover:scale-110">
-          <i class="fa-solid fa-cart-shopping text-xl md:text-2xl !text-white/80"></i>
+          <i class="fa-solid fa-cart-shopping text-xl md:text-2xl text-white/80!"></i>
           
           {% if app.user %}
             {% set panier = app.user.paniers|last %}
@@ -74,7 +74,7 @@
 
       {# BURGER MOBILE #}
       <button id="menu-toggle" class="p-2 text-white md:hidden hover:bg-white/10 rounded-lg transition-colors">
-          <i class="fa-solid fa-bars text-2xl !text-white"></i>
+          <i class="fa-solid fa-bars text-2xl text-white!"></i>
       </button>
     </div>
   </div>
