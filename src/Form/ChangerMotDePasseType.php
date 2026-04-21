@@ -7,10 +7,10 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-// Définition du formulaire changer mot de passe.
+// Construit le formulaire de mise a jour du mot de passe.
 class ChangerMotDePasseType extends AbstractType
 {
-    // Déclare les champs et contraintes du formulaire.
+    // Declare les deux champs necessaires pour verifier puis remplacer le mot de passe.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-// Entité Doctrine pour commandes.
+// Represente une commande validee avec son client, ses lignes et son statut.
 #[ORM\Entity(repositoryClass: CommandesRepository::class)]
 class Commandes
 {
@@ -17,7 +17,7 @@ class Commandes
     #[ORM\Column]
     private ?int $id = null;
 
-    // FK existante dans ta DB : commandes.utilisateurs_id -> utilisateurs.id
+    // Pointe vers l'utilisateur qui a passe la commande.
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(name: 'utilisateurs_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Utilisateurs $utilisateurs = null;
@@ -46,112 +46,129 @@ class Commandes
     #[ORM\OneToMany(mappedBy: 'commande', targetEntity: LigneCommande::class, cascade: ['persist', 'remove'])]
     private Collection $ligneCommandes;
 
-    // Logique métier spécifique de l'entité.
+    // Initialise la collection des lignes, la date et un numero de commande unique.
     public function __construct()
     {
         $this->ligneCommandes = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
-
-        // garde ton format actuel
         $this->numeroCommande = 'CMD-' . strtoupper(bin2hex(random_bytes(4)));
     }
 
-    // Retourne la valeur de id.
+    // Renvoie l'identifiant technique de la commande.
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    // Retourne la valeur de utilisateurs.
+    // Renvoie l'utilisateur associe a la commande.
     public function getUtilisateurs(): ?Utilisateurs
     {
         return $this->utilisateurs;
     }
 
-
-    // mais en pratique, vu nullable:false, évite de passer null.
+    // Associe la commande a un utilisateur.
     public function setUtilisateurs(?Utilisateurs $utilisateurs): static
     {
         $this->utilisateurs = $utilisateurs;
         return $this;
     }
 
-    // Retourne la valeur de numero commande.
+    // Renvoie le numero unique affiche au client.
     public function getNumeroCommande(): ?string
     {
         return $this->numeroCommande;
     }
 
-    // Met à jour la valeur de numero commande.
+    // Permet de redefinir manuellement le numero de commande.
     public function setNumeroCommande(string $numeroCommande): static
     {
         $this->numeroCommande = $numeroCommande;
         return $this;
     }
 
-    // Retourne la valeur de created at.
+    // Renvoie la date de creation de la commande.
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    // Met à jour la valeur de created at.
+    // Met a jour la date de creation de la commande.
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    // Retourne la valeur de total.
+    // Renvoie le total final de la commande.
     public function getTotal(): ?float
     {
         return $this->total;
     }
 
-    // Met à jour la valeur de total.
+    // Met a jour le total final enregistre pour la commande.
     public function setTotal(float $total): static
     {
         $this->total = $total;
         return $this;
     }
 
-    // Retourne la valeur de statut.
+    // Renvoie le statut courant de la commande.
     public function getStatut(): ?Statut
     {
         return $this->statut;
     }
 
-    // Met à jour la valeur de statut.
+    // Met a jour le statut enregistre en base.
     public function setStatut(Statut $statut): static
     {
         $this->statut = $statut;
         return $this;
     }
 
-    // Retourne la valeur de adresse livraison.
+    // Renvoie l'adresse de livraison de la commande.
     public function getAdresseLivraison(): ?string
     {
         return $this->adresseLivraison;
     }
 
-    // Met à jour la valeur de adresse livraison.
+    // Met a jour l'adresse de livraison stockee sur la commande.
     public function setAdresseLivraison(string $adresseLivraison): static
     {
         $this->adresseLivraison = $adresseLivraison;
         return $this;
     }
 
-    // Retourne la valeur de paiement.
+    // Renvoie le mode de paiement choisi.
     public function getPaiement(): ?string
     {
         return $this->paiement;
     }
 
-    // Met à jour la valeur de paiement.
+    // Met a jour le mode de paiement memorise sur la commande.
     public function setPaiement(string $paiement): static
     {
         $this->paiement = $paiement;
         return $this;
+    }
+
+    // Fournit un libelle client concis pour l'administration.
+    public function getClientLabel(): string
+    {
+        $utilisateur = $this->utilisateurs;
+
+        if (!$utilisateur) {
+            return 'Client indisponible';
+        }
+
+        $nom = trim(($utilisateur->getPrenom() ?? '') . ' ' . ($utilisateur->getNom() ?? ''));
+
+        return $nom !== '' ? $nom : ($utilisateur->getEmail() ?? 'Client indisponible');
+    }
+
+    // Expose le statut affiche dans l'admin a partir de la simulation metier.
+    public function getStatutAdminLabel(): string
+    {
+        return $this->getStatutSimule()->label();
     }
 
     /**
@@ -162,7 +179,7 @@ class Commandes
         return $this->ligneCommandes;
     }
 
-    // Logique métier spécifique de l'entité.
+    // Ajoute une ligne a la commande et synchronise la relation inverse.
     public function addLigneCommande(LigneCommande $ligneCommande): static
     {
         if (!$this->ligneCommandes->contains($ligneCommande)) {
@@ -173,7 +190,7 @@ class Commandes
         return $this;
     }
 
-    // Logique métier spécifique de l'entité.
+    // Retire une ligne de la commande et nettoie la relation inverse si besoin.
     public function removeLigneCommande(LigneCommande $ligneCommande): static
     {
         if ($this->ligneCommandes->removeElement($ligneCommande)) {
@@ -185,11 +202,13 @@ class Commandes
         return $this;
     }
 
+    // Indique si la commande a deja ete annulee explicitement.
     public function isAnnulee(): bool
     {
         return $this->statut === Statut::ANNULEE;
     }
 
+    // Calcule le nombre de jours ecoules depuis la creation de la commande.
     public function getElapsedDays(): int
     {
         $createdAt = $this->createdAt ?? new \DateTimeImmutable();
@@ -198,28 +217,35 @@ class Commandes
         return (int) floor(($now->getTimestamp() - $createdAt->getTimestamp()) / 86400);
     }
 
-    public function isAnnulable(): bool
+    // Calcule le nombre d'heures ecoulees depuis la creation de la commande.
+    public function getElapsedHours(): int
     {
-        return !$this->isAnnulee() && $this->getElapsedDays() < 3;
+        $createdAt = $this->createdAt ?? new \DateTimeImmutable();
+        $now = new \DateTimeImmutable();
+
+        return (int) floor(($now->getTimestamp() - $createdAt->getTimestamp()) / 3600);
     }
 
-    // Retourne la valeur de statut simule.
+    // Determine si la commande peut encore etre annulee selon la regle metier.
+    public function isAnnulable(): bool
+    {
+        return !$this->isAnnulee() && $this->getElapsedHours() < 24;
+    }
+
+    // Simule un statut d'avancement a partir du temps ecoule pour l'affichage.
     public function getStatutSimule(): Statut
     {
         if ($this->isAnnulee()) {
             return Statut::ANNULEE;
         }
 
-        $diffDays = $this->getElapsedDays();
+        $diffHours = $this->getElapsedHours();
 
         return match (true) {
-            $diffDays >= 7 => Statut::LIVREE,
-            $diffDays >= 3 => Statut::LIVRAISON,
-            $diffDays >= 1 => Statut::PREPARATION,
+            $diffHours >= 48 => Statut::LIVREE,
+            $diffHours >= 24 => Statut::LIVRAISON,
+            $diffHours >= 6 => Statut::PREPARATION,
             default => Statut::PASSEE,
         };
     }
-
-
-    
 }

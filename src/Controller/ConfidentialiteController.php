@@ -6,10 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-// Contrôleur pour confidentialite.
+// Affiche la page de politique de confidentialite.
 final class ConfidentialiteController extends AbstractController
 {
-    // Charge les données nécessaires et rend la vue.
+    // Rend simplement le contenu legal de confidentialite.
     #[Route('/confidentialite', name: 'app_confidentialite')]
     public function index(): Response
     {

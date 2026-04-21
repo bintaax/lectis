@@ -1,13 +1,10 @@
 /*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
+ * Point d'entree JavaScript principal charge sur l'ensemble du site.
+ * Il centralise ici les imports globaux partages par toutes les pages.
  */
 
-// any CSS you import will output into a single css file (app.css in this case)
+// Importe la feuille de style globale compilee avec les autres assets.
 import './styles/app.css';
 
-// start the Stimulus application
-
+// Les comportements JavaScript supplementaires peuvent etre initialises depuis ce fichier.
 

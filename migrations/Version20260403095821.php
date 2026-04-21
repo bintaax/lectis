@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
- * Auto-generated Migration: Please modify to your needs!
+ * Cree les tables principales du projet Lectis et leurs relations initiales.
  */
 final class Version20260403095821 extends AbstractMigration
 {
@@ -19,7 +19,7 @@ final class Version20260403095821 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
+        // Cree le schema initial de l'application avec les tables metier et les cles etrangeres.
         $this->addSql('CREATE TABLE commandes (id INT AUTO_INCREMENT NOT NULL, numero_commande VARCHAR(20) NOT NULL, created_at DATETIME NOT NULL, total DOUBLE PRECISION NOT NULL, statut VARCHAR(255) NOT NULL, adresse_livraison VARCHAR(255) NOT NULL, paiement VARCHAR(50) NOT NULL, utilisateurs_id INT NOT NULL, UNIQUE INDEX UNIQ_35D4282CCFFD611D (numero_commande), INDEX IDX_35D4282C1E969C5 (utilisateurs_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE genres (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE ligne_commande (id INT AUTO_INCREMENT NOT NULL, quantite INT NOT NULL, prix_unitaire DOUBLE PRECISION NOT NULL, commande_id INT NOT NULL, livre_id INT NOT NULL, INDEX IDX_3170B74B82EA2E54 (commande_id), INDEX IDX_3170B74B37D925CB (livre_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
@@ -39,7 +39,7 @@ final class Version20260403095821 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
+        // Supprime les contraintes puis demonte completement le schema cree dans up().
         $this->addSql('ALTER TABLE commandes DROP FOREIGN KEY FK_35D4282C1E969C5');
         $this->addSql('ALTER TABLE ligne_commande DROP FOREIGN KEY FK_3170B74B82EA2E54');
         $this->addSql('ALTER TABLE ligne_commande DROP FOREIGN KEY FK_3170B74B37D925CB');

@@ -3,11 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\LignePanierRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-// Entité Doctrine pour ligne panier.
+// Represente une ligne d'article presente dans le panier courant.
 #[ORM\Entity(repositoryClass: LignePanierRepository::class)]
 class LignePanier
 {
@@ -16,13 +14,12 @@ class LignePanier
     #[ORM\Column]
     private ?int $id = null;
 
-    // Relation : ManyToOne → Panier
+    // Pointe vers le panier auquel cette ligne appartient.
     #[ORM\ManyToOne(inversedBy: 'lignePaniers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Panier $panier = null;
 
-    // Relation : ManyToOne → Livres
-    
+    // Pointe vers le livre ajoute dans le panier.
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Livres $livre = null;
@@ -30,45 +27,45 @@ class LignePanier
     #[ORM\Column]
     private ?int $quantite = 1;
 
-    // Retourne la valeur de id.
+    // Renvoie l'identifiant technique de la ligne.
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    // Retourne la valeur de panier.
+    // Renvoie le panier proprietaire de cette ligne.
     public function getPanier(): ?Panier
     {
         return $this->panier;
     }
 
-    // Met à jour la valeur de panier.
+    // Rattache cette ligne a un panier.
     public function setPanier(?Panier $panier): static
     {
         $this->panier = $panier;
         return $this;
     }
 
-    // Retourne la valeur de livre.
+    // Renvoie le livre associe a la ligne du panier.
     public function getLivre(): ?Livres
     {
         return $this->livre;
     }
 
-    // Met à jour la valeur de livre.
+    // Associe un livre a la ligne du panier.
     public function setLivre(?Livres $livre): static
     {
         $this->livre = $livre;
         return $this;
     }
 
-    // Retourne la valeur de quantite.
+    // Renvoie la quantite choisie pour ce livre.
     public function getQuantite(): ?int
     {
         return $this->quantite;
     }
 
-    // Met à jour la valeur de quantite.
+    // Met a jour la quantite stockee dans le panier.
     public function setQuantite(int $quantite): static
     {
         $this->quantite = $quantite;

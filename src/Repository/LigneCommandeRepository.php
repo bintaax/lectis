@@ -11,34 +11,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LigneCommandeRepository extends ServiceEntityRepository
 {
-    // Initialise le repository avec le registre Doctrine.
+    // Relie ce repository a l'entite LigneCommande pour les operations Doctrine.
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, LigneCommande::class);
     }
-
-    //    /**
-    //     * @return LigneCommande[] Returns an array of LigneCommande objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('l')
-    //            ->andWhere('l.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('l.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?LigneCommande
-    //    {
-    //        return $this->createQueryBuilder('l')
-    //            ->andWhere('l.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

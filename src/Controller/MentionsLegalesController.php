@@ -6,10 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-// Contrôleur pour mentions legales.
+// Affiche la page des mentions legales.
 final class MentionsLegalesController extends AbstractController
 {
-    // Charge les données nécessaires et rend la vue.
+    // Rend simplement le contenu legal correspondant.
     #[Route('/mentions/legales', name: 'app_mentions_legales')]
     public function index(): Response
     {

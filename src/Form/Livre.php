@@ -11,10 +11,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-// Définition du formulaire livre.
+// Construit le formulaire d'administration d'un livre.
 class Livre extends AbstractType
 {
-    // Déclare les champs et contraintes du formulaire.
+    // Declare les champs utilisables pour creer ou modifier un livre.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -28,13 +28,13 @@ class Livre extends AbstractType
             ->add('ageAutorise', IntegerType::class)
             ->add('description', TextareaType::class)
             ->add('photo', FileType::class, [
-                'mapped' => false,   // Fichier n’est pas directement stocké en BDD
+                'mapped' => false,   // Le fichier est traite a part et n'est pas hydrate directement sur l'entite.
                 'required' => false,
             ])
         ;
     }
 
-    // Configure les options du formulaire.
+    // Lie ce formulaire a l'entite Livres.
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

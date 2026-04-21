@@ -14,14 +14,14 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UtilisateursRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    // Initialise le repository avec le registre Doctrine.
+    // Relie ce repository a l'entite Utilisateurs pour les operations Doctrine.
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Utilisateurs::class);
     }
 
     /**
-     * Used to upgrade (rehash) the user's password automatically over time.
+     * Reenregistre un mot de passe deja hashe lorsqu'un rehash est necessaire.
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
@@ -33,29 +33,4 @@ class UtilisateursRepository extends ServiceEntityRepository implements Password
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
-
-    //    /**
-    //     * @return Utilisateurs[] Returns an array of Utilisateurs objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Utilisateurs
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

@@ -11,34 +11,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class GenresRepository extends ServiceEntityRepository
 {
-    // Initialise le repository avec le registre Doctrine.
+    // Relie ce repository a l'entite Genres pour les operations Doctrine.
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Genres::class);
     }
-
-    //    /**
-    //     * @return Genres[] Returns an array of Genres objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('g')
-    //            ->andWhere('g.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('g.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Genres
-    //    {
-    //        return $this->createQueryBuilder('g')
-    //            ->andWhere('g.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

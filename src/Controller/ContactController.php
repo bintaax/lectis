@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 
-// Contrôleur pour contact.
+// Gere la page de contact et la validation du formulaire.
 final class ContactController extends AbstractController
 {
-    // Charge les données nécessaires et rend la vue.
+    // Affiche le formulaire puis traite l'envoi si les champs sont valides.
     #[Route('/contact', name: 'app_contact')]
     public function index(Request $request): Response
     {
@@ -23,7 +23,7 @@ final class ContactController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            // 👉 Ici tu peux : envoyer un email, stocker en base, etc.
+            // Ce bloc est l'endroit ou brancher l'envoi d'email ou l'enregistrement du message.
 
             $this->addFlash('success', 'Votre message a été envoyé avec succès !');
 

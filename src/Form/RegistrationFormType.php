@@ -12,10 +12,10 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-// Définition du formulaire registration form.
+// Construit le formulaire d'inscription d'un nouvel utilisateur.
 class RegistrationFormType extends AbstractType
 {
-    // Déclare les champs et contraintes du formulaire.
+    // Declare les champs du compte et les validations associees.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -31,8 +31,7 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
+                // Le mot de passe est lu ici puis hashé dans le controleur avant enregistrement.
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
@@ -42,7 +41,7 @@ class RegistrationFormType extends AbstractType
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Votre mot de passe doit contenir au moins 6 caractères',
-                        // max length allowed by Symfony for security reasons
+                        // Symfony limite la longueur pour eviter les abus lors du hashage.
                         'max' => 4096,
                     ]),
                 ],
@@ -50,7 +49,7 @@ class RegistrationFormType extends AbstractType
         ;
     }
 
-    // Configure les options du formulaire.
+    // Lie ce formulaire a l'entite Utilisateurs.
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

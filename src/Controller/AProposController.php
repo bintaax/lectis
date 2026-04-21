@@ -6,10 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-// Contrôleur pour a propos.
+// Affiche la page de presentation de la librairie.
 final class AProposController extends AbstractController
 {
-    // Charge les données nécessaires et rend la vue.
+    // Rend simplement la page statique "A propos".
     #[Route('/a/propos', name: 'app_a_propos')]
     public function index(): Response
     {

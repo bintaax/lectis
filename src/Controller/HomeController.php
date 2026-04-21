@@ -7,10 +7,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-// Contrôleur pour home.
+// Gere la page d'accueil et ses selections de livres.
 final class HomeController extends AbstractController
 {
-    // Charge les données nécessaires et rend la vue.
+    // Charge les livres a mettre en avant sur la page d'accueil.
     #[Route('/accueil', name: 'app_home')]
     public function index(LivresRepository $repo): Response
 {

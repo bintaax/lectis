@@ -8,14 +8,14 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-// Définition du formulaire commande.
+// Construit le formulaire utilise pour collecter l'adresse et le paiement de la commande.
 class CommandeType extends AbstractType
 {
-    // Déclare les champs et contraintes du formulaire.
+    // Declare les champs affiches lors de l'etape de validation de commande.
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            // Adresse
+            // Regroupe les champs d'adresse de livraison.
             ->add('adresse', TextType::class, [
                 'label' => 'Adresse de livraison',
                 'attr' => ['class' => 'border px-3 py-2 rounded w-full']
@@ -35,7 +35,7 @@ class CommandeType extends AbstractType
         'Carte bancaire' => 'carte_bancaire',
         'PayPal' => 'paypal',
     ],
-    'expanded' => true,   // si tu veux afficher des boutons radio
+    'expanded' => true,   // Affiche les moyens de paiement sous forme de boutons radio.
     'multiple' => false,
 ]);
 

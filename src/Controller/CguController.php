@@ -6,10 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-// Contrôleur pour cgu.
+// Affiche la page des conditions generales d'utilisation.
 final class CguController extends AbstractController
 {
-    // Charge les données nécessaires et rend la vue.
+    // Rend simplement le contenu CGU.
     #[Route('/cgu', name: 'app_cgu')]
     public function index(): Response
     {

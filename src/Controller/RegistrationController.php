@@ -19,19 +19,19 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
-// Contrôleur pour registration.
+// Gere l'inscription, l'attribution des roles et la verification d'email.
 class RegistrationController extends AbstractController
 {
     use TargetPathTrait;
 
-    // Charge les données nécessaires et rend la vue.
+    // Injecte le service qui envoie et valide les emails de confirmation.
     public function __construct(private EmailVerifier $emailVerifier)
     {
     }
 
     
 
-    // Charge les données nécessaires et rend la vue.
+    // Affiche le formulaire d'inscription puis cree le compte si les donnees sont valides.
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
     {
@@ -48,10 +48,10 @@ class RegistrationController extends AbstractController
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 
-            // encode the plain password
+            // Hash le mot de passe saisi avant de le stocker.
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
-            // Donner le rôle ADMIN uniquement à ton email
+            // Attribue le role administrateur uniquement a l'adresse email prevue.
 if ($user->getEmail() === "admin@lectis.org") {
     $user->setRoles(['ROLE_ADMIN']);
 } else {
@@ -61,7 +61,7 @@ if ($user->getEmail() === "admin@lectis.org") {
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // generate a signed url and email it to the user
+            // Genere un lien signe puis envoie l'email de verification.
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('admin@lectis.org', 'Administration Lectis'))
@@ -69,8 +69,6 @@ if ($user->getEmail() === "admin@lectis.org") {
                     ->subject('Veuillez confirmer votre email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-
-            // do anything else you need here, like send an email
 
             return $security->login($user, ConnexionAuthenticator::class, 'main');
         }
@@ -80,13 +78,13 @@ if ($user->getEmail() === "admin@lectis.org") {
         ]);
     }
 
-    // Charge les données nécessaires et rend la vue.
+    // Valide le lien de verification et active le compte.
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        // validate email confirmation link, sets User::isVerified=true and persists
+        // Verifie la signature du lien puis marque l'utilisateur comme verifie.
         try {
             /** @var Utilisateurs $user */
             $user = $this->getUser();
@@ -97,7 +95,6 @@ if ($user->getEmail() === "admin@lectis.org") {
             return $this->redirectToRoute('app_register');
         }
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Votre adresse mail a bien été vérifiée');
 
         return $this->redirectToRoute('app_register');

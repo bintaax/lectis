@@ -1,15 +1,12 @@
 <?php
 
 /**
- * Returns the importmap for this application.
+ * Definit les modules JavaScript exposes via l'importmap de l'application.
  *
- * - "path" is a path inside the asset mapper system. Use the
- *     "debug:asset-map" command to see the full list of paths.
+ * - "path" designe le chemin resolu par l'Asset Mapper Symfony.
+ * - "entrypoint" indique les modules injectes directement dans les pages Twig.
  *
- * - "entrypoint" (JavaScript only) set to true for any module that will
- *     be used as an "entrypoint" (and passed to the importmap() Twig function).
- *
- * The "importmap:require" command can be used to add new entries to this file.
+ * La commande "importmap:require" permet d'ajouter de nouvelles dependances ici.
  */
 return [
     'app' => [

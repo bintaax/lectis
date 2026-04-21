@@ -8,21 +8,19 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 
-// Contrôleur pour commandes crud.
+// Configure l'affichage des commandes dans l'interface d'administration.
 final class CommandesCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -30,7 +28,7 @@ final class CommandesCrudController extends AbstractCrudController
         return Commandes::class;
     }
 
-    // Charge les données nécessaires et rend la vue.
+    // Regle les labels et le tri par defaut du CRUD commandes.
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -41,51 +39,34 @@ final class CommandesCrudController extends AbstractCrudController
             ->setPaginatorPageSize(20);
     }
 
-    // Charge les données nécessaires et rend la vue.
+    // Declare les champs visibles selon la page EasyAdmin.
     public function configureFields(string $pageName): iterable
     {
-        $statutChoices = [];
-        foreach (Statut::cases() as $case) {
-            $statutChoices[$case->value] = $case;
-        }
-
-
-        yield TextField::new('numeroCommande', 'N°')->onlyOnIndex();
+        yield IdField::new('id')->hideOnForm();
+        yield TextField::new('numeroCommande', 'Commande');
         yield DateTimeField::new('createdAt', 'Date');
-
-        yield TextField::new('numeroCommande', 'N°')->onlyOnIndex();
-yield DateTimeField::new('createdAt', 'Date');
-
-// ✅ Client en clair
-yield TextField::new('utilisateurs.nom', 'Nom')->onlyOnIndex();
-yield TextField::new('utilisateurs.prenom', 'Prénom')->onlyOnIndex();
-yield TextField::new('utilisateurs.email', 'Email')->onlyOnIndex();
-
-
+        yield TextField::new('clientLabel', 'Client')
+            ->onlyOnIndex();
         yield MoneyField::new('total', 'Total')
             ->setCurrency('EUR')
-            ->setStoredAsCents(false); // ✅ IMPORTANT
-
-
+            ->setStoredAsCents(false);
         yield ChoiceField::new('statut', 'Statut')
-    ->setChoices(array_combine(
-        array_map(fn($s) => $s->label(), \App\Enum\Statut::cases()),
-        \App\Enum\Statut::cases()
-    ))
-    ->formatValue(fn ($value, $entity) => $entity?->getStatutSimule()?->label() ?? '')
-    ->renderExpanded(false);
-
-
-
-        yield TextField::new('paiement', 'Paiement')->onlyOnIndex();
+            ->setChoices(array_combine(
+                array_map(static fn (Statut $statut) => $statut->label(), Statut::cases()),
+                Statut::cases()
+            ))
+            ->formatValue(static fn ($value, ?Commandes $entity) => $entity?->getStatutAdminLabel() ?? '')
+            ->renderExpanded(false);
+        yield TextField::new('paiement', 'Paiement')->hideOnIndex();
         yield TextField::new('adresseLivraison', 'Adresse')->hideOnIndex();
+        yield TextField::new('utilisateurs.email', 'Email client')->hideOnIndex();
 
-        // ✅ Afficher les articles sur la page détail
+        // Affiche les articles de la commande sur la page detail.
         yield CollectionField::new('ligneCommandes', 'Articles')
             ->onlyOnDetail();
     }
 
-    // Charge les données nécessaires et rend la vue.
+    // Active seulement les actions utiles sur les commandes.
     public function configureActions(Actions $actions): Actions
     {
         return $actions

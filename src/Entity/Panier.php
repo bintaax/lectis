@@ -9,8 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Utilisateurs;
 use App\Entity\LignePanier;
 
-
-// Entité Doctrine pour panier.
+// Represente le panier actif d'un utilisateur et ses lignes associees.
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
 class Panier
 {
@@ -19,7 +18,7 @@ class Panier
     #[ORM\Column]
     private ?int $id = null;
 
-    // 🔥 Le propriétaire du panier
+    // Identifie l'utilisateur proprietaire du panier.
     #[ORM\ManyToOne(inversedBy: 'paniers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateurs $utilisateur = null;
@@ -30,31 +29,29 @@ class Panier
     /**
      * @var Collection<int, LignePanier>
      */
-    #[ORM\OneToMany(mappedBy: 'panier', targetEntity: LignePanier::class, cascade: ['persist', 'remove'])]  
+    #[ORM\OneToMany(mappedBy: 'panier', targetEntity: LignePanier::class, cascade: ['persist', 'remove'])]
     private Collection $lignePaniers;
 
-    // Logique métier spécifique de l'entité.
+    // Initialise la collection des lignes et la date de creation du panier.
     public function __construct()
     {
         $this->lignePaniers = new ArrayCollection();
-         $this->createdAt = new \DateTime();
+        $this->createdAt = new \DateTime();
     }
 
-
-
-    // Retourne la valeur de id.
+    // Renvoie l'identifiant technique du panier.
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    // Retourne la valeur de utilisateur.
+    // Renvoie l'utilisateur proprietaire du panier.
     public function getUtilisateur(): ?Utilisateurs
     {
         return $this->utilisateur;
     }
 
-    // Met à jour la valeur de utilisateur.
+    // Associe ce panier a un utilisateur.
     public function setUtilisateur(?Utilisateurs $utilisateur): static
     {
         $this->utilisateur = $utilisateur;
@@ -62,13 +59,13 @@ class Panier
         return $this;
     }
 
-    // Retourne la valeur de created at.
+    // Renvoie la date de creation du panier.
     public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    // Met à jour la valeur de created at.
+    // Met a jour la date de creation du panier.
     public function setCreatedAt(\DateTime $createdAt): static
     {
         $this->createdAt = $createdAt;
@@ -84,17 +81,18 @@ class Panier
         return $this->lignePaniers;
     }
 
-    // Logique métier spécifique de l'entité.
+    // Ajoute une ligne au panier et synchronise la relation inverse.
     public function addLignePanier(LignePanier $lignePanier): static
     {
         if (!$this->lignePaniers->contains($lignePanier)) {
             $this->lignePaniers->add($lignePanier);
             $lignePanier->setPanier($this);
         }
+
         return $this;
     }
 
-    // Logique métier spécifique de l'entité.
+    // Retire une ligne du panier et nettoie la relation inverse si besoin.
     public function removeLignePanier(LignePanier $lignePanier): static
     {
         if ($this->lignePaniers->removeElement($lignePanier)) {
@@ -102,6 +100,7 @@ class Panier
                 $lignePanier->setPanier(null);
             }
         }
+
         return $this;
     }
 }

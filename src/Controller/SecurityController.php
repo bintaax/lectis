@@ -8,12 +8,12 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-// Contrôleur pour security.
+// Gere l'authentification et la sortie de session.
 class SecurityController extends AbstractController
 {
     use TargetPathTrait;
 
-    // Charge les données nécessaires et rend la vue.
+    // Affiche la page de connexion avec le dernier email et l'eventuelle erreur.
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils, \Symfony\Component\HttpFoundation\Request $request): Response
     {
@@ -22,15 +22,15 @@ class SecurityController extends AbstractController
             $this->saveTargetPath($request->getSession(), 'main', $redirectPath);
         }
   
-        // get the login error if there is one
+        // Recupere l'erreur de connexion precedente si elle existe.
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
+        // Recupere le dernier email saisi pour pre-remplir le formulaire.
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    // Charge les données nécessaires et rend la vue.
+    // La route logout est interceptee par Symfony, la methode ne doit jamais etre executee.
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {

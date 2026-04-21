@@ -3,11 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\LivresRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Cocur\Slugify\Slugify;
 
-// Entité Doctrine pour livres.
+// Represente un livre du catalogue avec ses informations commerciales et editoriales.
 #[ORM\Entity(repositoryClass: LivresRepository::class)]
 class Livres
 {
@@ -55,38 +55,37 @@ class Livres
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    // Retourne la valeur de id.
+    // Renvoie l'identifiant technique du livre.
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    // Retourne la valeur de titre.
+    // Renvoie le titre affiche dans le catalogue.
     public function getTitre(): ?string
     {
         return $this->titre;
     }
 
-   
-    // Met à jour la valeur de titre.
+    // Met a jour le titre et regenere le slug utilise dans les URLs.
     public function setTitre(?string $titre): static
-{
-    $this->titre = $titre;
+    {
+        $this->titre = $titre;
 
-    // Génère automatiquement le slug
-    $slugify = new Slugify();
-    $this->slug = $slugify->slugify($titre);
+        // Regenerer le slug ici garantit que l'URL suit toujours le titre enregistre.
+        $slugify = new Slugify();
+        $this->slug = $slugify->slugify($titre);
 
-    return $this;
-}
+        return $this;
+    }
 
-    // Retourne la valeur de auteur.
+    // Renvoie le nom de l'auteur du livre.
     public function getAuteur(): ?string
     {
         return $this->auteur;
     }
 
-    // Met à jour la valeur de auteur.
+    // Met a jour le nom de l'auteur.
     public function setAuteur(string $auteur): static
     {
         $this->auteur = $auteur;
@@ -94,13 +93,13 @@ class Livres
         return $this;
     }
 
-    // Retourne la valeur de editeur.
+    // Renvoie le nom de l'editeur.
     public function getEditeur(): ?string
     {
         return $this->editeur;
     }
 
-    // Met à jour la valeur de editeur.
+    // Met a jour l'editeur renseigne pour le livre.
     public function setEditeur(string $editeur): static
     {
         $this->editeur = $editeur;
@@ -108,13 +107,13 @@ class Livres
         return $this;
     }
 
-    // Retourne la valeur de resume.
+    // Renvoie le resume affiche sur la fiche produit.
     public function getResume(): ?string
     {
         return $this->resume;
     }
 
-    // Met à jour la valeur de resume.
+    // Met a jour le resume editorial du livre.
     public function setResume(string $resume): static
     {
         $this->resume = $resume;
@@ -122,27 +121,27 @@ class Livres
         return $this;
     }
 
-    // Retourne la valeur de date publication.
+    // Renvoie la date de publication telle qu'elle est stockee dans le catalogue.
     public function getDatePublication(): ?string
     {
         return $this->datePublication;
     }
 
-    // Met à jour la valeur de date publication.
-    public function setDatePublication( $datePublication): static
+    // Met a jour la date de publication du livre.
+    public function setDatePublication($datePublication): static
     {
         $this->datePublication = $datePublication;
 
         return $this;
     }
 
-    // Retourne la valeur de nb pages.
+    // Renvoie le nombre de pages affiche sur la fiche du livre.
     public function getNbPages(): ?int
     {
         return $this->nbPages;
     }
 
-    // Met à jour la valeur de nb pages.
+    // Met a jour le nombre de pages du livre.
     public function setNbPages(int $nbPages): static
     {
         $this->nbPages = $nbPages;
@@ -150,13 +149,13 @@ class Livres
         return $this;
     }
 
-    // Retourne la valeur de prix.
+    // Renvoie le prix standard du livre.
     public function getPrix(): ?string
     {
         return $this->prix;
     }
 
-    // Met à jour la valeur de prix.
+    // Met a jour le prix standard du livre.
     public function setPrix(string $prix): static
     {
         $this->prix = $prix;
@@ -164,13 +163,13 @@ class Livres
         return $this;
     }
 
-    // Retourne la valeur de photo.
+    // Renvoie le chemin ou nom de l'image du livre.
     public function getPhoto(): ?string
     {
         return $this->photo;
     }
 
-    // Met à jour la valeur de photo.
+    // Met a jour l'image associee au livre.
     public function setPhoto(string $photo): static
     {
         $this->photo = $photo;
@@ -178,28 +177,27 @@ class Livres
         return $this;
     }
 
-    // Indique si disponibilite.
+    // Indique si le livre est actuellement disponible a la vente.
     public function isDisponibilite(): ?bool
     {
         return $this->disponibilite;
     }
 
-    // Retourne la valeur de disponibilite badge.
+    // Construit le badge HTML affiche sur les fiches selon la disponibilite.
     public function getDisponibiliteBadge(): string
-{
-    if ($this->disponibilite) {
-        return '<p class="text-green-500 flex items-center gap-1">
-                    <i class="fa-solid fa-check text-green-500"></i> Disponible
+    {
+        if ($this->disponibilite) {
+            return '<p class="text-green-500 flex items-center gap-1">
+                        <i class="fa-solid fa-check text-green-500"></i> Disponible
+                    </p>';
+        }
+
+        return '<p class="text-red-500 flex items-center gap-1">
+                    <i class="fa-solid fa-xmark text-red-500"></i> Indisponible
                 </p>';
     }
 
-    return '<p class="text-red-500 flex items-center gap-1">
-                <i class="fa-solid fa-xmark text-red-500"></i> Indisponible
-            </p>';
-}
-
-
-    // Met à jour la valeur de disponibilite.
+    // Met a jour l'etat de disponibilite du livre.
     public function setDisponibilite(bool $disponibilite): static
     {
         $this->disponibilite = $disponibilite;
@@ -207,13 +205,13 @@ class Livres
         return $this;
     }
 
-    // Retourne la valeur de age autorise.
+    // Renvoie l'age minimum conseille ou autorise.
     public function getAgeAutorise(): ?int
     {
         return $this->ageAutorise;
     }
 
-    // Met à jour la valeur de age autorise.
+    // Met a jour l'age minimum associe au livre.
     public function setAgeAutorise(int $ageAutorise): static
     {
         $this->ageAutorise = $ageAutorise;
@@ -221,13 +219,13 @@ class Livres
         return $this;
     }
 
-    // Retourne la valeur de genre.
+    // Renvoie le genre litteraire associe au livre.
     public function getGenre(): ?Genres
     {
         return $this->genre;
     }
 
-    // Met à jour la valeur de genre.
+    // Associe le livre a un genre.
     public function setGenre(?Genres $genre): static
     {
         $this->genre = $genre;
@@ -235,13 +233,13 @@ class Livres
         return $this;
     }
 
-    // Indique si best seller.
+    // Indique si le livre doit apparaitre comme best-seller.
     public function isBestSeller(): ?bool
     {
         return $this->isBestSeller;
     }
 
-    // Met à jour la valeur de is best seller.
+    // Active ou desactive le marquage best-seller.
     public function setIsBestSeller(?bool $isBestSeller): static
     {
         $this->isBestSeller = $isBestSeller;
@@ -249,13 +247,13 @@ class Livres
         return $this;
     }
 
-    // Retourne la valeur de slug.
+    // Renvoie le slug utilise dans l'URL de detail.
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    // Met à jour la valeur de slug.
+    // Permet de redefinir manuellement le slug si necessaire.
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
@@ -263,11 +261,10 @@ class Livres
         return $this;
     }
 
-    // Retourne la valeur de prix fidelite.
+    // Calcule le prix reduit reserve aux adherents.
     public function getPrixFidelite(): float
-{
-    // On retourne le prix actuel moins 1 euro
-    // On s'assure que le prix ne tombe pas en dessous de 0.01€
-    return max(0.01, $this->prix - (10/100 * $this->prix));
-}
+    {
+        // La reduction appliquee est de 10 % tout en gardant un prix strictement positif.
+        return max(0.01, $this->prix - (10 / 100 * $this->prix));
+    }
 }

@@ -48,7 +48,7 @@ class ConnexionAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
+        // Redirige vers le catalogue si aucune page cible n'a ete memorisee avant la connexion.
         return new RedirectResponse($this->urlGenerator->generate('app_livres'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }

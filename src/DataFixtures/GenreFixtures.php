@@ -25,7 +25,7 @@ class GenreFixtures extends Fixture
             $genre->setNom($genreName);
             $manager->persist($genre);
 
-            // 📌 SUPER IMPORTANT : créer la référence pour les livres
+            // Enregistre une reference reutilisee ensuite par LivreFixtures pour relier chaque livre a son genre.
             $this->addReference('genre_' . $index, $genre);
         }
 

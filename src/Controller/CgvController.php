@@ -6,10 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-// Contrôleur pour cgv.
+// Affiche la page des conditions generales de vente.
 final class CgvController extends AbstractController
 {
-    // Charge les données nécessaires et rend la vue.
+    // Rend simplement le contenu CGV.
     #[Route('/cgv', name: 'app_cgv')]
     public function index(): Response
     {

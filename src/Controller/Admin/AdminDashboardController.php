@@ -13,19 +13,19 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 
-// Contrôleur pour admin dashboard.
+// Configure l'entree d'administration EasyAdmin et son menu principal.
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class AdminDashboardController extends AbstractDashboardController
 {
-    // Charge les données nécessaires et rend la vue.
+    // Injecte le generateur d'URL admin utilise pour les redirections internes.
     public function __construct(private AdminUrlGenerator $adminUrlGenerator)
     {
     }
 
-    // Charge les données nécessaires et rend la vue.
+    // Redirige l'arrivee sur /admin vers la liste des livres.
     public function index(): Response
     {
-        // Redirection vers le CRUD Livres
+        // L'ecran d'accueil admin pointe directement vers le CRUD des livres.
         $url = $this->adminUrlGenerator
             ->setController(LivresCrudController::class)
             ->generateUrl();
@@ -33,7 +33,7 @@ class AdminDashboardController extends AbstractDashboardController
         return $this->redirect($url);
     }
 
-    // Charge les données nécessaires et rend la vue.
+    // Definis le titre et la locale de l'interface d'administration.
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
@@ -47,7 +47,7 @@ class AdminDashboardController extends AbstractDashboardController
             ->addCssFile('assets/css/admin-responsive.css');
     }
 
-    // Charge les données nécessaires et rend la vue.
+    // Construit les entrees du menu lateral EasyAdmin.
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToCrud('Livres', 'fas fa-book', Livres::class);

@@ -1,76 +1,69 @@
 const Encore = require('@symfony/webpack-encore');
 
-// Manually configure the runtime environment if not already configured yet by the "encore" command.
-// It's useful when you use tools that rely on webpack.config.js file.
+// Initialise l'environnement Encore quand ce fichier est lance en dehors de la commande habituelle.
+// Cela permet aux outils annexes de reutiliser cette configuration sans erreur.
 if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
 
 Encore
       .enablePostCssLoader()
-    // directory where compiled assets will be stored
+    // Definis le dossier dans lequel les assets compiles seront ecrits.
     .setOutputPath('public/build/')
-    // public path used by the web server to access the output path
+    // Definis l'URL publique utilisee par le navigateur pour charger ces assets.
     .setPublicPath('/build')
-    // only needed for CDN's or subdirectory deploy
+    // A activer uniquement si les assets sont servis par un CDN ou un sous-dossier.
     //.setManifestKeyPrefix('build/')
 
     /*
-     * ENTRY CONFIG
-     *
-     * Each entry will result in one JavaScript file (e.g. app.js)
-     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
+     * Configure les points d'entree compiles par Encore.
+     * Chaque entree genere un fichier JavaScript et, si besoin, un fichier CSS associe.
      */
     .addEntry('app', './public/assets/js/script.js')
 
-    // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
+    // Decoupe le bundle en plusieurs morceaux pour ameliorer le chargement et le cache.
     .splitEntryChunks()
 
-    // will require an extra script tag for runtime.js
-    // but, you probably want this, unless you're building a single-page app
+    // Active le runtime separe, utile pour la plupart des applications multi-pages.
     .enableSingleRuntimeChunk()
 
     /*
-     * FEATURE CONFIG
-     *
-     * Enable & configure other features below. For a full
-     * list of features, see:
-     * https://symfony.com/doc/current/frontend.html#adding-more-features
+     * Active ici les options de build complementaires selon les besoins du projet.
+     * La documentation Symfony detaille toutes les possibilites disponibles.
      */
     .cleanupOutputBeforeBuild()
 
-    // Displays build status system notifications to the user
+    // Peut afficher des notifications systeme pendant les builds locaux.
     // .enableBuildNotifications()
 
     .enableSourceMaps(!Encore.isProduction())
-    // enables hashed filenames (e.g. app.abc123.css)
+    // Ajoute un hash au nom des fichiers en production pour mieux gerer le cache navigateur.
     .enableVersioning(Encore.isProduction())
 
-    // configure Babel
+    // Permet d'ajouter des plugins Babel supplementaires si le projet en a besoin.
     // .configureBabel((config) => {
     //     config.plugins.push('@babel/a-babel-plugin');
     // })
 
-    // enables and configure @babel/preset-env polyfills
+    // Configure les polyfills automatiquement selon le code reellement utilise.
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
         config.corejs = '3.38';
     })
 
-    // enables Sass/SCSS support
+    // Active le support Sass/SCSS si le projet en a besoin plus tard.
     //.enableSassLoader()
 
-    // uncomment if you use TypeScript
+    // A decommenter si le projet adopte TypeScript.
     //.enableTypeScriptLoader()
 
-    // uncomment if you use React
+    // A decommenter si une partie du front passe sur React.
     //.enableReactPreset()
 
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
+    // A decommenter pour ajouter des attributs d'integrite sur les assets servis.
     //.enableIntegrityHashes(Encore.isProduction())
 
-    // uncomment if you're having problems with a jQuery plugin
+    // Peut injecter jQuery automatiquement pour les plugins legacy qui l'attendent.
     //.autoProvidejQuery()
 ;
 

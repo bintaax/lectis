@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use App\Repository\UtilisateursRepository;
@@ -12,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\Panier;
 use App\Entity\Commandes;
 
-// Entité Doctrine pour utilisateurs.
+// Represente un utilisateur connecte avec son profil, ses commandes et son panier.
 #[ORM\Entity(repositoryClass: UtilisateursRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cet email')]
@@ -33,10 +34,10 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     /**
- * @var Collection<int, Panier>
- */
-#[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Panier::class, cascade: ['persist', 'remove'])]
-private Collection $paniers;
+     * @var Collection<int, Panier>
+     */
+    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Panier::class, cascade: ['persist', 'remove'])]
+    private Collection $paniers;
 
     /**
      * @var list<string> The user roles
@@ -50,7 +51,6 @@ private Collection $paniers;
     #[ORM\Column]
     private ?string $password = null;
 
-
     /**
      * @var Collection<int, Commandes>
      */
@@ -61,64 +61,65 @@ private Collection $paniers;
     private bool $isVerified = false;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-private ?\DateTimeImmutable $deletedAt = null;
+    private ?\DateTimeImmutable $deletedAt = null;
 
-#[ORM\Column(options: ['default' => false])]
-private bool $isAdherent = false;
+    #[ORM\Column(options: ['default' => false])]
+    private bool $isAdherent = false;
 
-#[ORM\Column(type: 'datetime_immutable', nullable: true)]
-private ?\DateTimeImmutable $adherentAt = null;
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $adherentAt = null;
 
-
-
-    // Logique métier spécifique de l'entité.
+    // Initialise les collections liees au compte utilisateur.
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
-        $this->paniers = new ArrayCollection(); // 🔥 ajouter ceci
+        $this->paniers = new ArrayCollection();
     }
+
     /**
- * @return Collection<int, Panier>
- */
-public function getPaniers(): Collection
-{
-    return $this->paniers;
-}
-// Logique métier spécifique de l'entité.
-public function addPanier(Panier $panier): static
-{
-    if (!$this->paniers->contains($panier)) {
-        $this->paniers->add($panier);
-        $panier->setUtilisateur($this);
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
     }
 
-    return $this;
-}
-// Logique métier spécifique de l'entité.
-public function removePanier(Panier $panier): static
-{
-    if ($this->paniers->removeElement($panier)) {
-        if ($panier->getUtilisateur() === $this) {
-            $panier->setUtilisateur(null);
+    // Ajoute un panier au compte et synchronise la relation inverse.
+    public function addPanier(Panier $panier): static
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->setUtilisateur($this);
         }
+
+        return $this;
     }
 
-    return $this;
-}
+    // Retire un panier du compte et nettoie la relation inverse si besoin.
+    public function removePanier(Panier $panier): static
+    {
+        if ($this->paniers->removeElement($panier)) {
+            if ($panier->getUtilisateur() === $this) {
+                $panier->setUtilisateur(null);
+            }
+        }
 
-    // Retourne la valeur de id.
+        return $this;
+    }
+
+    // Renvoie l'identifiant technique de l'utilisateur.
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    // Retourne la valeur de email.
+    // Renvoie l'email utilise pour se connecter.
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    // Met à jour la valeur de email.
+    // Met a jour l'adresse email du compte.
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -127,7 +128,7 @@ public function removePanier(Panier $panier): static
     }
 
     /**
-     * A visual identifier that represents this user.
+     * Retourne l'identifiant visuel du compte pour le systeme de securite.
      *
      * @see UserInterface
      */
@@ -137,18 +138,21 @@ public function removePanier(Panier $panier): static
     }
 
     /**
+     * Renvoie les roles de l'utilisateur en garantissant toujours ROLE_USER.
+     *
      * @see UserInterface
      */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
     /**
+     * Met a jour la liste complete des roles attribues au compte.
+     *
      * @param list<string> $roles
      */
     public function setRoles(array $roles): static
@@ -159,6 +163,8 @@ public function removePanier(Panier $panier): static
     }
 
     /**
+     * Renvoie le mot de passe deja hashé stocke pour l'authentification.
+     *
      * @see PasswordAuthenticatedUserInterface
      */
     public function getPassword(): ?string
@@ -166,7 +172,7 @@ public function removePanier(Panier $panier): static
         return $this->password;
     }
 
-    // Met à jour la valeur de password.
+    // Met a jour le mot de passe hashé du compte.
     public function setPassword(string $password): static
     {
         $this->password = $password;
@@ -175,7 +181,7 @@ public function removePanier(Panier $panier): static
     }
 
     /**
-     * Ensure the session doesn't contain actual password hashes by CRC32C-hashing them, as supported since Symfony 7.3.
+     * Remplace le hash en session par une empreinte CRC32C pour limiter l'exposition du vrai hash.
      */
     public function __serialize(): array
     {
@@ -185,20 +191,20 @@ public function removePanier(Panier $panier): static
         return $data;
     }
 
-    // Logique métier spécifique de l'entité.
+    // Ne stocke pas d'identifiants temporaires supplementaires sur cette entite.
     #[\Deprecated]
     public function eraseCredentials(): void
     {
-        // @deprecated, to be removed when upgrading to Symfony 8
+        // Cette methode reste vide car l'entite ne conserve pas de secret temporaire.
     }
 
-    // Retourne la valeur de nom.
+    // Renvoie le nom de famille de l'utilisateur.
     public function getNom(): ?string
     {
         return $this->nom;
     }
 
-    // Met à jour la valeur de nom.
+    // Met a jour le nom de famille du compte.
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
@@ -206,13 +212,13 @@ public function removePanier(Panier $panier): static
         return $this;
     }
 
-    // Retourne la valeur de prenom.
+    // Renvoie le prenom de l'utilisateur.
     public function getPrenom(): ?string
     {
         return $this->prenom;
     }
 
-    // Met à jour la valeur de prenom.
+    // Met a jour le prenom du compte.
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
@@ -228,7 +234,7 @@ public function removePanier(Panier $panier): static
         return $this->commandes;
     }
 
-    // Logique métier spécifique de l'entité.
+    // Ajoute une commande a l'utilisateur et synchronise la relation inverse.
     public function addCommande(Commandes $commande): static
     {
         if (!$this->commandes->contains($commande)) {
@@ -239,11 +245,10 @@ public function removePanier(Panier $panier): static
         return $this;
     }
 
-    // Logique métier spécifique de l'entité.
+    // Retire une commande de l'utilisateur et nettoie la relation inverse si besoin.
     public function removeCommande(Commandes $commande): static
     {
         if ($this->commandes->removeElement($commande)) {
-            // set the owning side to null (unless already changed)
             if ($commande->getUtilisateurs() === $this) {
                 $commande->setUtilisateurs(null);
             }
@@ -252,13 +257,13 @@ public function removePanier(Panier $panier): static
         return $this;
     }
 
-    // Indique si verified.
+    // Indique si l'adresse email a deja ete verifiee.
     public function isVerified(): bool
     {
         return $this->isVerified;
     }
 
-    // Met à jour la valeur de is verified.
+    // Met a jour l'etat de verification du compte.
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
@@ -266,66 +271,64 @@ public function removePanier(Panier $panier): static
         return $this;
     }
 
-    // Retourne la valeur de deleted at.
+    // Renvoie la date de suppression logique du compte, si elle existe.
     public function getDeletedAt(): ?\DateTimeImmutable
-{
-    return $this->deletedAt;
-}
+    {
+        return $this->deletedAt;
+    }
 
-// Indique si deleted.
-public function isDeleted(): bool
-{
-    return $this->deletedAt !== null;
-}
-// Logique métier spécifique de l'entité.
-public function anonymizeAndDeactivate(): void
-{
-    $this->deletedAt = new \DateTimeImmutable();
+    // Indique si le compte a ete supprime logiquement.
+    public function isDeleted(): bool
+    {
+        return $this->deletedAt !== null;
+    }
 
-    // anonymisation
-    $this->nom = 'Utilisateur';
-    $this->prenom = 'supprimé';
+    // Anonymise le compte et coupe les donnees sensibles lors d'une suppression.
+    public function anonymizeAndDeactivate(): void
+    {
+        $this->deletedAt = new \DateTimeImmutable();
 
-    // email doit rester unique (tu as une contrainte UNIQUE)
-    // => on génère un email unique basé sur l'id si dispo
-    $idPart = $this->id ?? random_int(100000, 999999);
-    $this->email = 'deleted_' . $idPart . '@lectis.local';
+        // Remplace les donnees visibles par des valeurs neutres.
+        $this->nom = 'Utilisateur';
+        $this->prenom = 'supprimé';
 
-    // on invalide le password (au cas où)
-    $this->password = password_hash(bin2hex(random_bytes(24)), PASSWORD_BCRYPT);
+        // Genere un email unique pour conserver la contrainte d'unicite apres anonymisation.
+        $idPart = $this->id ?? random_int(100000, 999999);
+        $this->email = 'deleted_' . $idPart . '@lectis.local';
 
-    // optionnel : on remet les rôles
-    $this->roles = ['ROLE_USER'];
+        // Invalide le mot de passe pour empecher toute reconnexion.
+        $this->password = password_hash(bin2hex(random_bytes(24)), PASSWORD_BCRYPT);
 
-    // optionnel : on désactive la vérification
-    $this->isVerified = false;
-}
+        // Revient au role standard apres suppression du compte.
+        $this->roles = ['ROLE_USER'];
 
+        // Repasse l'etat de verification a faux une fois le compte anonymise.
+        $this->isVerified = false;
+    }
 
-// Indique si adherent.
-public function isAdherent(): bool
-{
-    return $this->isAdherent;
-}
+    // Indique si l'utilisateur beneficie de l'abonnement Lectis+.
+    public function isAdherent(): bool
+    {
+        return $this->isAdherent;
+    }
 
-// Retourne la valeur de adherent at.
-public function getAdherentAt(): ?\DateTimeImmutable
-{
-    return $this->adherentAt;
-}
+    // Renvoie la date de debut d'adhesion Lectis+.
+    public function getAdherentAt(): ?\DateTimeImmutable
+    {
+        return $this->adherentAt;
+    }
 
-// Logique métier spécifique de l'entité.
-public function becomeAdherent(): void
-{
-    $this->isAdherent = true;
-    $this->adherentAt = new \DateTimeImmutable();
-}
+    // Active l'adhesion Lectis+ et memorise sa date de debut.
+    public function becomeAdherent(): void
+    {
+        $this->isAdherent = true;
+        $this->adherentAt = new \DateTimeImmutable();
+    }
 
-// Logique métier spécifique de l'entité.
-public function leaveAdherent(): void
-{
-    $this->isAdherent = false;
-    $this->adherentAt = null;
-}
-
+    // Desactive l'adhesion Lectis+ et efface la date associee.
+    public function leaveAdherent(): void
+    {
+        $this->isAdherent = false;
+        $this->adherentAt = null;
+    }
 }

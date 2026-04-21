@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-// Contrôleur pour livres.
+// Gere l'affichage du catalogue, par recherche et par genre.
 final class LivresController extends AbstractController
 {
-    // Charge les données nécessaires et rend la vue.
+    // Construit les donnees du catalogue et les resultats de recherche.
     #[Route('/livres', name: 'app_livres')]
     public function index(
         Request $request,
@@ -21,13 +21,13 @@ final class LivresController extends AbstractController
     ): Response {
         $q = trim((string) $request->query->get('q', ''));
 
-        // ✅ Si recherche : on renvoie une liste de résultats
+        // Lance une recherche textuelle quand un terme est saisi.
         $resultats = [];
         if ($q !== '') {
             $resultats = $livresRepo->searchCatalogue($q);
         }
 
-        // ✅ On garde ta structure "par genre" (utile si pas de recherche)
+        // Reconstruit en parallele l'affichage du catalogue groupe par genre.
         $genres = $genreRepo->findAll();
         $livresParGenre = [];
 

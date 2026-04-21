@@ -15,10 +15,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 
-// Contrôleur pour compte.
+// Gere les pages du compte client : profil, mot de passe, suppression et adhesion Lectis+.
 final class CompteController extends AbstractController
 {
-    // Charge les données nécessaires et rend la vue.
+    // Affiche le tableau de bord du compte avec l'historique des commandes et les points de lecture.
     #[Route('/compte', name: 'app_compte')]
 public function index(
     CommandesRepository $commandeRepository
@@ -27,7 +27,7 @@ public function index(
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
 
-    // 🔥 Récupérer les commandes du user
+    // Recupere toutes les commandes liees a l'utilisateur connecte.
     $commandes = $commandeRepository->findBy(
         ['utilisateurs' => $user],
        
@@ -38,7 +38,7 @@ public function index(
         $pointsLecture += (int) floor((float) $commande->getTotal());
     }
 
-    // On envoie des valeurs "vides" pour les formulaires si tu ne les utilises pas encore
+    // Fournit aussi des entrees de formulaire nulles pour conserver la structure Twig actuelle.
     return $this->render('compte/index.html.twig', [
         'profilForm' => null,
         'adresseForm' => null,
@@ -48,7 +48,7 @@ public function index(
     ]);
 }
 
-// Charge les données nécessaires et rend la vue.
+// Affiche le formulaire de modification du profil puis enregistre les changements.
 #[Route('/compte/modifier', name: 'app_compte_modifier')]
 public function modifier(Request $request, EntityManagerInterface $em): Response
 {
@@ -70,7 +70,7 @@ public function modifier(Request $request, EntityManagerInterface $em): Response
     ]);
 }
 
-// Charge les données nécessaires et rend la vue.
+// Affiche le formulaire de changement de mot de passe et verifie l'ancien mot de passe.
 #[Route('/compte/password', name: 'app_compte_password')]
 public function password(
     Request $request, 
@@ -78,7 +78,7 @@ public function password(
     EntityManagerInterface $em
 ): Response {
 
-    $user = $this->getUser(); // ✔️ l'utilisateur connecté
+    $user = $this->getUser(); // Recupere le compte actuellement authentifie.
 
     $form = $this->createForm(ChangerMotDePasseType::class);
     $form->handleRequest($request);
@@ -110,7 +110,7 @@ public function password(
 
 
 
-// Charge les données nécessaires et rend la vue.
+// Supprime logiquement le compte, nettoie les donnees reliees et deconnecte l'utilisateur.
 #[Route('/compte/supprimer', name: 'app_compte_supprimer', methods: ['POST'])]
 public function supprimer(
     EntityManagerInterface $em,
@@ -125,29 +125,29 @@ public function supprimer(
         return $this->redirectToRoute('app_login');
     }
 
-    // (si tu as mis le CSRF dans le form twig)
+    // Verifie le token CSRF envoye par le formulaire de suppression.
     if (!$this->isCsrfTokenValid('delete-account', $request->request->get('_token'))) {
         throw $this->createAccessDeniedException('Token CSRF invalide.');
     }
 
-    // ✅ supprimer les paniers en base
+    // Supprime les paniers persistés avant d'anonymiser le compte.
     foreach ($user->getPaniers() as $panier) {
         $em->remove($panier);
     }
 
-    // ✅ supprimer aussi toutes les commandes de l'utilisateur
+    // Supprime aussi les commandes reliees a ce compte.
     foreach ($user->getCommandes() as $commande) {
         $em->remove($commande);
     }
 
-    // ✅ anonymiser/désactiver le compte
+    // Anonymise ensuite le compte pour ne plus conserver de donnees personnelles actives.
     $user->anonymizeAndDeactivate();
     $em->flush();
 
-    // ✅ couper le token de sécurité (app.user ne doit plus exister)
+    // Retire le jeton de securite pour que l'utilisateur ne soit plus considere comme connecte.
     $tokenStorage->setToken(null);
 
-    // ✅ invalider la session
+    // Vide puis invalide la session courante.
     $session = $requestStack->getSession();
     if ($session) {
         $session->clear();
@@ -156,11 +156,11 @@ public function supprimer(
 
     $this->addFlash('success', 'Votre compte a bien été supprimé.');
 
-    // ✅ logout Symfony (nettoie aussi remember_me si activé)
+    // Redirige vers la route de logout Symfony pour finaliser proprement la deconnexion.
     return $this->redirectToRoute('app_logout');
 }
 
-// Charge les données nécessaires et rend la vue.
+// Affiche la page de presentation de l'offre Lectis+.
 #[Route('/lectis-plus', name: 'app_compte_lectis_plus')]
 public function lectisPlus(): Response
 {
@@ -173,7 +173,7 @@ public function lectisPlusLegacy(): Response
     return $this->redirectToRoute('app_compte_lectis_plus', [], Response::HTTP_MOVED_PERMANENTLY);
 }
 
-// Charge les données nécessaires et rend la vue.
+// Traite la demande d'adhesion a Lectis+ pour l'utilisateur courant.
 #[Route('/compte/lectis-plus/adherer', name: 'app_compte_lectis_plus_adherer', methods: ['POST'])]
 public function lectisPlusAdherer(EntityManagerInterface $em, Request $request): Response
 {
@@ -193,7 +193,7 @@ public function lectisPlusAdherer(EntityManagerInterface $em, Request $request):
     }
 
     if (!$user->isAdherent()) {
-        $user->becomeAdherent(); // méthode dans Utilisateurs
+        $user->becomeAdherent(); // Active l'adhesion et memorise sa date de debut.
         $em->flush();
         $this->addFlash('success', 'Bienvenue dans Lectis+ 📚💙');
     } else {
@@ -203,7 +203,7 @@ public function lectisPlusAdherer(EntityManagerInterface $em, Request $request):
     return $this->redirectToRoute('app_compte');
 }
 
-// Charge les données nécessaires et rend la vue.
+// Retire l'adhesion Lectis+ apres verification du token CSRF.
 #[Route('/compte/lectis-plus/quitter', name: 'app_compte_lectis_plus_quitter', methods: ['POST'])]
 public function lectisPlusQuitter(EntityManagerInterface $em, Request $request): Response
 {

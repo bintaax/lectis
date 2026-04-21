@@ -9,10 +9,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-// Définition du formulaire utilisateur.
+// Construit le formulaire de modification du profil utilisateur.
 class UtilisateurType extends AbstractType
 {
-    // Déclare les champs et contraintes du formulaire.
+    // Declare les champs modifiables depuis l'espace compte.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -31,7 +31,7 @@ class UtilisateurType extends AbstractType
         ;
     }
 
-    // Configure les options du formulaire.
+    // Lie ce formulaire a l'entite Utilisateurs.
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

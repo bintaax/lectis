@@ -3,11 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\LigneCommandeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-// Entité Doctrine pour ligne commande.
+// Represente une ligne d'article rattachee a une commande validee.
 #[ORM\Entity(repositoryClass: LigneCommandeRepository::class)]
 class LigneCommande
 {
@@ -16,12 +14,12 @@ class LigneCommande
     #[ORM\Column]
     private ?int $id = null;
 
-    // Relation ManyToOne -> Commande
+    // Pointe vers la commande qui contient cette ligne.
     #[ORM\ManyToOne(inversedBy: 'ligneCommandes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Commandes $commande = null;
 
-    // Relation ManyToOne -> Livre
+    // Conserve le livre commande a cette ligne.
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Livres $livre = null;
@@ -30,60 +28,60 @@ class LigneCommande
     private ?int $quantite = null;
 
     #[ORM\Column]
-    private ?float $prixUnitaire = null; // important pour garder l'historique
+    private ?float $prixUnitaire = null; // Conserve le prix paye au moment de la commande.
 
-    // Retourne la valeur de id.
+    // Renvoie l'identifiant technique de la ligne.
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    // Retourne la valeur de commande.
+    // Renvoie la commande a laquelle cette ligne appartient.
     public function getCommande(): ?Commandes
     {
         return $this->commande;
     }
 
-    // Met à jour la valeur de commande.
+    // Rattache cette ligne a une commande.
     public function setCommande(?Commandes $commande): static
     {
         $this->commande = $commande;
         return $this;
     }
 
-    // Retourne la valeur de livre.
+    // Renvoie le livre memorise dans cette ligne de commande.
     public function getLivre(): ?Livres
     {
         return $this->livre;
     }
 
-    // Met à jour la valeur de livre.
+    // Associe un livre a cette ligne de commande.
     public function setLivre(?Livres $livre): static
     {
         $this->livre = $livre;
         return $this;
     }
 
-    // Retourne la valeur de quantite.
+    // Renvoie la quantite commandee pour ce livre.
     public function getQuantite(): ?int
     {
         return $this->quantite;
     }
 
-    // Met à jour la valeur de quantite.
+    // Met a jour la quantite commandee.
     public function setQuantite(int $quantite): static
     {
         $this->quantite = $quantite;
         return $this;
     }
 
-    // Retourne la valeur de prix unitaire.
+    // Renvoie le prix unitaire enregistre pour conserver l'historique.
     public function getPrixUnitaire(): ?float
     {
         return $this->prixUnitaire;
     }
 
-    // Met à jour la valeur de prix unitaire.
+    // Met a jour le prix unitaire memorise sur la ligne.
     public function setPrixUnitaire(float $prixUnitaire): static
     {
         $this->prixUnitaire = $prixUnitaire;

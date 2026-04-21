@@ -17,12 +17,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-// Contrôleur pour commandes.
+// Gere le tunnel de commande depuis le panier jusqu'a la creation de la commande.
 class CommandesController extends AbstractController
 {
     use TargetPathTrait;
 
-    // Charge les données nécessaires et rend la vue.
+    // Affiche l'etape de saisie commande ou redirige si le panier est vide.
     #[Route('/commande', name: 'app_commandes')]
     public function commande(
         PanierRepository $panierRepository,
@@ -58,11 +58,11 @@ class CommandesController extends AbstractController
             return $this->redirectToRoute('app_panier');
         }
 
-        // 🔥 CALCUL DU TOTAL AVEC REMISE -10% SI ADHÉRENT
+        // Recalcule le total en appliquant le tarif Lectis+ si l'utilisateur est adherent.
         $total = 0;
         foreach ($panier->getLignePaniers() as $ligne) {
             $livre = $ligne->getLivre();
-            // Utilise le prix réduit si l'user est adhérent
+            // Choisit le bon prix unitaire selon le statut d'adhesion.
             $prixUnitaire = ($user->isAdherent()) ? $livre->getPrixFidelite() : $livre->getPrix();
             $total += $prixUnitaire * $ligne->getQuantite();
         }
@@ -84,12 +84,12 @@ class CommandesController extends AbstractController
 
         return $this->render('commande/index.html.twig', [
             'lignes' => $panier->getLignePaniers(),
-            'total' => $total, // Ce total est maintenant le bon !
+            'total' => $total, 
             'form' => $form->createView()
         ]);
     }
 
-    // Charge les données nécessaires et rend la vue.
+    // Transforme le panier courant en commande persistée puis vide le panier.
     #[Route('/commande/valider/{data}', name: 'app_commande_valider')]
     public function valider(
         string $data,
@@ -124,14 +124,14 @@ class CommandesController extends AbstractController
         foreach ($panier->getLignePaniers() as $lignePanier) {
             $livre = $lignePanier->getLivre();
             
-            // 🔥 APPLICATION DE LA REMISE LORS DE LA CRÉATION DE LA LIGNE DE COMMANDE
+            // Conserve le prix reellement facture au moment de la validation.
             $prixApplique = ($user->isAdherent()) ? $livre->getPrixFidelite() : $livre->getPrix();
 
             $ligneCommande = new LigneCommande();
             $ligneCommande->setCommande($commande);
             $ligneCommande->setLivre($livre);
             $ligneCommande->setQuantite($lignePanier->getQuantite());
-            $ligneCommande->setPrixUnitaire($prixApplique); // On enregistre le prix payé réellement
+            $ligneCommande->setPrixUnitaire($prixApplique); // Stocke le prix facture pour garder un historique fiable.
 
             $totalFinal += $prixApplique * $lignePanier->getQuantite();
 

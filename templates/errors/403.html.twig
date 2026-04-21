@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page indisponible | Lectis{% endblock %}
+
+{% block body %}
+    <section class="relative isolate overflow-hidden px-6 py-20 md:py-28">
+        <div class="absolute inset-0 -z-10 bg-linear-to-br from-[--bluegray-light] via-white to-[--bluegray-medium]/50"></div>
+        <div class="absolute -top-16 right-0 -z-10 h-64 w-64 rounded-full bg-[--bluegray-medium] opacity-40 blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 -z-10 h-80 w-80 rounded-full bg-[--bluegray-deep] opacity-15 blur-3xl"></div>
+
+        <div class="mx-auto flex min-h-[60vh] max-w-4xl items-center justify-center">
+            <div class="w-full max-w-xl text-center">
+                <h1 class="text-5xl font-black leading-none text-[--bluegray-dark] sm:text-6xl md:text-7xl">
+                    Cette page est
+                    <span class="block text-[--bluegray-deep]">indisponible.</span>
+                </h1>
+
+                <p class="mt-6 max-w-lg text-base leading-8 text-[--bluegray-accent]/90 md:text-lg">
+                    Nous ne pouvons pas afficher ce contenu pour le moment.
+                </p>
+
+                <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
+                    <a
+                        href="{{ path('app_home') }}"
+                        class="inline-flex items-center justify-center rounded-xl bg-[--bluegray-accent] px-8 py-4 text-sm font-black uppercase tracking-[0.2em] text-white shadow-lg transition-all hover:-translate-y-1 hover:bg-[--bluegray-hover]"
+                    >
+                        Retour à l'accueil
+                    </a>
+                    <a
+                        href="{{ path('app_livres') }}"
+                        class="inline-flex items-center justify-center rounded-xl border border-[--bluegray-deep]/20 bg-white/80 px-8 py-4 text-sm font-black uppercase tracking-[0.2em] text-[--bluegray-dark] shadow-sm backdrop-blur transition-all hover:-translate-y-1 hover:border-[--bluegray-accent] hover:text-[--bluegray-accent]"
+                    >
+                        Voir les livres
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

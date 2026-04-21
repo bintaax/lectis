@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-// Entité Doctrine pour genres.
+// Represente un genre litteraire rattache a plusieurs livres.
 #[ORM\Entity(repositoryClass: GenresRepository::class)]
 class Genres
 {
@@ -25,37 +25,37 @@ class Genres
     #[ORM\OneToMany(targetEntity: Livres::class, mappedBy: 'genre')]
     private Collection $livres;
 
-    // Logique métier spécifique de l'entité.
+    // Initialise la collection qui contient les livres du genre.
     public function __construct()
     {
         $this->livres = new ArrayCollection();
     }
 
-    // Retourne la valeur de id.
+    // Renvoie l'identifiant technique du genre.
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    // Retourne la valeur de nom.
+    // Renvoie le nom affiche pour ce genre.
     public function getNom(): ?string
     {
         return $this->nom;
     }
 
-    // Met à jour la valeur de nom.
+    // Met a jour le nom du genre.
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
 
         return $this;
     }
-    // Logique métier spécifique de l'entité.
-    public function __toString(): string
-{
-    return $this->nom;  
-}
 
+    // Retourne le nom du genre lorsqu'on affiche directement l'objet.
+    public function __toString(): string
+    {
+        return $this->nom;
+    }
 
     /**
      * @return Collection<int, Livres>
@@ -65,7 +65,7 @@ class Genres
         return $this->livres;
     }
 
-    // Logique métier spécifique de l'entité.
+    // Ajoute un livre au genre et synchronise la relation cote livre.
     public function addLivre(Livres $livre): static
     {
         if (!$this->livres->contains($livre)) {
@@ -76,11 +76,10 @@ class Genres
         return $this;
     }
 
-    // Logique métier spécifique de l'entité.
+    // Retire un livre du genre et nettoie la relation inverse si besoin.
     public function removeLivre(Livres $livre): static
     {
         if ($this->livres->removeElement($livre)) {
-            // set the owning side to null (unless already changed)
             if ($livre->getGenre() === $this) {
                 $livre->setGenre(null);
             }

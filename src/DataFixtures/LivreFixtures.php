@@ -26,7 +26,7 @@ class LivreFixtures extends Fixture implements DependentFixtureInterface
 
         foreach ($data as $item) {
 
-            // Trouver l’index correspondant au nom du genre
+            // Retrouve l'index du genre pour reutiliser la reference creee dans GenreFixtures.
             $genreIndex = array_search($item['genre'], GenreFixtures::GENRES);
 
             if ($genreIndex === false) {
@@ -46,11 +46,11 @@ class LivreFixtures extends Fixture implements DependentFixtureInterface
             $livre->setAgeAutorise($item['ageAutorise']);
             $livre->setIsBestSeller($item['isBestSeller']);
 
-            // DoctrineFixturesBundle (version 3.x) exige 2 arguments ici
+            // Recupere la reference Doctrine du genre deja persiste.
             /** @var Genres $genre */
             $genre = $this->getReference('genre_' . $genreIndex, Genres::class);
 
-            // Associer le genre
+            // Associe le genre reference au livre en cours d'import.
             $livre->setGenre($genre);
 
             $manager->persist($livre);

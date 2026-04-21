@@ -4,7 +4,7 @@
 
 {% block body %}
 <style>
-    /* Styles spécifiques pour les radios de paiement */
+    /* Personnalise l'apparence des cartes qui encapsulent les radios de paiement. */
     .payment-methods-grid {
         display: grid;
         grid-template-columns: 1fr;
@@ -34,7 +34,7 @@
         accent-color: var(--bluegray-dark);
     }
 
-    /* Changement de style quand coché */
+    /* Renforce le contour et l'ombre quand une option de paiement est selectionnee. */
     .payment-option input:checked + .payment-label,
     .payment-option:has(input:checked) .payment-label {
         border-color: var(--bluegray-dark);

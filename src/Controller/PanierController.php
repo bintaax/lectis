@@ -14,10 +14,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-// Contrôleur pour panier.
+// Gere l'affichage du panier et les operations AJAX d'ajout, mise a jour et suppression.
 final class PanierController extends AbstractController
 {
-    // Charge les données nécessaires et rend la vue.
+    // Construit les donnees du panier pour un utilisateur connecte ou invite.
     #[Route('/panier', name: 'app_panier', methods: ['GET'])]
     public function index(
         PanierRepository $panierRepo,
@@ -31,7 +31,7 @@ final class PanierController extends AbstractController
         $user = $this->getUser();
         $session = $request->getSession();
 
-        // Variables par défaut pour Twig
+        // Initialise les variables envoyees a Twig avant de charger le panier reel.
         $panier = null;
         $lignes = [];
         $total = 0;
@@ -46,7 +46,7 @@ final class PanierController extends AbstractController
                 foreach ($lignes as $ligne) {
                     $livre = $ligne->getLivre();
 
-                    // -10% pour adhérents (selon ton code)
+                    // Applique le tarif adherent quand l'utilisateur beneficie de Lectis+.
                     $prixApplique = ($user->isAdherent())
                         ? $livre->getPrixFidelite()
                         : $livre->getPrix();
@@ -66,16 +66,16 @@ final class PanierController extends AbstractController
             'total'  => $total,
         ];
 
-        // ✅ Si requête AJAX => on renvoie uniquement le fragment
+        // Renvoie seulement le fragment HTML quand le panier est rafraichi en AJAX.
         if ($request->isXmlHttpRequest()) {
             return $this->render('panier/_panier_container.html.twig', $vars);
         }
 
-        // ✅ Sinon page complète
+        // Renvoie la page complete lors d'un affichage classique.
         return $this->render('panier/index.html.twig', $vars);
     }
 
-    // Charge les données nécessaires et rend la vue.
+    // Ajoute un livre au panier de l'utilisateur ou au panier invite en session.
     #[Route('/api/panier/add/{id}', methods: ['POST'], name: 'api_panier_add')]
     public function add(
         int $id,
@@ -105,7 +105,7 @@ final class PanierController extends AbstractController
             ]);
         }
 
-        // Récupérer ou créer le panier
+        // Recupere le panier existant ou en cree un nouveau pour l'utilisateur.
         $panier = $panierRepo->findOneBy(['utilisateur' => $user]);
 
         if (!$panier) {
@@ -115,7 +115,7 @@ final class PanierController extends AbstractController
             $em->flush();
         }
 
-        // Chercher la ligne existante
+        // Verifie si le livre est deja present dans une ligne du panier.
         $ligne = $ligneRepo->findOneBy([
             'panier' => $panier,
             'livre'  => $livre,
@@ -133,7 +133,7 @@ final class PanierController extends AbstractController
 
         $em->flush();
 
-        // Recalcul du count total (quantités)
+        // Recalcule le nombre total d'articles pour remettre a jour le badge.
         $count = 0;
         foreach ($panier->getLignePaniers() as $l) {
             $count += $l->getQuantite();
@@ -145,7 +145,7 @@ final class PanierController extends AbstractController
         ]);
     }
 
-    // Charge les données nécessaires et rend la vue.
+    // Met a jour la quantite d'une ligne du panier puis renvoie le nouveau compteur.
     #[Route('/api/panier/update/{id}', methods: ['POST'], name: 'api_panier_update')]
     public function update(
         int $id,
@@ -172,7 +172,7 @@ final class PanierController extends AbstractController
             return $this->json(['success' => false, 'message' => 'Ligne introuvable'], 404);
         }
 
-        // ✅ Sécurité : la ligne doit appartenir au panier du user
+        // Bloque toute modification d'une ligne qui n'appartient pas au panier de l'utilisateur courant.
         if ($ligne->getPanier()?->getUtilisateur()?->getId() !== $user->getId()) {
             return $this->json(['success' => false, 'message' => 'Accès refusé'], 403);
         }
@@ -185,7 +185,7 @@ final class PanierController extends AbstractController
 
         $em->flush();
 
-        // Recalcul du count total (quantités)
+        // Recalcule le nombre total d'articles apres la mise a jour.
         $panier = $ligne->getPanier();
         $count = 0;
         if ($panier) {
@@ -200,7 +200,7 @@ final class PanierController extends AbstractController
         ]);
     }
 
-    // Charge les données nécessaires et rend la vue.
+    // Supprime une ligne du panier puis renvoie le nouveau compteur.
     #[Route('/api/panier/delete/{id}', methods: ['POST'], name: 'api_panier_delete')]
     public function delete(
         int $id,
@@ -221,10 +221,10 @@ final class PanierController extends AbstractController
 
         $ligne = $repo->find($id);
         if (!$ligne) {
-            return $this->json(['success' => true, 'count' => 0]); // ligne déjà absente
+            return $this->json(['success' => true, 'count' => 0]); // La ligne a deja disparu, on renvoie simplement un panier vide.
         }
 
-        // ✅ Sécurité : la ligne doit appartenir au panier du user
+        // Verifie que l'utilisateur essaie bien de supprimer une ligne de son propre panier.
         if ($ligne->getPanier()?->getUtilisateur()?->getId() !== $user->getId()) {
             return $this->json(['success' => false, 'message' => 'Accès refusé'], 403);
         }
@@ -234,7 +234,7 @@ final class PanierController extends AbstractController
         $em->remove($ligne);
         $em->flush();
 
-        // Recalcul du count total (quantités)
+        // Recalcule le nombre total d'articles apres la suppression.
         $count = 0;
         if ($panier) {
             foreach ($panier->getLignePaniers() as $l) {

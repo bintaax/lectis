@@ -9,13 +9,13 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-// Définition du formulaire contact.
+// Construit le formulaire de contact affiche sur la page publique.
 class ContactType extends AbstractType
 {
-    // Déclare les champs et contraintes du formulaire.
+    // Declare les champs visibles dans le formulaire de contact.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // On définit une classe commune pour les inputs
+        // Centralise les classes CSS pour garder le meme style sur tous les champs.
         $inputClass = 'mt-1 block w-full bg-[#F7F9FC] border-[#E1E5EB] rounded-xl px-4 py-3 text-[#2E3A45] focus:ring-2 focus:ring-[#7B8A9A] focus:border-transparent transition-all outline-none';
 
         $builder
@@ -44,7 +44,7 @@ class ContactType extends AbstractType
             ]);
     }
 
-    // Configure les options du formulaire.
+    // Ce formulaire n'est rattache a aucune entite Doctrine.
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([]);
