@@ -4,174 +4,181 @@
 
 {% block body %}
 <style>
+    :root {
+        --bluegray-dark:    #1A2229;
+        --bluegray-deep:    #2E3A45;
+        --bluegray-accent:  #3F5366;
+        --bluegray-light:   #F1F5F9;
+        --bluegray-medium:  #E2E8F0;
+        --accent-gold:      #C5A059;
+        --neutral-white:    #FFFFFF;
+    }
+
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     
-    .book-card img { transition: transform 0.5s ease; }
-    .book-card:hover img { transform: scale(1.05); }
+    .book-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .book-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08);
+    }
 
     .search-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 180px));
-        justify-content: center;
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 2rem;
     }
 
-    @media (max-width: 420px) {
+    @media (max-width: 640px) {
         .search-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 0.75rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
         }
     }
 </style>
 
-<div class="bg-[--bluegray-light] min-h-screen pb-20">
+<div class="bg-[--bluegray-light] min-h-screen pb-20 pt-24">
 
     {# 1. HEADER #}
-    <div class="px-5 pb-4 pt-24 text-center sm:px-6">
-        <h1 class="text-2xl md:text-3xl font-black text-[--bluegray-dark] tracking-tight">
+    <div class="max-w-7xl mx-auto px-6 mb-12">
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-[--bluegray-dark]">
             {% if app.user %}
-                Ravi de vous revoir, <span class="text-[--bluegray-deep]">{{ app.user.prenom }}</span>
+                Bonjour, <span class="text-[--bluegray-accent]">{{ app.user.prenom }}</span> 👋
             {% else %}
-                Explorez le catalogue <span class="text-[--bluegray-deep]">Lectis</span>
+                Explorez le catalogue <span class="text-[--bluegray-accent]">Lectis</span>
             {% endif %}
         </h1>
+        <p class="text-[--bluegray-deep] opacity-60 mt-2 italic">
+            {{ totalLivres }} livre{{ totalLivres > 1 ? 's' : '' }} disponible{{ totalLivres > 1 ? 's' : '' }}
+        </p>
     </div>
 
-    {# 2. BARRE DE RECHERCHE STICKY #}
-    <div class="sticky top-20 z-30 mb-4 bg-[--bluegray-light] py-3">
-        <div class="mx-auto max-w-4xl px-5 sm:px-6">
-            <form method="get" action="{{ path('app_livres') }}" class="relative">
-                <div class="flex flex-col sm:flex-row gap-2">
-                    <div class="relative flex-1">
-                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-[--bluegray-medium]"></i>
-                        <input
-                            type="text"
-                            name="q"
-                            value="{{ q }}"
-                            placeholder="Titre, auteur..."
-                            class="w-full pl-12 pr-4 py-3 rounded-xl border border-[--bluegray-medium]/20 bg-white shadow-sm focus:outline-none focus:border-[--bluegray-dark] transition-all font-medium text-[--bluegray-dark]"
-                        >
-                    </div>
-                    {% if selectedGenreId %}
-                        <input type="hidden" name="genre" value="{{ selectedGenreId }}">
-                    {% endif %}
-                    <button type="submit" class="px-6 py-3 rounded-xl bg-[--bluegray-dark] text-white font-bold hover:bg-[--bluegray-deep] transition-all shadow-md uppercase tracking-widest text-2xs">
-                        Rechercher
-                    </button>
-                    {% if q or selectedGenreId %}
-                        <a href="{{ path('app_livres') }}" class="px-4 py-3 rounded-xl bg-white text-red-500 border border-red-100 flex items-center justify-center">
-                            <i class="fa-solid fa-xmark"></i>
-                        </a>
-                    {% endif %}
+    {# 2. BARRE DE RECHERCHE & FILTRES (Sticky) #}
+    <div class="sticky top-20 z-30 bg-[--bluegray-light]/80 backdrop-blur-md py-4 mb-8">
+        <div class="max-w-7xl mx-auto px-6 space-y-6">
+            <form method="get" action="{{ path('app_livres') }}" class="relative max-w-2xl flex gap-2">
+                <div class="relative flex-1">
+                    <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-[--bluegray-accent] opacity-40"></i>
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ q }}"
+                        placeholder="Titre, auteur..."
+                        class="w-full pl-14 pr-4 py-4 rounded-2xl bg-white shadow-sm border-none focus:ring-2 focus:ring-[--bluegray-dark] transition-all text-sm font-medium"
+                    >
                 </div>
+                <button type="submit" class="px-6 py-4 rounded-2xl bg-[--bluegray-dark] text-white font-bold hover:bg-[--bluegray-deep] transition-all shadow-md text-xs uppercase tracking-widest">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                {% if q or selectedGenreId %}
+                    <a href="{{ path('app_livres') }}" class="px-4 py-4 rounded-2xl bg-white text-red-500 border border-red-50/50 flex items-center shadow-sm">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                {% endif %}
             </form>
+
+            <div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2">
+                <a href="{{ q ? path('app_livres', {'q': q}) : path('app_livres') }}"
+                   class="whitespace-nowrap px-6 py-2 rounded-full text-xs font-bold transition-all {{ selectedGenreId is null ? 'bg-[--bluegray-dark] text-white' : 'bg-white text-[--bluegray-accent] hover:bg-[--bluegray-medium]' }}">
+                    Tout
+                </a>
+                {% for genre in genres %}
+                    <a href="{{ path('app_livres', q ? {'q': q, 'genre': genre.id} : {'genre': genre.id}) }}"
+                       class="whitespace-nowrap px-6 py-2 rounded-full text-xs font-bold transition-all {{ selectedGenreId == genre.id ? 'bg-[--bluegray-dark] text-white' : 'bg-white text-[--bluegray-accent] hover:bg-[--bluegray-medium]' }}">
+                        {{ genre.nom }}
+                    </a>
+                {% endfor %}
+            </div>
         </div>
     </div>
 
-    <div class="mx-auto max-w-[1400px] px-5 sm:px-6 lg:px-8">
-        
-        <div class="mt-6 space-y-6">
-            <section class="rounded-[1.75rem] border border-[--bluegray-medium]/16 bg-white/80 p-4 shadow-sm backdrop-blur sm:p-5">
-                <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                    <div>
-                        <h2 class="text-lg font-black text-[--bluegray-dark]">
-                            {{ q ? 'Résultats pour "' ~ q ~ '"' : 'Tous les livres' }}
-                        </h2>
-                        <p class="mt-1 text-sm text-[--bluegray-deep] opacity-80">
-                            {{ totalLivres }} livre{{ totalLivres > 1 ? 's' : '' }}
-                            {{ selectedGenreId ? 'dans ce genre' : 'dans le catalogue' }}
-                        </p>
-                    </div>
+    {# 3. GRILLE #}
+    <div class="max-w-7xl mx-auto px-6">
+        {% if livres is empty %}
+            <div class="bg-white rounded-[3rem] p-20 text-center shadow-sm border border-[--bluegray-medium]/20">
+                <p class="font-bold text-[--bluegray-dark]">Aucun livre trouvé.</p>
+            </div>
+        {% else %}
+            <div class="search-grid">
+                {% for livre in livres %}
+                    <div class="book-card group bg-white rounded-[2.5rem] p-4 flex flex-col h-full shadow-sm">
+                        
+                        <div class="relative aspect-[3/4] overflow-hidden rounded-[2rem] mb-6 bg-[--bluegray-light]">
+                            <img class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                 src="/assets/img/{{ livre.photo }}" 
+                                 alt="{{ livre.titre }}" />
+                        </div>
 
-                    <div class="flex flex-wrap gap-2">
-                        <a href="{{ q ? path('app_livres', {'q': q}) : path('app_livres') }}"
-                           class="rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.14em] transition-all {{ selectedGenreId is null ? 'bg-[--bluegray-dark] text-white shadow-md' : 'bg-[--bluegray-light] text-[--bluegray-dark] hover:bg-[--bluegray-medium]/35' }}">
-                            Tout
-                        </a>
-                        {% for genre in genres %}
-                            <a href="{{ path('app_livres', q ? {'q': q, 'genre': genre.id} : {'genre': genre.id}) }}"
-                               class="rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.14em] transition-all {{ selectedGenreId == genre.id ? 'bg-[--bluegray-dark] text-white shadow-md' : 'bg-[--bluegray-light] text-[--bluegray-dark] hover:bg-[--bluegray-medium]/35' }}">
-                                {{ genre.nom }}
-                            </a>
-                        {% endfor %}
-                    </div>
-                </div>
-            </section>
+                        <div class="px-2 flex flex-col grow">
+                            <div class="mb-3 text-[10px] font-bold uppercase tracking-widest">
+                                {{ livre.getDisponibiliteBadge()|raw }}
+                            </div>
 
-            {% if livres is empty %}
-                <div class="bg-white rounded-2xl p-10 border border-[--bluegray-medium]/20 text-center max-w-md mx-auto">
-                    <p class="font-bold text-[--bluegray-dark]">Aucun livre trouvé.</p>
-                </div>
-            {% else %}
-                <div class="search-grid">
-                    {% for livre in livres %}
-                        <div class="book-card group flex h-full w-full max-w-[180px] flex-col rounded-[1.15rem] border border-[--bluegray-medium]/14 bg-white p-2.5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
-                            <a href="{{ path('app_detail', { slug: livre.slug }) }}" class="relative block overflow-hidden rounded-[0.85rem] bg-[--bluegray-light]">
-                                <div class="aspect-[4/5] overflow-hidden">
-                                    <img class="h-full w-full object-cover" src="/assets/img/{{ livre.photo }}" alt="{{ livre.titre }}" />
-                                </div>
+                            <a href="{{ path('app_detail', { slug: livre.slug }) }}">
+                                <h3 class="text-md font-bold text-[--bluegray-dark] leading-tight mb-1 line-clamp-2 group-hover:text-[--bluegray-accent]">
+                                    {{ livre.titre }}
+                                </h3>
                             </a>
-                            <div class="flex grow flex-col pt-2.5">
-                                <a href="{{ path('app_detail', { slug: livre.slug }) }}">
-                                    <h3 class="min-h-9 text-[13px] font-black leading-snug text-[--bluegray-dark] line-clamp-2 transition-colors group-hover:text-[--bluegray-deep]">
-                                        {{ livre.titre }}
-                                    </h3>
-                                </a>
-                                <p class="mt-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[--bluegray-deep] opacity-65">{{ livre.auteur }}</p>
-                                <div class="mt-2 mb-2.5">
+                            <p class="text-[10px] uppercase tracking-widest text-[--bluegray-accent] font-bold opacity-60 mb-6">
+                                {{ livre.auteur }}
+                            </p>
+
+                            <div class="mt-auto pt-4 border-t border-slate-50 flex items-center justify-between">
+                                <div>
                                     {% if app.user and app.user.isAdherent %}
-                                        <div class="flex flex-col gap-1">
-                                            <div class="flex flex-wrap items-center gap-1.5">
-                                                <span class="text-sm font-black text-[#B88A3B]">{{ livre.prixFidelite|number_format(2, ',', ' ') }} €</span>
-                                                <span class="rounded-full bg-[#C5A059] px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.12em] text-white">Membre</span>
-                                            </div>
-                                            <span class="text-[11px] text-[--bluegray-medium] line-through">{{ livre.prix|number_format(2, ',', ' ') }} €</span>
+                                        <div class="flex flex-col">
+                                            <span class="text-lg font-black text-[--accent-gold]">{{ livre.prixFidelite|number_format(2, ',', ' ') }}€</span>
+                                            <span class="text-[10px] text-[--bluegray-medium] line-through">{{ livre.prix|number_format(2, ',', ' ') }}€</span>
                                         </div>
                                     {% else %}
-                                        <span class="text-sm font-black text-[--bluegray-dark]">{{ livre.prix|number_format(2, ',', ' ') }} €</span>
+                                        <span class="text-lg font-black text-[--bluegray-dark]">{{ livre.prix|number_format(2, ',', ' ') }}€</span>
                                     {% endif %}
                                 </div>
-                                <div class="mb-2.5 text-[12px] font-medium">{{ livre.getDisponibiliteBadge()|raw }}</div>
-                                <a href="{{ path('app_detail', { slug: livre.slug }) }}" class="mt-auto flex w-full items-center justify-center gap-2 rounded-lg bg-[--bluegray-dark] py-2 text-[9px] font-black uppercase tracking-[0.13em] text-white transition-all hover:bg-[--bluegray-deep]">
-                                    <span>Explorer</span>
-                                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
+
+                                <a href="{{ path('app_detail', { slug: livre.slug }) }}" 
+                                   class="w-12 h-12 flex items-center justify-center rounded-2xl bg-[--bluegray-light] text-[--bluegray-dark] transition-all group-hover:bg-[--bluegray-dark] group-hover:text-white">
+                                    <i class="fa-solid fa-arrow-right-long transition-transform group-hover:translate-x-1"></i>
                                 </a>
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
+                    </div>
+                {% endfor %}
+            </div>
 
-                {% if totalPages > 1 %}
-                    <nav class="flex flex-wrap items-center justify-center gap-2 pt-2" aria-label="Pagination du catalogue">
-                        {% if page > 1 %}
-                            <a href="{{ path('app_livres', baseQuery|merge({'page': page - 1})) }}"
-                               class="rounded-full bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-[--bluegray-dark] shadow-sm transition-all hover:bg-[--bluegray-dark] hover:text-white">
-                                Précédent
-                            </a>
-                        {% endif %}
+            {# 4. PAGINATION #}
+            {% if totalPages > 1 %}
+                <nav class="flex justify-center items-center gap-4 mt-16">
+                    {% if page > 1 %}
+                        <a href="{{ path('app_livres', baseQuery|merge({'page': page - 1})) }}"
+                           class="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-sm hover:bg-[--bluegray-dark] hover:text-white transition-all">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </a>
+                    {% endif %}
 
+                    <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
                         {% for pageNumber in 1..totalPages %}
                             {% if pageNumber == 1 or pageNumber == totalPages or (pageNumber >= page - 1 and pageNumber <= page + 1) %}
                                 <a href="{{ path('app_livres', baseQuery|merge({'page': pageNumber})) }}"
-                                   class="flex h-10 min-w-10 items-center justify-center rounded-full px-3 text-xs font-black uppercase tracking-[0.12em] transition-all {{ pageNumber == page ? 'bg-[--bluegray-dark] text-white shadow-md' : 'bg-white text-[--bluegray-dark] shadow-sm hover:bg-[--bluegray-medium]/35' }}">
+                                   class="w-8 h-8 flex items-center justify-center rounded-full text-xs font-bold transition-all {{ pageNumber == page ? 'bg-[--bluegray-dark] text-white' : 'hover:bg-[--bluegray-light]' }}">
                                     {{ pageNumber }}
                                 </a>
                             {% elseif pageNumber == page - 2 or pageNumber == page + 2 %}
                                 <span class="px-1 text-[--bluegray-medium]">…</span>
                             {% endif %}
                         {% endfor %}
+                    </div>
 
-                        {% if page < totalPages %}
-                            <a href="{{ path('app_livres', baseQuery|merge({'page': page + 1})) }}"
-                               class="rounded-full bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-[--bluegray-dark] shadow-sm transition-all hover:bg-[--bluegray-dark] hover:text-white">
-                                Suivant
-                            </a>
-                        {% endif %}
-                    </nav>
-                {% endif %}
+                    {% if page < totalPages %}
+                        <a href="{{ path('app_livres', baseQuery|merge({'page': page + 1})) }}"
+                           class="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-sm hover:bg-[--bluegray-dark] hover:text-white transition-all">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                    {% endif %}
+                </nav>
             {% endif %}
-        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
