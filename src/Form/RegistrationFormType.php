@@ -33,14 +33,14 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', PasswordType::class, [
                 // Le mot de passe est lu ici puis hashé dans le controleur avant enregistrement.
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => ['autocomplete' => 'new-password' ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez entrer un mot de passe',
                     ]),
                     new Length([
-                        'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit contenir au moins 6 caractères',
+                        'min' => 8,
+                        'minMessage' => 'Votre mot de passe doit contenir au moins 8 caractères',
                         // Symfony limite la longueur pour eviter les abus lors du hashage.
                         'max' => 4096,
                     ]),

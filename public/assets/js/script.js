@@ -349,23 +349,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // Gestion mot de passe: affiche/masque la saisie
-function togglePassword(button) {
-    // On cherche l'input qui se trouve dans le même bloc que le bouton
-    const container = button.parentElement;
+document.addEventListener('click', function (e) {
+
+    const button = e.target.closest('[data-password-toggle-button]');
+    if (!button) return;
+
+    const container = button.closest('[data-password-toggle]');
     const input = container.querySelector('input');
-    const icon = button.querySelector('i');
+    const iconShow = button.querySelector('[data-password-icon-show]');
+    const iconHide = button.querySelector('[data-password-icon-hide]');
+
+    if (!input) return;
 
     if (input.type === "password") {
         input.type = "text";
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
+        iconShow.classList.add('hidden');
+        iconHide.classList.remove('hidden');
     } else {
         input.type = "password";
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
+        iconShow.classList.remove('hidden');
+        iconHide.classList.add('hidden');
     }
-}
-
+});
  document.addEventListener('click', function (e) {
 
     const modal = document.getElementById('annulationModal');
