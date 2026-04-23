@@ -7,33 +7,33 @@
 
 <div class="bg-[--bluegray-light]">
 
-<section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden px-6 pt-10">
+<section class="relative flex min-h-[75vh] items-center justify-center overflow-hidden px-5 pt-10 sm:px-6 lg:min-h-[85vh]">
     {# Décoration de fond #}
     <div class="absolute top-0 left-0 w-full h-full opacity-40 pointer-events-none">
         <div class="absolute top-10 right-10 w-64 h-64 bg-[--bluegray-medium] rounded-full blur-3xl"></div>
         <div class="absolute bottom-10 left-10 w-96 h-96 bg-[--bluegray-deep] rounded-full blur-[100px] opacity-20"></div>
     </div>
 
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 relative z-10">
-        <div class="text-center md:text-left md:w-3/5">
+    <div class="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-10 md:flex-row md:gap-8">
+        <div class="min-w-0 text-center md:w-3/5 md:text-left">
 
-            <h1 class="text-4xl md:text-6xl font-bold text-[--bluegray-dark] leading-tight mb-6">
+            <h1 class="mb-6 text-4xl font-bold leading-tight text-[--bluegray-dark] sm:text-5xl md:text-6xl">
                 L'aventure commence <br> 
                 <span class="text-[--bluegray-deep]">à chaque page.</span>
             </h1>
-            <p class="text-base md:text-lg text-[--bluegray-accent] mb-10 max-w-lg opacity-90 leading-relaxed">
+            <p class="mb-10 max-w-xl text-base leading-relaxed text-[--bluegray-accent] opacity-90 md:text-lg">
                 Explorez des milliers d'ouvrages sélectionnés avec soin pour nourrir votre imaginaire et votre curiosité.
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <a href="{{path('app_livres')}}" class="px-8 py-3.5 bg-[--bluegray-accent] hover:bg-[--bluegray-hover] text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-1 text-center">
+                <a href="{{path('app_livres')}}" class="px-8 py-3.5 bg-[--bluegray-deep] hover:bg-[--bluegray-hover] text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-1 text-center">
                     Explorer le catalogue
                 </a>
             </div>
         </div>
 
-        <div class="md:w-2/5 flex justify-center lg:justify-end">
-            <div class="relative group max-w-[280px] md:max-w-xs"> {# Taille contrôlée ici #}
+        <div class="flex w-full justify-center md:w-2/5 lg:justify-end">
+            <div class="relative group w-full max-w-[220px] sm:max-w-[260px] md:max-w-xs"> {# Taille contrôlée ici #}
                 <div class="absolute"></div>
                 <img src="{{ asset('assets/img/livre.png') }}" 
                      alt="Lectis Selection"
@@ -44,9 +44,9 @@
 
 </section>
 
-    <section class="bg-white py-12 border-y border-[--bluegray-medium]/30">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+    <section class="border-y border-[--bluegray-medium]/30 bg-white py-12">
+        <div class="mx-auto max-w-6xl px-5 sm:px-6">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
                 <div class="flex flex-col items-center text-center">
                     <div class="text-2xl mb-2">📦</div>
                     <h4 class="font-bold text-sm text-[--bluegray-dark]">Livraison Rapide</h4>
@@ -71,8 +71,8 @@
         </div>
     </section>
 
-    <section id="genres" class="px-6 py-20 bg-[--bluegray-medium]">
-        <div class="max-w-6xl mx-auto">
+    <section id="genres" class="bg-[--bluegray-medium] px-5 py-20 sm:px-6">
+        <div class="mx-auto max-w-6xl">
             <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-5xl font-bold text-[--bluegray-dark] mb-4">
                     Trouvez votre univers
@@ -80,7 +80,7 @@
                 <div class="w-20 h-1 bg-[--bluegray-accent] mx-auto rounded-full"></div>
             </div>
 
-            <div class="flex flex-wrap justify-center gap-4">
+            <div class="flex flex-wrap justify-center gap-3 sm:gap-4">
                 {% set genres = [
                     {'n': 'Romance', 'i': '💖'}, 
                     {'n': 'Fantasy', 'i': '⚔️'}, 
@@ -92,7 +92,7 @@
                 ] %}
 
                 {% for genre in genres %}
-                    <a class="flex items-center gap-3 px-6 py-3 bg-[--bluegray-light] hover:bg-[--bluegray-dark] hover:text-white rounded-full shadow-sm transition-all duration-300 group">
+                    <a class="flex items-center gap-3 rounded-full bg-[--bluegray-light] px-4 py-3 text-sm shadow-sm transition-all duration-300 group hover:bg-[--bluegray-dark] hover:text-white sm:px-6">
                         <span>{{ genre.i }}</span>
                         <span class="font-semibold">{{ genre.n }}</span>
                     </a>
@@ -102,9 +102,9 @@
     </section>
 
 
-    <section id="best-sellers" class="px-6 py-24 max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div class="text-left">
+    <section id="best-sellers" class="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
+        <div class="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
+            <div class="min-w-0 text-left">
                 <h2 class="text-4xl md:text-6xl font-black text-[--bluegray-dark]">
                     Les Incontournables
                 </h2>
@@ -112,12 +112,12 @@
                     Les lectures qui font vibrer notre communauté en ce moment.
                 </p>
             </div>
-            <a href="{{path('app_livres')}}" class="text-[--bluegray-accent] font-bold border-b-2 border-[--bluegray-accent] hover:text-[--bluegray-hover] transition-all">
+            <a href="{{path('app_livres')}}" class="text-[--bluegray-accent] font-bold border-b border-[--bluegray-accent]/70 pb-0.5 sm:border-b-2 sm:border-[--bluegray-accent] hover:text-[--bluegray-hover] transition-all">
                 Tout voir
             </a>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {% for livre in bestSellers %}
                 <div class="bg-white rounded-3xl p-5 shadow-sm hover:shadow-2xl transition-all group border border-transparent hover:border-[--bluegray-medium]">
                     
@@ -125,8 +125,9 @@
                         <img src="/assets/img/{{ livre.photo }}" 
                              alt="{{ livre.titre }}" 
                              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-[--bluegray-dark]">
-                            Best Seller
+                        <div class="absolute top-3 right-3 inline-flex items-center gap-1.5 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-[--bluegray-dark] shadow-sm">
+                            <i class="fa-solid fa-award text-[--accent-gold]"></i>
+                            <span>Best Seller</span>
                         </div>
                     </div>
 
@@ -144,23 +145,6 @@
                     </a>
                 </div>
             {% endfor %}
-        </div>
-    </section>
-
-    <section class="bg-[--bluegray-dark] py-20 px-6 overflow-hidden relative">
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Ne manquez aucun chapitre.</h2>
-            <p class="text-[--bluegray-medium] mb-10 opacity-80">Recevez nos sélections mensuelles et des offres exclusives Lectis+.</p>
-            
-            <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" data-newsletter-form>
-                <input type="email" placeholder="Votre email" class="flex-1 px-6 py-4 rounded-xl outline-none focus:ring-2 focus:ring-[--bluegray-deep]" data-newsletter-input required>
-                <button class="px-8 py-4 bg-[--bluegray-accent] hover:bg-[--bluegray-hover] text-white font-bold rounded-xl transition-all" type="submit">
-                    S'inscrire
-                </button>
-            </form>
-            <p class="mt-4 hidden text-sm font-medium text-emerald-200" data-newsletter-success role="status" aria-live="polite">
-                Merci, votre inscription a bien été prise en compte.
-            </p>
         </div>
     </section>
 

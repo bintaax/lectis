@@ -1,7 +1,7 @@
 <footer class="bg-[--bluegray-deep] text-white mt-20">
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-12">
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-white/10">
+        <div class="grid grid-cols-1 gap-10 pb-12 border-b border-white/10 md:grid-cols-2 xl:grid-cols-[1.1fr,0.8fr,0.8fr,0.8fr,1fr] xl:items-start">
             
             {# COLONNE 1 : LOGO & SLOGAN #}
             <div class="col-span-1 lg:col-span-1">
@@ -10,10 +10,7 @@
                      alt="Lectis" 
                      class="h-20 w-auto mb-6 brightness-0 invert object-contain">
                 
-                <p class="text-[--bluegray-light] text-sm opacity-70 leading-relaxed font-medium">
-                    Lectis — Votre bibliothèque, réinventée.
-                </p>
-                
+            
                 <div class="flex gap-5 mt-8">
                     {% for social in ['facebook', 'instagram', 'tiktok', 'x-twitter', 'github'] %}
                         <a href="#" class="text-white/30 hover:text-white transition-all hover:-translate-y-1">
@@ -52,6 +49,25 @@
                     <li><a href="{{path('app_cgv')}}" class="text-sm font-bold text-white/80 hover:text-white transition-colors">CGV</a></li>
                     <li><a href="{{path('app_confidentialite')}}" class="text-sm font-bold text-white/80 hover:text-white transition-colors">Confidentialité</a></li>
                 </ul>
+            </div>
+
+            {# COLONNE 5 : NEWSLETTER #}
+            <div class="xl:justify-self-end xl:w-full xl:max-w-[260px]">
+                <p class="mb-3 text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Newsletter</p>
+                <p class="mb-4 text-xs leading-relaxed text-[--bluegray-light] opacity-75">
+                    Sélections et offres par email.
+                </p>
+
+                <form class="flex flex-col gap-2" data-newsletter-form>
+                    <input type="email" placeholder="Votre email" class="min-w-0 rounded-lg border border-white/10 bg-white px-4 py-2.5 text-sm text-[--bluegray-dark] outline-none focus:ring-2 focus:ring-[--bluegray-medium]" data-newsletter-input required>
+                    <button class="rounded-lg bg-[--bluegray-accent] px-4 py-2.5 text-sm font-bold text-white transition-all hover:bg-[--bluegray-hover]" type="submit">
+                        S'inscrire
+                    </button>
+                </form>
+
+                <p class="mt-2 hidden text-xs font-medium text-emerald-200" data-newsletter-success role="status" aria-live="polite">
+                    Inscription prise en compte.
+                </p>
             </div>
         </div>
 

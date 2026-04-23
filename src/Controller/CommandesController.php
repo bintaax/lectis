@@ -17,12 +17,38 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-// Gere le tunnel de commande depuis le panier jusqu'a la creation de la commande.
 class CommandesController extends AbstractController
 {
     use TargetPathTrait;
 
-    // Affiche l'etape de saisie commande ou redirige si le panier est vide.
+    // =========================
+    // 🛑 ANNULER (EN PREMIER)
+    // =========================
+    #[Route('/commande/annuler/{id<\d+>}', name: 'app_commande_annuler')]
+    public function annuler(int $id, EntityManagerInterface $em): Response
+    {
+        $commande = $em->getRepository(Commandes::class)->find($id);
+
+        if (!$commande) {
+            throw $this->createNotFoundException('Commande introuvable');
+        }
+
+        // sécurité : vérifier que c'est bien l'utilisateur
+        if ($commande->getUtilisateurs() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Accès refusé');
+        }
+
+        $commande->setStatut(Statut::ANNULEE);
+        $em->flush();
+
+        $this->addFlash('success', 'Commande annulée avec succès.');
+
+        return $this->redirectToRoute('app_compte'); // ✅ important
+    }
+
+    // =========================
+    // 🛒 PAGE COMMANDE
+    // =========================
     #[Route('/commande', name: 'app_commandes')]
     public function commande(
         PanierRepository $panierRepository,
@@ -58,11 +84,9 @@ class CommandesController extends AbstractController
             return $this->redirectToRoute('app_panier');
         }
 
-        // Recalcule le total en appliquant le tarif Lectis+ si l'utilisateur est adherent.
         $total = 0;
         foreach ($panier->getLignePaniers() as $ligne) {
             $livre = $ligne->getLivre();
-            // Choisit le bon prix unitaire selon le statut d'adhesion.
             $prixUnitaire = ($user->isAdherent()) ? $livre->getPrixFidelite() : $livre->getPrix();
             $total += $prixUnitaire * $ligne->getQuantite();
         }
@@ -72,6 +96,7 @@ class CommandesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
             return $this->redirectToRoute('app_commande_valider', [
                 'data' => json_encode([
                     'adresse' => $data['adresse'],
@@ -84,12 +109,14 @@ class CommandesController extends AbstractController
 
         return $this->render('commande/index.html.twig', [
             'lignes' => $panier->getLignePaniers(),
-            'total' => $total, 
+            'total' => $total,
             'form' => $form->createView()
         ]);
     }
 
-    // Transforme le panier courant en commande persistée puis vide le panier.
+    // =========================
+    // ✅ VALIDER COMMANDE
+    // =========================
     #[Route('/commande/valider/{data}', name: 'app_commande_valider')]
     public function valider(
         string $data,
@@ -123,15 +150,13 @@ class CommandesController extends AbstractController
 
         foreach ($panier->getLignePaniers() as $lignePanier) {
             $livre = $lignePanier->getLivre();
-            
-            // Conserve le prix reellement facture au moment de la validation.
             $prixApplique = ($user->isAdherent()) ? $livre->getPrixFidelite() : $livre->getPrix();
 
             $ligneCommande = new LigneCommande();
             $ligneCommande->setCommande($commande);
             $ligneCommande->setLivre($livre);
             $ligneCommande->setQuantite($lignePanier->getQuantite());
-            $ligneCommande->setPrixUnitaire($prixApplique); // Stocke le prix facture pour garder un historique fiable.
+            $ligneCommande->setPrixUnitaire($prixApplique);
 
             $totalFinal += $prixApplique * $lignePanier->getQuantite();
 
@@ -148,6 +173,27 @@ class CommandesController extends AbstractController
 
         return $this->redirectToRoute('app_confirmation', [
             'id' => $commande->getId()
+        ]);
+    }
+
+    // =========================
+    // 📄 DÉTAIL COMMANDE (SAFE)
+    // =========================
+    #[Route('/commande/{id<\d+>}', name: 'app_commande_detail')]
+    public function detail(int $id, EntityManagerInterface $em): Response
+    {
+        $commande = $em->getRepository(Commandes::class)->find($id);
+
+        if (!$commande) {
+            throw $this->createNotFoundException("Commande introuvable.");
+        }
+
+        if ($commande->getUtilisateurs() !== $this->getUser()) {
+            throw $this->createAccessDeniedException("Accès refusé.");
+        }
+
+        return $this->render('commande/detail.html.twig', [
+            'commande' => $commande
         ]);
     }
 }

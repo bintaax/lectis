@@ -37,14 +37,68 @@ class LivresRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    // Recherche dans le catalogue par titre, auteur ou editeur.
-    public function searchCatalogue(string $q): array
+    // Construit la requete de base du catalogue avec filtre de genre optionnel.
+    private function createCatalogueQueryBuilder(?int $genreId = null)
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.titre LIKE :q OR l.auteur LIKE :q OR l.editeur LIKE :q')
-            ->setParameter('q', '%'.$q.'%')
-            ->orderBy('l.titre', 'ASC')
+        $qb = $this->createQueryBuilder('l')
+            ->leftJoin('l.genre', 'g')
+            ->addSelect('g');
+
+        if ($genreId !== null) {
+            $qb->andWhere('l.genre = :genre')
+                ->setParameter('genre', $genreId);
+        }
+
+        return $qb;
+    }
+
+    // Retourne une page du catalogue avec le total complet.
+    public function paginateCatalogue(int $page, int $perPage, ?int $genreId = null): array
+    {
+        $qb = $this->createCatalogueQueryBuilder($genreId)
+            ->orderBy('l.titre', 'ASC');
+
+        $total = (clone $qb)
+            ->select('COUNT(l.id)')
+            ->resetDQLPart('orderBy')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $items = $qb
+            ->setFirstResult(($page - 1) * $perPage)
+            ->setMaxResults($perPage)
             ->getQuery()
             ->getResult();
+
+        return [
+            'items' => $items,
+            'total' => (int) $total,
+        ];
+    }
+
+    // Recherche dans le catalogue par titre, auteur ou editeur avec pagination.
+    public function paginateSearchCatalogue(string $q, int $page, int $perPage, ?int $genreId = null): array
+    {
+        $qb = $this->createCatalogueQueryBuilder($genreId)
+            ->andWhere('l.titre LIKE :q OR l.auteur LIKE :q OR l.editeur LIKE :q')
+            ->setParameter('q', '%'.$q.'%')
+            ->orderBy('l.titre', 'ASC');
+
+        $total = (clone $qb)
+            ->select('COUNT(l.id)')
+            ->resetDQLPart('orderBy')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $items = $qb
+            ->setFirstResult(($page - 1) * $perPage)
+            ->setMaxResults($perPage)
+            ->getQuery()
+            ->getResult();
+
+        return [
+            'items' => $items,
+            'total' => (int) $total,
+        ];
     }
 }

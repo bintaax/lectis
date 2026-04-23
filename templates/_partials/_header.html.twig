@@ -1,7 +1,7 @@
 {# HEADER : Teinte adoucie pour éviter un rendu trop noir #}
 <header class="sticky top-0 z-50 relative bg-[--bluegray-deep] shadow-xl w-full border-b border-white/10">
   
-  <div class="w-full flex h-20 items-center justify-between px-4 sm:px-10 lg:px-16">
+  <div class="mx-auto flex h-20 w-full max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
 
     {# 1. LOGO (On ajoute un filtre blanc pour qu'il ressorte sur le sombre) #}
     <div class="shrink-0">
@@ -13,8 +13,8 @@
     </div>
 
     {# 2. MENU DESKTOP #}
-    <nav class="hidden md:block">
-      <ul class="flex items-center gap-12 text-sm font-black uppercase tracking-widest text-white/70">
+    <nav class="hidden lg:block">
+      <ul class="flex items-center gap-8 xl:gap-12 text-sm font-black uppercase tracking-[0.18em] text-white/70">
         <li><a href="{{ path('app_home') }}" class="hover:text-white transition-colors">Accueil</a></li>
         <li><a href="{{ path('app_livres') }}" class="hover:text-white transition-colors">Nos livres</a></li>
         <li><a href="{{ path('app_contact') }}" class="hover:text-white transition-colors">Contact</a></li>
@@ -22,8 +22,8 @@
     </nav>
 
     {# 3. ACTIONS #}
-    <div class="flex items-center gap-4">
-      <div class="flex items-center gap-3 md:gap-8">
+    <div class="flex items-center gap-2 sm:gap-3">
+      <div class="flex items-center gap-3 sm:gap-4 lg:gap-6">
         {% if app.user %}
           {# 👤 MON COMPTE #}
           <a href="{{ path('app_compte') }}" class="inline-flex text-white/80 hover:text-white transition-all hover:scale-110">
@@ -59,21 +59,21 @@
         {% if app.user %}
           {# 🔓 DÉCONNEXION #}
           <a href="{{ path('app_logout') }}" 
-             class="hidden md:inline-flex px-5 py-2 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded shadow-md hover:bg-red-700 transition-all">
+             class="hidden xl:inline-flex px-4 py-2 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded shadow-md hover:bg-red-700 transition-all">
             Se déconnecter
           </a>
 
         {% else %}
           {# 🔐 CONNEXION (Bouton clair pour trancher) #}
           <a href="{{ path('app_login') }}" 
-             class="px-4 md:px-8 py-2.5 md:py-3 bg-white text-[--bluegray-dark] text-[10px] font-black uppercase tracking-widest rounded shadow-lg hover:bg-gray-200 transition-all">
+             class="px-3 sm:px-4 lg:px-6 py-2.5 bg-white text-[--bluegray-dark] text-[10px] font-black uppercase tracking-widest rounded shadow-lg hover:bg-gray-200 transition-all text-center">
             Se connecter
           </a>
         {% endif %}
       </div>
 
       {# BURGER MOBILE #}
-      <button id="menu-toggle" class="p-2 text-white md:hidden hover:bg-white/10 rounded-lg transition-colors">
+      <button id="menu-toggle" class="p-2 text-white lg:hidden hover:bg-white/10 rounded-lg transition-colors">
           <i class="fa-solid fa-bars text-2xl text-white!"></i>
       </button>
     </div>
@@ -82,7 +82,7 @@
 
 {# 4. MENU MOBILE (S'adapte aussi au thème sombre) #}
 <nav id="mobile-menu" class="hidden fixed top-20 left-0 w-full bg-[--bluegray-deep] shadow-2xl z-40 border-t border-white/10 lg:hidden">
-  <ul class="flex flex-col items-center gap-6 py-10 text-sm font-black text-white/70 uppercase tracking-widest">
+  <ul class="flex flex-col items-center gap-6 px-6 py-10 text-center text-sm font-black text-white/70 uppercase tracking-widest">
     <li><a class="hover:text-white" href="{{ path('app_home') }}">Accueil</a></li>
     <li><a class="hover:text-white" href="{{ path('app_livres') }}">Nos livres</a></li>
     <li><a class="hover:text-white" href="{{ path('app_contact') }}">Contact</a></li>

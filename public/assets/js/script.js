@@ -1,3 +1,4 @@
+ console.log("SCRIPT.JS CHARGÉ"); 
  
 // Menu burger: ouverture/fermeture du menu mobile et bascule d'icône
 document.addEventListener("DOMContentLoaded", () => {
@@ -364,6 +365,32 @@ function togglePassword(button) {
         icon.classList.add('fa-eye');
     }
 }
+
+ document.addEventListener('click', function (e) {
+
+    const modal = document.getElementById('annulationModal');
+    const confirmBtn = document.getElementById('confirmCancelBtn');
+
+    if (e.target.closest('.open-modal-btn')) {
+        const btn = e.target.closest('.open-modal-btn');
+        const id = btn.dataset.id;
+
+        console.log("OPEN MODAL ID:", id);
+
+        confirmBtn.href = "/commande/annuler/" + id;
+
+        modal.classList.remove('hidden');
+    }
+
+    if (e.target.closest('#closeModalBtn')) {
+        modal.classList.add('hidden');
+    }
+
+    if (e.target === modal) {
+        modal.classList.add('hidden');
+    }
+
+});
 
 window.addToCart = addToCart;
 window.updateQtt = updateQtt;

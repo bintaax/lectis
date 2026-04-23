@@ -22,13 +22,16 @@
         {% endblock %}
 
     </head>
-   <body style="background-color: #EEF3F8;">
+   <body class="min-h-screen overflow-x-clip" style="background-color: #EEF3F8;">
     {% include "_partials/_header.html.twig" %}
-    
-    {% block body %}
-    {% endblock %}
+
+    <main class="min-h-[calc(100vh-5rem)]">
+        {% block body %}
+        {% endblock %}
+    </main>
 
     {% include "_partials/_footer.html.twig" %}
+    <script src="{{ asset('assets/js/script.js') }}"></script>
    </body>
 
 </html>
