@@ -7,10 +7,9 @@
 <div class="bg-[--bluegray-light] min-h-screen">
     
     <div class="mx-auto max-w-6xl px-5 pt-8 sm:px-6">
-        <a href="{{ path('app_livres') }}" class="inline-flex items-center gap-2 text-[--bluegray-deep] text-sm font-bold hover:text-[--bluegray-dark]">
-            <i class="fa-solid fa-chevron-left"></i> 
-            Retour au catalogue
-        </a>
+      <a href="/livres" class="font-black">
+        <i class="fa-solid fa-chevron-left"></i> Retour au catalogue 
+</a>
     </div>
 
     <section class="mx-auto max-w-6xl px-5 py-8 sm:px-6">
@@ -113,7 +112,7 @@
                     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4">
                         <div class="bg-white/50 p-4 rounded-xl border border-white flex flex-col">
                             <span class="text-[--bluegray-deep] font-bold text-2xs uppercase mb-1">Éditeur</span>
-                            <span class="text-[--bluegray-dark] font-bold text-sm wrap-break-word">{{ livre.editeur }}</span>
+                            <span class="text-[--bluegray-dark] font-bold text-sm break-words">{{ livre.editeur }}</span>
                         </div>
                         <div class="bg-white/50 p-4 rounded-xl border border-white flex flex-col">
                             <span class="text-[--bluegray-deep] font-bold text-2xs uppercase mb-1">Date</span>
