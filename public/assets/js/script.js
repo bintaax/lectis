@@ -371,6 +371,7 @@ document.addEventListener('click', function (e) {
         iconHide.classList.add('hidden');
     }
 });
+
  document.addEventListener('click', function (e) {
 
     const modal = document.getElementById('annulationModal');

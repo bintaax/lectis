@@ -1,126 +1,130 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}À propos | Lectis{% endblock %}
+{% block title %}Bintou Sylla | Présentation Frontend{% endblock %}
 
 {% block body %}
 <style>
-    .about-page {
-        --bluegray-light:   #EEF3F8;
-        --bluegray-medium:  #CDD6E2;
-        --bluegray-deep:    #7B8A9A;
-        --bluegray-dark:    #2E3A45;
-        --bluegray-accent:  #3F5366;
-        --bluegray-hover :  #293a49;
-        --neutral-white:    #FFFFFF;
+    .hero-gradient {
+        background: radial-gradient(circle at top right, var(--bluegray-light), var(--neutral-white));
+    }
+
+    .feature-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
     }
 </style>
 
-<div class="about-page min-h-screen bg-[--bluegray-light] py-16 px-6">
-    <div class="max-w-4xl mx-auto">
+<div class="min-h-screen hero-gradient text-[--bluegray-dark] font-sans selection:bg-[--accent-gold] selection:text-white">
+    
+    <nav class="max-w-6xl mx-auto px-8 py-8 flex justify-between items-center">
+        <div class="flex items-center gap-6">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-[--bluegray-accent] border-b-2 border-[--accent-gold] pb-1">À Propos</span>
+            <a href="https://bintousylla.dev" class="text-[10px] font-bold uppercase tracking-widest hover:text-[--accent-gold] transition-colors">Portfolio</a>
+        </div>
+    </nav>
 
-        <section class="mb-16 text-center">
-            <div class="flex flex-col items-center mb-8">
-                <div class="relative">
-                    {# Cercle décoratif derrière l'avatar #}
-                    <div class="absolute inset-0 bg-[--bluegray-medium] rounded-full blur-2xl opacity-50 scale-125"></div>
-                    <img src="{{ asset('assets/img/avatar.png') }}"
-                         alt="Bintou - Développeuse"
-                         class="relative w-32 h-32 md:w-40 md:h-40 rounded-full shadow-2xl border-4 border-white object-cover">
-                    <div class="absolute bottom-2 right-2 bg-emerald-500 w-6 h-6 rounded-full border-4 border-white shadow-sm" title="Disponible pour coder"></div>
+    <main class="max-w-6xl mx-auto px-8 py-12">
+        
+        <header class="flex flex-col md:flex-row gap-16 items-center mb-32">
+            <div class="md:w-1/2 space-y-6">
+                <div class="inline-block px-3 py-1 bg-[--bluegray-dark] text-[--neutral-white] text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm">
+                    Orientée Frontend
                 </div>
-                
-                <h1 class="text-4xl md:text-5xl font-black text-[--bluegray-dark] mt-8 tracking-tight">
-                    Hello, je suis <span class="text-[--bluegray-accent]">Bintou</span>.
+                <h1 class="text-6xl md:text-7xl font-bold tracking-tight leading-none">
+                    L'esthétique par le <span class="text-[--bluegray-accent]">code.</span>
                 </h1>
-            </div>
-
-            <p class="text-lg md:text-xl text-[--bluegray-accent] leading-relaxed max-w-2xl mx-auto opacity-90">
-                Développeuse web passionnée, je construis des interfaces qui ont du style, 
-                des fonctionnalités qui tiennent debout, et des projets qui racontent une histoire.
-            </p>
-
-            <div class="mt-8 flex justify-center gap-2">
-                <span class="px-3 py-1 bg-[--bluegray-dark] text-white text-xs font-bold rounded shadow-sm">🧠 CODE</span>
-                <span class="px-3 py-1 bg-[--bluegray-deep] text-white text-xs font-bold rounded shadow-sm">🔧 DEBUG</span>
-                <span class="px-3 py-1 bg-[--bluegray-accent] text-white text-xs font-bold rounded shadow-sm">🚀 RÉUSSITE</span>
-            </div>
-        </section>
-
-        <section class="bg-[--neutral-white] p-8 md:p-12 rounded-4xl shadow-xl border border-[--bluegray-medium]/30 relative overflow-hidden">
-            {# Décoration de fond discrète #}
-            <div class="absolute top-0 right-0 p-4 opacity-5 text-8xl font-black select-none text-[--bluegray-dark]">
-                &lt;/&gt;
-            </div>
-
-            <h2 class="text-3xl font-bold text-[--bluegray-dark] mb-8 flex items-center gap-3">
-                <span class="text-2xl">📖</span> Mon histoire de dev
-            </h2>
-
-            <div class="space-y-6 text-[--bluegray-dark] leading-relaxed opacity-90 text-lg">
-                <p>
-                    Il était une fois… une développeuse armée d’un clavier, d’un navigateur, et d’une curiosité insatiable. 
-                    Un jour, j'ai décidé de me lancer dans une quête : <strong>créer Lectis, une librairie en ligne complète</strong>.
-                </p>
-
-                <p>
-                    Chaque bug était un mini-boss. Chaque fonctionnalité validée était un niveau gagné. Et les messages d’erreur ? 
-                    Des énigmes laissées par un mage mystérieux appelé <span class="text-[--bluegray-deep] font-mono font-bold">Doctrine</span>.
-                </p>
-
-                <div class="bg-[--bluegray-light] p-6 rounded-2xl border-l-4 border-[--bluegray-accent]">
-                    <p class="font-bold mb-3 italic">Au cours de ce périple, j'ai implémenté :</p>
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm font-medium">
-                        <li class="flex items-center gap-2"><span class="text-emerald-600">✔</span> Panier dynamique 🛒</li>
-                        <li class="flex items-center gap-2"><span class="text-emerald-600">✔</span> Workflow de commandes 📦</li>
-                        <li class="flex items-center gap-2"><span class="text-emerald-600">✔</span> Suivi temporel auto ⏳</li>
-                        <li class="flex items-center gap-2"><span class="text-emerald-600">✔</span> Sécurité utilisateur 👤</li>
-                    </ul>
-                </div>
-
-                <p>
-                    J'ai appris que le développement, c’est persévérer, expérimenter... et sourire quand <em>tout</em> fonctionne enfin 
-                    après 48 minutes de debugging intensif.
+                <p class="text-lg text-[--bluegray-deep] leading-relaxed max-w-md">
+                    Je suis <strong>Bintou Sylla</strong>. En tant que développeuse en devenir, j'explore l'équilibre entre la rigueur de <strong>Symfony</strong> et la souplesse de <strong>Tailwind CSS</strong>.
                 </p>
             </div>
-
-            <div class="mt-10 pt-8 border-t border-[--bluegray-light] flex flex-col md:flex-row items-center justify-between gap-6">
-                <p class="font-bold text-[--bluegray-accent]">Promis, je sauvegarde souvent maintenant. 😄</p>
-                <a href="https://bintousylla.dev" class="px-6 py-3 bg-[--bluegray-dark] hover:bg-[--bluegray-hover] text-white rounded-xl font-bold transition-all shadow-lg active:scale-95">
-                    Travaillons ensemble
-                </a>
+            <div class="md:w-1/2 flex justify-center relative">
+                <div class="absolute -top-10 -right-10 w-64 h-64 bg-[--bluegray-medium] rounded-full opacity-20 blur-3xl"></div>
+                <img src="{{ asset('assets/img/avatar.png') }}" alt="Bintou" 
+                     class="relative w-72 h-96 object-cover rounded-[4rem] shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-700">
             </div>
-        </section>
+        </header>
 
-        <section class="mt-12 bg-[--bluegray-medium]/40 p-8 md:p-12 rounded-4xl  border border-[--bluegray-medium]/50">
-            <h2 class="text-3xl font-bold text-[--bluegray-dark] mb-8 flex items-center gap-3">
-                <span class="text-2xl">📚</span> L’ADN de Lectis
-            </h2>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="space-y-4 text-[--bluegray-accent]">
-                    <p>
-                        <strong>Lectis</strong> évoque la lecture et l’exploration. C'est un espace moderne pensé comme une 
-                        petite librairie de quartier, mais version 2.0.
-                    </p>
-                    <p>
-                        Mon but était de créer une interface <strong>propre, simple et agréable</strong>. Lectis est le reflet 
-                        de mon parcours : un mélange de curiosité et de passion pour la création.
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            
+            <div class="lg:col-span-7 space-y-12">
+                <div class="space-y-4">
+                    <h2 class="text-xs font-black uppercase tracking-[0.3em] text-[--accent-gold]">Étude de cas</h2>
+                    <h3 class="text-4xl font-bold">Projet Lectis</h3>
+                    <p class="text-[--bluegray-deep] leading-relaxed italic">
+                        "Une immersion dans l'univers de la lecture, portée par une interface qui se veut invisible pour laisser place au contenu."
                     </p>
                 </div>
-                
-                <div class="bg-[--neutral-white] p-6 rounded-2xl shadow-sm border border-[--bluegray-medium]/30">
-                    <h4 class="font-bold text-[--bluegray-dark] mb-4 text-sm uppercase tracking-widest">Stack Technique</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-[--bluegray-light] rounded text-[--bluegray-dark] font-mono text-xs">PHP / Symfony</span>
-                        <span class="px-3 py-1 bg-[--bluegray-light] rounded text-[--bluegray-dark] font-mono text-xs">Twig</span>
-                        <span class="px-3 py-1 bg-[--bluegray-light] rounded text-[--bluegray-dark] font-mono text-xs">Tailwind CSS</span>
-                        <span class="px-3 py-1 bg-[--bluegray-light] rounded text-[--bluegray-dark] font-mono text-xs">Doctrine ORM</span>
-                        <span class="px-3 py-1 bg-[--bluegray-light] rounded text-[--bluegray-dark] font-mono text-xs">MySQL</span>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="feature-card p-8 bg-[--neutral-white] rounded-3xl border border-[--bluegray-medium] shadow-sm">
+                        <div class="w-10 h-10 bg-[--bluegray-light] rounded-full flex items-center justify-center text-[--bluegray-dark] mb-6">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                        </div>
+                        <h4 class="font-bold mb-2">Panier Dynamique</h4>
+                        <p class="text-sm text-[--bluegray-accent] leading-relaxed">Focus sur l'interactivité fluide et la gestion d'état côté client.</p>
+                    </div>
+
+                    <div class="feature-card p-8 bg-[--neutral-white] rounded-3xl border border-[--bluegray-medium] shadow-sm">
+                        <div class="w-10 h-10 bg-[--bluegray-light] rounded-full flex items-center justify-center text-[--bluegray-dark] mb-6">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                        </div>
+                        <h4 class="font-bold mb-2">Suivi Logistique</h4>
+                        <p class="text-sm text-[--bluegray-accent] leading-relaxed">Visualisation simplifiée du parcours de commande.</p>
+                    </div>
+
+                    <div class="feature-card md:col-span-2 p-8 bg-[--bluegray-dark] text-white rounded-3xl shadow-lg flex justify-between items-center overflow-hidden relative">
+                        <div class="relative z-10">
+                            <h4 class="font-bold mb-2 text-[--accent-gold]">Programme Fidélité</h4>
+                            <p class="text-sm text-slate-400">Récompenser l'engagement par une UI dédiée.</p>
+                        </div>
+                        <svg class="w-20 h-20 text-white/5 absolute -right-4 -bottom-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                     </div>
                 </div>
             </div>
-        </section>
 
-    </div>
+            <div class="lg:col-span-5 space-y-8 lg:sticky lg:top-8">
+                <div class="bg-[--neutral-white] p-10 rounded-[3rem] border border-[--bluegray-medium] shadow-sm">
+                    <h3 class="text-xs font-black uppercase tracking-[0.3em] mb-10 text-[--bluegray-accent]">Compétences Clefs</h3>
+                    
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-bold">Frontend / Intégration</span>
+                                <span class="text-[--accent-gold] text-xs font-mono">Tailwind, Twig</span>
+                            </div>
+                            <div class="h-1.5 w-full bg-[--bluegray-light] rounded-full overflow-hidden">
+                                <div class="h-full bg-[--bluegray-dark] rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-bold">Backend / Logique</span>
+                                <span class="text-[--bluegray-accent] text-xs font-mono">Symfony, PHP</span>
+                            </div>
+                            <div class="h-1.5 w-full bg-[--bluegray-light] rounded-full overflow-hidden">
+                                <div class="h-full bg-[--bluegray-accent] rounded-full" style="width: 60%"></div>
+                            </div>
+                        </div>
+
+                        <div class="pt-6">
+                            <p class="text-xs text-[--bluegray-accent] leading-relaxed">
+                                <strong>Ma vision :</strong> Je ne me contente pas de coder des fonctionnalités, je m'assure qu'elles soient servies dans un écrin visuel irréprochable.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="https://bintousylla.dev" class="block w-full py-6 bg-[--bluegray-dark] text-white text-center rounded-[2rem] font-bold hover:bg-[--bluegray-accent] transition-all shadow-xl">
+                    Voir mes travaux
+                </a>
+            </div>
+        </div>
+    </main>
+
 </div>
 {% endblock %}
