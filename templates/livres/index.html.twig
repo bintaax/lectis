@@ -33,16 +33,13 @@
 
     {# 1. HEADER #}
     <div class="max-w-7xl mx-auto px-6 mb-12">
-        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-[--bluegray-dark]">
+        <h1 class="text-3xl md:text-4xl font-black tracking-tight text-[--bluegray-dark]">
             {% if app.user %}
                 Bonjour, <span class="text-[--bluegray-accent]">{{ app.user.prenom }}</span> 👋
             {% else %}
                 Explorez le catalogue <span class="text-[--bluegray-accent]">Lectis</span>
             {% endif %}
         </h1>
-        <p class="text-[--bluegray-deep] opacity-60 mt-2 italic">
-            {{ totalLivres }} livre{{ totalLivres > 1 ? 's' : '' }} disponible{{ totalLivres > 1 ? 's' : '' }}
-        </p>
     </div>
 
     {# 2. BARRE DE RECHERCHE & FILTRES (Sticky) #}
@@ -95,7 +92,7 @@
                 {% for livre in livres %}
                     <div class="book-card group bg-white rounded-[2.5rem] p-4 flex flex-col h-full shadow-sm">
                         
-                        <div class="relative aspect-[3/4] overflow-hidden rounded-[2rem] mb-6 bg-[--bluegray-light]">
+                        <div class="relative aspect-3/4 overflow-hidden rounded-[2rem] mb-6 bg-[--bluegray-light]">
                             <img class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" 
                                  src="/assets/img/{{ livre.photo }}" 
                                  alt="{{ livre.titre }}" />

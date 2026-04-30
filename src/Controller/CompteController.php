@@ -34,9 +34,18 @@ public function index(
     );
 
     $pointsLecture = 0;
+
+if ($user->isAdherent() && $user->getAdherentAt()) {
     foreach ($commandes as $commande) {
-        $pointsLecture += (int) floor((float) $commande->getTotal());
+
+        // 🔥 On ignore les commandes AVANT l'adhésion
+        if ($commande->getCreatedAt() >= $user->getAdherentAt()) {
+
+            // ✅ On compte les centimes
+            $pointsLecture += (int) round($commande->getTotal() * 10);
+        }
     }
+}
 
     // Fournit aussi des entrees de formulaire nulles pour conserver la structure Twig actuelle.
     return $this->render('compte/index.html.twig', [

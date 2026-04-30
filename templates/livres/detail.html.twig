@@ -9,7 +9,7 @@
     <div class="mx-auto max-w-6xl px-5 pt-8 sm:px-6">
       <a href="/livres" class="font-black">
         <i class="fa-solid fa-chevron-left"></i> Retour au catalogue 
-</a>
+      </a>
     </div>
 
     <section class="mx-auto max-w-6xl px-5 py-8 sm:px-6">
@@ -47,50 +47,61 @@
                     </div>
                 {% endif %}
 
+                {# 🔥 BLOC ACHAT AMÉLIORÉ MAIS STRUCTURE CONSERVÉE #}
                 <div class="mb-3 flex flex-col gap-6 rounded-3xl bg-[--bluegray-dark] p-5 shadow-lg sm:flex-row sm:items-center sm:justify-between sm:p-6">
+                    
                     <div class="min-w-0 text-center sm:text-left">
                         <p class="text-2xs text-[--bluegray-medium] uppercase font-bold tracking-widest">Prix</p>
                         
-                        {# CAS 1 : L'utilisateur est connecté ET adhérent #}
-{% if app.user and app.user.isAdherent %}
-    <p class="text-xs text-[--bluegray-medium] uppercase font-bold line-through">
-        {{ livre.prix|number_format(2, ',', ' ') }} €
-    </p>
-    <div class="inline-block bg-green-500 text-2xs md:text-xs text-white font-bold px-2 py-0.5 rounded-lg mb-2">
-        PRIX MEMBRE LECTIS+
-    </div>
-    <p class="text-3xl font-black text-white">
-        {{ livre.prixFidelite|number_format(2, ',', ' ') }} €
-    </p>
+                        {% if app.user and app.user.isAdherent %}
+                            <p class="text-xs text-[--bluegray-medium] uppercase font-bold line-through">
+                                {{ livre.prix|number_format(2, ',', ' ') }} €
+                            </p>
 
-{# CAS 2 : L'utilisateur est connecté MAIS pas adhérent #}
-{% elseif app.user %}
-    <p class="text-3xl font-black text-white">
-        {{ livre.prix|number_format(2, ',', ' ') }} €
-    </p>
-    <p class="text-2xs text-[--bluegray-medium] mt-1 italic">
-        Devenez adhérent pour économiser 1€
-    </p>
+                            <div class="inline-block bg-green-500 text-2xs md:text-xs text-white font-bold px-2 py-0.5 rounded-lg mb-2">
+                                PRIX MEMBRE LECTIS+
+                            </div>
 
-{# CAS 3 : L'utilisateur n'est pas connecté (Visiteur) #}
-{% else %}
-    <p class="text-3xl font-black text-white">
-        {{ livre.prix|number_format(2, ',', ' ') }} €
-    </p>
-{% endif %}
+                            <p class="text-3xl md:text-4xl font-black text-white">
+                                {{ livre.prixFidelite|number_format(2, ',', ' ') }} €
+                            </p>
+
+                            <p class="text-green-400 text-2xs mt-1 font-bold">
+                                ✔ Vous économisez {{ (livre.prix - livre.prixFidelite)|number_format(2, ',', ' ') }} €
+                            </p>
+
+                        {% elseif app.user %}
+                            <p class="text-3xl md:text-4xl font-black text-white">
+                                {{ livre.prix|number_format(2, ',', ' ') }} €
+                            </p>
+
+                            <p class="text-2xs text-green-400 mt-1 font-bold">
+                                Économisez 1€ avec Lectis+
+                            </p>
+
+                        {% else %}
+                            <p class="text-3xl md:text-4xl font-black text-white">
+                                {{ livre.prix|number_format(2, ',', ' ') }} €
+                            </p>
+                        {% endif %}
+
+                        {% if livre.disponibilite %}
+                            <p class="text-green-400 text-2xs mt-2 font-bold">
+                                ✔ En stock 
+                            </p>
+                        {% endif %}
                     </div>
-                    {% if livre.disponibilite %}
-        
-                    <button
-                        type="button"
-                        onclick="addToCart({{ livre.id }})"
-                        id="add-to-cart-btn"
-                        class="btn-add-to-cart flex w-full items-center justify-center gap-3 rounded-2xl bg-white px-6 py-4 font-black text-[--bluegray-dark] shadow-md transition-all hover:scale-105 sm:w-auto sm:px-8"
-                    >
-                        Ajouter au panier
-                        <i class="fa-solid fa-basket-shopping"></i>
-                    </button>
 
+                    {% if livre.disponibilite %}
+                        <button
+                            type="button"
+                            onclick="addToCart({{ livre.id }})"
+                            id="add-to-cart-btn"
+                            class="btn-add-to-cart flex w-full items-center justify-center gap-3 rounded-2xl bg-white px-6 py-4 font-black text-[--bluegray-dark] shadow-md transition-all hover:scale-105 active:scale-95 sm:w-auto sm:px-8"
+                        >
+                            Ajouter au panier
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </button>
                     {% else %}
                         <div class="w-full rounded-2xl border border-white/10 bg-[--bluegray-deep]/50 px-6 py-4 text-center font-bold text-white/70 sm:w-auto sm:px-8">
                             Indisponible
@@ -112,7 +123,7 @@
                     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4">
                         <div class="bg-white/50 p-4 rounded-xl border border-white flex flex-col">
                             <span class="text-[--bluegray-deep] font-bold text-2xs uppercase mb-1">Éditeur</span>
-                            <span class="text-[--bluegray-dark] font-bold text-sm break-words">{{ livre.editeur }}</span>
+                            <span class="text-[--bluegray-dark] font-bold text-sm wrap-break-word">{{ livre.editeur }}</span>
                         </div>
                         <div class="bg-white/50 p-4 rounded-xl border border-white flex flex-col">
                             <span class="text-[--bluegray-deep] font-bold text-2xs uppercase mb-1">Date</span>

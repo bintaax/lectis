@@ -73,7 +73,14 @@
       </div>
 
       {# BURGER MOBILE #}
-      <button id="menu-toggle" class="p-2 text-white lg:hidden hover:bg-white/10 rounded-lg transition-colors">
+      <button
+        id="menu-toggle"
+        type="button"
+        class="p-2 text-white lg:hidden hover:bg-white/10 rounded-lg transition-colors"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        aria-label="Ouvrir le menu"
+      >
           <i class="fa-solid fa-bars text-2xl text-white!"></i>
       </button>
     </div>
@@ -81,7 +88,7 @@
 </header>
 
 {# 4. MENU MOBILE (S'adapte aussi au thème sombre) #}
-<nav id="mobile-menu" class="hidden fixed top-20 left-0 w-full bg-[--bluegray-deep] shadow-2xl z-40 border-t border-white/10 lg:hidden">
+<nav id="mobile-menu" class="hidden fixed top-20 left-0 w-full bg-[--bluegray-deep] shadow-2xl z-40 border-t border-white/10 lg:hidden" aria-hidden="true">
   <ul class="flex flex-col items-center gap-6 px-6 py-10 text-center text-sm font-black text-white/70 uppercase tracking-widest">
     <li><a class="hover:text-white" href="{{ path('app_home') }}">Accueil</a></li>
     <li><a class="hover:text-white" href="{{ path('app_livres') }}">Nos livres</a></li>

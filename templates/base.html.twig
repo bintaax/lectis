@@ -12,14 +12,9 @@
        
          <!-- Charge TailwindCSS via CDN pour appliquer les utilitaires sur toutes les pages. -->
         <script src="https://cdn.tailwindcss.com"></script>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+        {% block stylesheets %}{% endblock %}
        
-        {% block javascripts %}
-          {{ encore_entry_script_tags('app') }}
-
-        {% endblock %}
+        {% block javascripts %}{% endblock %}
 
     </head>
    <body class="min-h-screen overflow-x-clip" style="background-color: #EEF3F8;">
@@ -31,7 +26,7 @@
     </main>
 
     {% include "_partials/_footer.html.twig" %}
-    <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="{{ asset('assets/js/script.js') }}" defer></script>
    </body>
 
 </html>

@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
         function setMobileMenuOpen(isOpen) {
             mobileMenu.classList.toggle("hidden", !isOpen);
             mobileMenu.style.display = isOpen ? "block" : "none";
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+            menuToggle.setAttribute("aria-label", isOpen ? "Fermer le menu" : "Ouvrir le menu");
+            mobileMenu.setAttribute("aria-hidden", String(!isOpen));
 
             if (icon) {
                 icon.classList.toggle('fa-bars', !isOpen);
@@ -29,6 +32,22 @@ document.addEventListener("DOMContentLoaded", () => {
         // Fermer le menu si on clique ailleurs sur la page
         document.addEventListener("click", (e) => {
             if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                setMobileMenuOpen(false);
+            }
+        });
+
+        mobileMenu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => setMobileMenuOpen(false));
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                setMobileMenuOpen(false);
+            }
+        });
+
+        window.addEventListener("resize", () => {
+            if (window.matchMedia("(min-width: 1024px)").matches) {
                 setMobileMenuOpen(false);
             }
         });
