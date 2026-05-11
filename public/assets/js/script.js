@@ -367,30 +367,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Gestion mot de passe: affiche/masque la saisie
-document.addEventListener('click', function (e) {
-
-    const button = e.target.closest('[data-password-toggle-button]');
-    if (!button) return;
-
-    const container = button.closest('[data-password-toggle]');
-    const input = container.querySelector('input');
-    const iconShow = button.querySelector('[data-password-icon-show]');
-    const iconHide = button.querySelector('[data-password-icon-hide]');
-
-    if (!input) return;
-
-    if (input.type === "password") {
-        input.type = "text";
-        iconShow.classList.add('hidden');
-        iconHide.classList.remove('hidden');
-    } else {
-        input.type = "password";
-        iconShow.classList.remove('hidden');
-        iconHide.classList.add('hidden');
-    }
-});
-
  document.addEventListener('click', function (e) {
 
     const modal = document.getElementById('annulationModal');
@@ -421,4 +397,3 @@ window.addToCart = addToCart;
 window.updateQtt = updateQtt;
 window.scrollLeft = scrollLeft;
 window.scrollRight = scrollRight;
-window.togglePassword = togglePassword;

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 // Gere l'annulation d'une commande depuis l'espace client.
-class CommandeAnnulationController extends AbstractController
+final class CommandeAnnulationController extends AbstractController
 {
     // Verifie les droits puis annule la commande si elle est encore eligible.
     #[Route('/commande/annuler/{id}', name: 'app_commande_annuler')]

@@ -11,7 +11,8 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     // Charge les livres a mettre en avant sur la page d'accueil.
-    #[Route('/accueil', name: 'app_home')]
+    #[Route('/', name: 'app_home')]
+    #[Route('/accueil', name: 'app_home_legacy')]
     public function index(LivresRepository $repo): Response
 {
     $bestSellers = $repo->findBestSellers(); // ta méthode personnalisée
