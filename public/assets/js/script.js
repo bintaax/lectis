@@ -1,4 +1,4 @@
- console.log("SCRIPT.JS CHARGÉ"); 
+console.log("TOUT FONCTIONNE !"); 
  
 // Menu burger: ouverture/fermeture du menu mobile et bascule d'icône
 document.addEventListener("DOMContentLoaded", () => {
